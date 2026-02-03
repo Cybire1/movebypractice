@@ -299,7 +299,7 @@ export default function MultipleChoiceExerciseComponent({
 
                       {/* Hint/Explanation Expansion */}
                       <AnimatePresence>
-                        {showExplanations && option.explanation && (
+                        {showExplanations && option.explanation && (option.isCorrect || isSelected) && (
                           <motion.div
                             initial={{ opacity: 0, height: 0, marginTop: 0 }}
                             animate={{ opacity: 1, height: 'auto', marginTop: 12 }}

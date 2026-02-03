@@ -56,7 +56,7 @@
 
 @layer base {
   body {
-    @apply bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased cursor-none;
+    @apply bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 
@@ -176,26 +176,4 @@ html.lenis body {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
-}
-
-/* Custom Cursor */
-.cursor-dot {
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, background-color 0.3s;
-}
-
-.cursor-dot.hovered {
-  width: 80px;
-  height: 80px;
-  background-color: var(--accent-primary);
-  mix-blend-mode: normal;
-  opacity: 0.8;
 }

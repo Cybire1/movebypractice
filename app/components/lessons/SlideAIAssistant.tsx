@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMultimodalLive } from '@/app/hooks/useMultimodalLive';
 import { TeachingSlide } from '@/app/types/lesson';
@@ -20,6 +21,12 @@ export default function SlideAIAssistant({
 }: SlideAIAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isVoiceActive, setIsVoiceActive] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // For portal - only render after mount
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Build context for this specific slide
   const buildSlideContext = () => {
@@ -72,181 +79,343 @@ export default function SlideAIAssistant({
     };
   }, []);
 
+  // Generate morphing border-radius based on volume for blob effect
+  const blobRadius = useMemo(() => {
+    const base = 50;
+    const variance = Math.min(volume * 30, 15);
+    const r1 = base + variance;
+    const r2 = base - variance * 0.5;
+    const r3 = base + variance * 0.7;
+    const r4 = base - variance * 0.3;
+    return `${r1}% ${r2}% ${r3}% ${r4}% / ${r2}% ${r3}% ${r4}% ${r1}%`;
+  }, [volume]);
+
   return (
     <>
-      {/* Fixed Floating Trigger - Premium Glassmorphism */}
+      {/* ═══════════════════════════════════════════════════════════════════
+          FLOATING TRIGGER BUTTON - Black & Grey Design
+      ═══════════════════════════════════════════════════════════════════ */}
       <motion.div
         className="fixed bottom-8 right-8 z-[100]"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1, type: "spring" }}
+        initial={{ y: 30, opacity: 0, scale: 0.9 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ delay: 0.8, type: "spring", stiffness: 200, damping: 20 }}
       >
+        {/* Outer Glow Effect */}
+        <div className="absolute -inset-3 bg-gradient-to-r from-zinc-400/20 via-zinc-500/15 to-zinc-400/20 rounded-full blur-xl opacity-70 animate-pulse" />
+
         <motion.button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-3 pl-2 pr-6 py-2 bg-white/90 backdrop-blur-2xl border border-white/50 rounded-full shadow-2xl shadow-aleo-green/20 hover:shadow-aleo-green/40 hover:scale-[1.02] transition-all duration-300"
-          whileHover={{ y: -2 }}
-          whileTap={{ scale: 0.96 }}
+          className="group relative flex items-center gap-3 pl-3 pr-5 py-2.5 bg-white backdrop-blur-2xl border border-zinc-200 rounded-full shadow-xl shadow-zinc-900/10 hover:shadow-zinc-900/20 hover:border-zinc-400 transition-all duration-500"
+          whileHover={{ scale: 1.03, y: -2 }}
+          whileTap={{ scale: 0.97 }}
+          animate={{ y: [0, -4, 0] }}
+          transition={{
+            y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+            scale: { duration: 0.2 },
+          }}
         >
-          {/* Icon Container */}
-          <div className="relative w-12 h-12 flex items-center justify-center">
-            {/* Animated Rings */}
-            <div className="absolute inset-0 bg-aleo-green/20 rounded-2xl blur-lg animate-pulse" />
-            <div className={`absolute inset-0 rounded-2xl border-2 border-white/30 ${isVoiceActive ? 'animate-ping' : ''}`} />
+          {/* Icon Container with Animated Orb */}
+          <div className="relative w-10 h-10 flex items-center justify-center">
+            {/* Animated Gradient Orb - Black/Grey */}
+            <motion.div
+              className="absolute inset-0 rounded-full bg-gradient-to-br from-zinc-800 via-zinc-600 to-zinc-900"
+              animate={{
+                rotate: 360,
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                rotate: { duration: 8, repeat: Infinity, ease: "linear" },
+                scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+              }}
+            />
 
-            {/* AI Icon - Minimalist Sparkles */}
-            <div className="relative z-10 w-6 h-6">
-              <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9.89435 4.54848C10.6698 2.723 13.1258 2.723 13.9013 4.54848L15.3414 7.93886C15.6521 8.67039 16.2252 9.24354 16.9567 9.55419L20.3471 10.9943C22.1726 11.7698 22.1726 14.2258 20.3471 15.0013L16.9567 16.4414C16.2252 16.7521 15.6521 17.3252 15.3414 18.0567L13.9013 21.4471C13.1258 23.2726 10.6698 23.2726 9.89435 21.4471L8.45422 18.0567C8.14357 17.3252 7.57043 16.7521 6.8389 16.4414L3.44852 15.0013C1.62304 14.2258 1.62304 11.7698 3.44852 10.9943L6.8389 9.55419C7.57043 9.24354 8.14357 8.67039 8.45422 7.93886L9.89435 4.54848Z" fill="url(#ai-gradient)" stroke="black" strokeWidth="1.5" />
-                <path d="M19 2L19.5 3.5L21 4L19.5 4.5L19 6L18.5 4.5L17 4L18.5 3.5L19 2Z" fill="black" />
-                <defs>
-                  <linearGradient id="ai-gradient" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#00FF99" />
-                    <stop offset="1" stopColor="#00F0FF" />
-                  </linearGradient>
-                </defs>
-              </svg>
+            {/* Inner White Circle */}
+            <div className="relative z-10 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-inner">
+              {/* Waveform Bars */}
+              <div className="flex items-center gap-0.5 h-4">
+                <motion.div
+                  className="w-0.5 bg-zinc-800 rounded-full"
+                  animate={{ height: ["40%", "100%", "60%", "80%", "40%"] }}
+                  transition={{ duration: 1.2, repeat: Infinity }}
+                />
+                <motion.div
+                  className="w-0.5 bg-zinc-800 rounded-full"
+                  animate={{ height: ["60%", "40%", "100%", "50%", "60%"] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                />
+                <motion.div
+                  className="w-0.5 bg-zinc-700 rounded-full"
+                  animate={{ height: ["80%", "60%", "40%", "100%", "80%"] }}
+                  transition={{ duration: 1.4, repeat: Infinity }}
+                />
+                <motion.div
+                  className="w-0.5 bg-zinc-600 rounded-full"
+                  animate={{ height: ["50%", "80%", "60%", "40%", "50%"] }}
+                  transition={{ duration: 1.1, repeat: Infinity }}
+                />
+                <motion.div
+                  className="w-0.5 bg-zinc-600 rounded-full"
+                  animate={{ height: ["70%", "50%", "80%", "60%", "70%"] }}
+                  transition={{ duration: 1.3, repeat: Infinity }}
+                />
+              </div>
             </div>
           </div>
 
+          {/* Text */}
           <div className="flex flex-col items-start">
-            <span className="text-xs font-bold uppercase tracking-wider text-zinc-400 group-hover:text-aleo-green-dark transition-colors">
-              Help
-            </span>
-            <span className="text-sm font-black text-zinc-900 leading-none">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
               AI Tutor
+            </span>
+            <span className="text-sm font-bold text-zinc-900 leading-none">
+              Ask Lydia
             </span>
           </div>
 
-          {/* Glow Effect */}
-          <div className="absolute inset-0 rounded-full ring-2 ring-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          {/* Hover Ring */}
+          <div className="absolute inset-0 rounded-full ring-2 ring-zinc-900/0 group-hover:ring-zinc-900/20 transition-all duration-500" />
         </motion.button>
       </motion.div>
 
-      {/* Minimalist Modal overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-            onClick={() => {
-              if (isVoiceActive) disconnect(), setIsVoiceActive(false);
-              setIsOpen(false);
-            }}
-          >
-            {/* Backdrop with blur */}
-            <div className="absolute inset-0 bg-zinc-900/60 backdrop-blur-md transition-all" />
-
+      {/* ═══════════════════════════════════════════════════════════════════
+          MODAL - Rendered via Portal to escape stacking context
+      ═══════════════════════════════════════════════════════════════════ */}
+      {isMounted && createPortal(
+        <AnimatePresence>
+          {isOpen && (
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 10 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-sm bg-white rounded-[2rem] shadow-2xl p-8 flex flex-col items-center overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+              onClick={() => {
+                if (isVoiceActive) disconnect(), setIsVoiceActive(false);
+                setIsOpen(false);
+              }}
             >
-              {/* Decorative Background Blob */}
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-aleo-green/20 rounded-full blur-3xl opacity-50" />
-              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl opacity-50" />
+              {/* Backdrop */}
+              <motion.div
+                className="absolute inset-0 bg-white/80"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              />
 
-              {/* Close Button */}
-              <button
-                onClick={() => {
-                  if (isVoiceActive) disconnect(), setIsVoiceActive(false);
-                  setIsOpen(false);
-                }}
-                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-zinc-50 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 transition-colors z-20"
+              {/* Modal Container */}
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.95, opacity: 0, y: 10 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl shadow-zinc-900/10 border border-zinc-200 overflow-hidden"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+                {/* Decorative Gradient Blobs */}
+                <div className="absolute -top-32 -right-32 w-64 h-64 bg-zinc-300/20 rounded-full blur-[100px]" />
+                <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-zinc-400/15 rounded-full blur-[100px]" />
 
-              {!isVoiceActive ? (
-                // Inactive State: Clean, friendly invitation
-                <div className="flex flex-col items-center relative z-10 w-full">
-                  <div className="w-32 h-32 mb-6 flex items-center justify-center hover:scale-110 transition-transform duration-500 bg-white rounded-full shadow-lg border border-zinc-100 p-8">
-                    <div className="w-full h-full">
-                      <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.89435 4.54848C10.6698 2.723 13.1258 2.723 13.9013 4.54848L15.3414 7.93886C15.6521 8.67039 16.2252 9.24354 16.9567 9.55419L20.3471 10.9943C22.1726 11.7698 22.1726 14.2258 20.3471 15.0013L16.9567 16.4414C16.2252 16.7521 15.6521 17.3252 15.3414 18.0567L13.9013 21.4471C13.1258 23.2726 10.6698 23.2726 9.89435 21.4471L8.45422 18.0567C8.14357 17.3252 7.57043 16.7521 6.8389 16.4414L3.44852 15.0013C1.62304 14.2258 1.62304 11.7698 3.44852 10.9943L6.8389 9.55419C7.57043 9.24354 8.14357 8.67039 8.45422 7.93886L9.89435 4.54848Z" fill="url(#ai-gradient-modal)" stroke="black" strokeWidth="1.5" />
-                        <path d="M19 2L19.5 3.5L21 4L19.5 4.5L19 6L18.5 4.5L17 4L18.5 3.5L19 2Z" fill="black" />
-                        <defs>
-                          <linearGradient id="ai-gradient-modal" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#00FF99" />
-                            <stop offset="1" stopColor="#00F0FF" />
-                          </linearGradient>
-                        </defs>
-                      </svg>
+                {/* Close Button */}
+                <button
+                  onClick={() => {
+                    if (isVoiceActive) disconnect(), setIsVoiceActive(false);
+                    setIsOpen(false);
+                  }}
+                  className="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-zinc-100 text-zinc-400 hover:bg-zinc-200 hover:text-zinc-900 transition-all z-20"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+
+                <div className="relative z-10 p-10 pt-8">
+                  {!isVoiceActive ? (
+                    /* ─────────────────────────────────────────────────────────
+                       INACTIVE STATE: Breathing Orb with "Start" CTA
+                    ───────────────────────────────────────────────────────── */
+                    <div className="flex flex-col items-center">
+                      {/* The Breathing Orb */}
+                      <div className="relative w-44 h-44 mb-8">
+                        {/* Outer Glow Rings */}
+                        <motion.div
+                          className="absolute inset-0 rounded-full border border-zinc-300"
+                          animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.1, 0.3] }}
+                          transition={{ duration: 3, repeat: Infinity }}
+                        />
+                        <motion.div
+                          className="absolute inset-2 rounded-full border border-zinc-200"
+                          animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.05, 0.2] }}
+                          transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+                        />
+
+                        {/* Main Orb - Black/Grey gradient */}
+                        <motion.div
+                          className="absolute inset-6 rounded-full bg-gradient-to-br from-zinc-800 via-zinc-600 to-zinc-900 shadow-lg shadow-zinc-900/30"
+                          animate={{
+                            scale: [1, 1.03, 1],
+                            rotate: [0, 180, 360]
+                          }}
+                          transition={{
+                            scale: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+                            rotate: { duration: 20, repeat: Infinity, ease: "linear" }
+                          }}
+                        />
+
+                        {/* Inner White Core */}
+                        <motion.div
+                          className="absolute inset-10 rounded-full bg-white flex items-center justify-center shadow-inner"
+                          animate={{ scale: [1, 0.97, 1] }}
+                          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                          {/* Microphone Icon */}
+                          <svg className="w-10 h-10 text-zinc-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                          </svg>
+                        </motion.div>
+                      </div>
+
+                      {/* Text */}
+                      <h3 className="text-2xl font-bold text-zinc-900 mb-2 tracking-tight">
+                        Hey, I'm Lydia
+                      </h3>
+                      <p className="text-center text-zinc-500 mb-8 text-sm leading-relaxed max-w-xs">
+                        Your AI tutor for this slide. Ask me anything about <span className="text-zinc-900 font-medium">{slide.title}</span>
+                      </p>
+
+                      {/* Start Button with Pulsing Ring */}
+                      <div className="relative">
+                        <motion.div
+                          className="absolute -inset-1 rounded-full bg-zinc-900/20"
+                          animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.2, 0.5] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        />
+                        <motion.button
+                          onClick={handleToggleVoice}
+                          className="relative px-8 py-4 bg-zinc-900 text-white rounded-full font-bold text-lg shadow-xl shadow-zinc-900/30 flex items-center gap-3 hover:bg-zinc-800 transition-colors"
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                        >
+                          <span>Start Talking</span>
+                          <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </motion.button>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    /* ─────────────────────────────────────────────────────────
+                       ACTIVE STATE: Audio-Reactive Morphing Orb
+                    ───────────────────────────────────────────────────────── */
+                    <div className="flex flex-col items-center py-4">
+                      {/* The Audio-Reactive Orb */}
+                      <div className="relative w-56 h-56 mb-8 flex items-center justify-center">
+                        {/* Outer Glow - Intensifies when speaking */}
+                        <motion.div
+                          className="absolute inset-0 bg-zinc-500/30 blur-[60px]"
+                          animate={{
+                            scale: isSpeaking ? [1, 1.3, 1] : 1.1,
+                            opacity: isSpeaking ? [0.4, 0.7, 0.4] : 0.2
+                          }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        />
 
-                  <h3 className="text-3xl font-black text-zinc-900 mb-2 tracking-tighter text-center">
-                    Hey, I'm Lydia!
-                  </h3>
-                  <p className="text-center text-zinc-500 mb-8 leading-relaxed text-sm font-medium">
-                    I'm your personal AI tutor. Ask me anything about <br /> <strong className="text-zinc-900">{slide.title}</strong>!
-                  </p>
+                        {/* Morphing Blob Orb */}
+                        <motion.div
+                          className="relative w-40 h-40 bg-gradient-to-br from-zinc-800 via-zinc-600 to-zinc-900 shadow-2xl shadow-zinc-900/40"
+                          animate={{
+                            scale: 1 + volume * 0.15,
+                            rotate: [0, 5, -5, 0]
+                          }}
+                          transition={{
+                            scale: { duration: 0.1 },
+                            rotate: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                          }}
+                          style={{ borderRadius: blobRadius }}
+                        >
+                          {/* Inner Core */}
+                          <motion.div
+                            className="absolute inset-4 bg-white flex items-center justify-center shadow-inner"
+                            style={{ borderRadius: blobRadius }}
+                          >
+                            {/* Waveform Visualization */}
+                            <div className="flex items-center gap-1 h-12">
+                              {[...Array(7)].map((_, i) => (
+                                <motion.div
+                                  key={i}
+                                  className="w-1 bg-gradient-to-t from-zinc-800 to-zinc-500 rounded-full"
+                                  animate={{
+                                    height: Math.max(8, (volume * 40) + Math.sin(Date.now() / 200 + i) * 8)
+                                  }}
+                                  transition={{ duration: 0.05 }}
+                                />
+                              ))}
+                            </div>
+                          </motion.div>
+                        </motion.div>
 
-                  <button
-                    onClick={handleToggleVoice}
-                    className="w-full py-4 bg-black text-white rounded-2xl font-bold text-lg hover:bg-zinc-800 transition-all shadow-xl shadow-zinc-900/20 active:scale-95 flex items-center justify-center gap-3 group"
-                  >
-                    <span>Start Voice Chat</span>
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                      </svg>
+                        {/* Floating Particles */}
+                        {[...Array(6)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className="absolute w-2 h-2 rounded-full bg-zinc-600/50"
+                            animate={{
+                              x: Math.cos(i * 60 * Math.PI / 180) * (60 + volume * 20),
+                              y: Math.sin(i * 60 * Math.PI / 180) * (60 + volume * 20),
+                              opacity: [0.3, 0.8, 0.3],
+                              scale: [0.8, 1.2, 0.8]
+                            }}
+                            transition={{
+                              duration: 2 + i * 0.2,
+                              repeat: Infinity,
+                              ease: "easeInOut"
+                            }}
+                            style={{
+                              left: '50%',
+                              top: '50%',
+                              marginLeft: -4,
+                              marginTop: -4
+                            }}
+                          />
+                        ))}
+                      </div>
+
+                      {/* Status Text */}
+                      <motion.p
+                        className="text-zinc-900 font-bold text-xl mb-1"
+                        animate={{ opacity: [0.7, 1, 0.7] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        {isSpeaking ? 'Lydia is speaking...' : 'Listening...'}
+                      </motion.p>
+                      <p className="text-zinc-400 text-sm mb-8">
+                        {isSpeaking ? 'Wait for response to finish' : 'Ask your question now'}
+                      </p>
+
+                      {/* End Session Button */}
+                      <motion.button
+                        onClick={handleToggleVoice}
+                        className="flex items-center gap-2 px-6 py-3 bg-red-50 border border-red-200 text-red-500 rounded-full font-semibold text-sm hover:bg-red-100 transition-colors"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                      >
+                        <motion.div
+                          className="w-2 h-2 rounded-full bg-red-500"
+                          animate={{ scale: [1, 1.3, 1] }}
+                          transition={{ duration: 1, repeat: Infinity }}
+                        />
+                        End Session
+                      </motion.button>
                     </div>
-                  </button>
+                  )}
                 </div>
-              ) : (
-                // Active State: Ultra-minimal voice visualization
-                <div className="flex flex-col items-center py-4 w-full relative z-10">
-                  {/* Breathing Orb */}
-                  <div className="relative w-48 h-48 flex items-center justify-center mb-8">
-                    {/* Outer Glow */}
-                    <motion.div
-                      animate={{
-                        scale: isSpeaking ? [1, 1.2, 1] : 1.05,
-                        opacity: isSpeaking ? 0.4 : 0.1
-                      }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                      className="absolute inset-0 bg-aleo-green rounded-full blur-3xl"
-                    />
-
-                    {/* Core Circle */}
-                    <motion.div
-                      animate={{ scale: isSpeaking ? [1, 1.05, 1] : 1 }}
-                      transition={{ duration: 0.5, repeat: Infinity }}
-                      className="w-32 h-32 bg-gradient-to-br from-aleo-green to-aleo-green-dark rounded-full shadow-2xl flex items-center justify-center relative z-10 border-4 border-white/20 backdrop-blur-sm"
-                    >
-                      <div className="w-1.5 h-10 bg-black/40 rounded-full mx-1.5" />
-                      <motion.div
-                        animate={{ height: Math.max(10, volume * 50) }}
-                        className="w-1.5 bg-black rounded-full mx-1.5"
-                      />
-                      <div className="w-1.5 h-10 bg-black/40 rounded-full mx-1.5" />
-                    </motion.div>
-                  </div>
-
-                  <p className="text-zinc-900 font-bold text-xl mb-1 tracking-tight">
-                    {isSpeaking ? 'Listening...' : 'Thinking...'}
-                  </p>
-                  <p className="text-zinc-400 text-sm font-medium">Lydia is analyzing the lesson</p>
-
-                  <button
-                    onClick={handleToggleVoice}
-                    className="mt-10 text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 px-6 py-3 rounded-full text-sm font-bold transition-colors flex items-center gap-2"
-                  >
-                    <div className="w-2 h-2 rounded-full bg-current animate-pulse" />
-                    End Session
-                  </button>
-                </div>
-              )}
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }

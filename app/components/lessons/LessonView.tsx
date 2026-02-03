@@ -1,22 +1,24 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LessonContent, WeaknessTopic } from '@/app/types/lesson';
 import { useGameStore } from '@/app/lib/store/gameStore';
 import TeachingSlide from './TeachingSlide';
 import QuizComponent from './QuizComponent';
-import LeoEditor from '../editor/LeoEditor';
+import MoveEditor from '../editor/MoveEditor';
 import XPProgress from '../gamification/XPProgress';
 import Confetti from '../gamification/Confetti';
-
-import { compileLeoCode } from '@/app/lib/compiler/leoCompiler';
+import PhaseProgress from './PhaseProgress';
+import { compileMove } from '@/app/lib/compiler/moveCompiler';
 import ExerciseRenderer from '../exercises/ExerciseRenderer';
 import { getExerciseById } from '@/app/data/exercises';
 import { ValidationResult, ExerciseFeedback } from '@/app/types/exercises';
-import LessonSidebar from './LessonSidebar';
-import LessonLayout from './LessonLayout';
+import { TiltCard } from '../ui/TiltCard';
+import { SpotlightCard } from '../ui/SpotlightCard';
+import LessonTimeline from './LessonTimeline';
+// AITutorChat removed - using SlideAIAssistant instead
 
 interface LessonViewProps {
   lesson: LessonContent;
@@ -27,7 +29,6 @@ type Phase = 'intro' | 'teaching' | 'exercise' | 'quiz' | 'practice';
 export default function LessonView({ lesson }: LessonViewProps) {
   const [phase, setPhase] = useState<Phase>('intro');
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
-  const [completedSections, setCompletedSections] = useState<number[]>([]);
   const [code, setCode] = useState(lesson.starterCode);
   const [output, setOutput] = useState<string>('');
   const [showHints, setShowHints] = useState(false);
@@ -38,30 +39,21 @@ export default function LessonView({ lesson }: LessonViewProps) {
 
   const { completeLesson } = useGameStore();
 
+  // Check if lesson uses new section-based structure
   const usingSections = !!lesson.teachingSections;
   const sections = lesson.teachingSections || [];
   const totalSections = sections.length;
 
-  // Mark section as complete when moving away from it
-  useEffect(() => {
-    if (phase === 'teaching' || phase === 'exercise') {
-      if (!completedSections.includes(currentSectionIndex)) {
-        // We don't mark as complete here, only when proceeding
-      }
-    }
-  }, [phase, currentSectionIndex]);
-
+  // Phase transitions
   const handleTeachingComplete = () => {
     if (usingSections) {
       const currentSection = sections[currentSectionIndex];
-      // Mark current as complete
-      if (!completedSections.includes(currentSectionIndex)) {
-        setCompletedSections(prev => [...prev, currentSectionIndex]);
-      }
 
+      // Check if this section has an exercise
       if (currentSection.exerciseId) {
         setPhase('exercise');
       } else {
+        // No exercise, move to next section or quiz
         if (currentSectionIndex < totalSections - 1) {
           setCurrentSectionIndex(currentSectionIndex + 1);
           setPhase('teaching');
@@ -70,11 +62,13 @@ export default function LessonView({ lesson }: LessonViewProps) {
         }
       }
     } else {
+      // Legacy: all teaching done, go to quiz
       setPhase('quiz');
     }
   };
 
   const handleExerciseComplete = (result: ValidationResult, feedback: ExerciseFeedback) => {
+    // Exercise completed, move to next section or quiz
     if (currentSectionIndex < totalSections - 1) {
       setCurrentSectionIndex(currentSectionIndex + 1);
       setPhase('teaching');
@@ -89,274 +83,353 @@ export default function LessonView({ lesson }: LessonViewProps) {
     setPhase('practice');
   };
 
+  // Practice phase handlers
   const handleRunCode = async (code: string) => {
-    setOutput('⏳ Loading Leo compiler...\n');
+    setOutput('🚀 Compiling Move code with real compiler...\n');
 
     try {
-      // Compile using browser-based WASM
-      const result = await compileLeoCode(code, lesson.id.replace(/-/g, '_'));
+      const result = await compileMove(code);
+      setOutput(result.output);
 
       if (result.success) {
-        let successOutput = '✅ Compilation successful!\n\n';
-        successOutput += '🌐 Compiled in your browser using WebAssembly\n\n';
-
-        if (result.output) {
-          successOutput += '📋 Output:\n' + result.output + '\n\n';
-        }
-
-        if (result.program) {
-          successOutput += '📦 Compiled Program:\n' + result.program.substring(0, 500);
-          if (result.program.length > 500) {
-            successOutput += '...\n';
-          }
-        }
-
-        setOutput(successOutput);
-
-        // Complete lesson on successful compilation in practice phase
-        if (phase === 'practice') {
-          await completeLesson(lesson.id, lesson.xpReward);
-          setShowConfetti(true);
-          setTimeout(() => setShowConfetti(false), 3000);
-        }
-      } else {
-        let errorOutput = '❌ Compilation failed!\n\n';
-
-        if (result.errors) {
-          errorOutput += '🔍 Errors:\n' + result.errors + '\n';
-        }
-
-        if (result.output) {
-          errorOutput += '\n📋 Output:\n' + result.output;
-        }
-
-        setOutput(errorOutput);
+        await completeLesson(lesson.id, lesson.xpReward);
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 3000);
       }
-    } catch (error: any) {
-      console.error('Compilation error:', error);
-      setOutput(`❌ Error: ${error.message || 'Failed to compile code'}\n\n💡 Make sure your browser supports WebAssembly.\nThe Leo compiler runs entirely in your browser.`);
+    } catch (error) {
+      setOutput(
+        '❌ Compilation error:\n\n' +
+        (error instanceof Error ? error.message : 'Unknown error') +
+        '\n\nCheck the hints if you need help!'
+      );
     }
   };
 
-  // Render different content based on phase
-  const renderContent = () => {
-    if (phase === 'intro') {
-      return (
-        <div className="relative min-h-screen bg-[#FAFAFA] text-zinc-900 flex flex-col items-center">
+  const showNextHint = () => {
+    if (currentHintIndex < lesson.hints.length - 1) {
+      setCurrentHintIndex(currentHintIndex + 1);
+    }
+  };
 
-          {/* Back Link - Absolute Top Left (relative to container) */}
-          <div className="absolute top-32 left-8 md:left-12 lg:left-20">
-            <Link
-              href="/lessons"
-              className="text-xs font-bold text-gray-400 hover:text-black uppercase tracking-[0.2em] flex items-center gap-2 transition-colors"
-            >
-              ← Curriculum
-            </Link>
-          </div>
+  // Render appropriate phase
 
-          {/* Main Content Centered */}
-          <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto px-6 w-full mt-20 md:mt-0">
+  // ... (keep existing imports)
 
-            {/* Metadata Pill */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-4 bg-white border border-gray-100 rounded-full px-5 py-2.5 shadow-sm mb-12"
-            >
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${lesson.difficulty === 'beginner' ? 'bg-aleo-green' : 'bg-blue-500'}`} />
-                <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">{lesson.difficulty}</span>
-              </div>
-              <div className="w-px h-3 bg-gray-200" />
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">+{lesson.xpReward} XP</span>
-            </motion.div>
+  // ... inside LessonView function ...
 
-            {/* Title */}
-            <motion.h1
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 }}
-              className="text-6xl md:text-9xl font-black tracking-tighter mb-8 text-center leading-[0.9]"
-            >
-              <span className="text-black">.</span> {lesson.title.split('-')[0].trim()}
-            </motion.h1>
+  if (phase === 'intro') {
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key="intro"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="min-h-screen bg-[#FAFAFA] text-zinc-900"
+        >
+          {/* Noise Texture */}
+          <div className="fixed inset-0 z-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat" />
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-xl md:text-2xl text-gray-400 font-medium max-w-2xl text-center leading-relaxed mb-12"
-            >
-              {lesson.description}
-            </motion.p>
+          {/* Hero Section */}
+          <div className="relative z-10 pt-32 pb-20 px-6">
+            {/* Back Nav */}
+            <div className="max-w-4xl mx-auto mb-16">
+              <Link
+                href="/lessons"
+                className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-900 transition-colors text-sm font-medium tracking-wide uppercase"
+              >
+                ← Curriculum
+              </Link>
+            </div>
 
-            {/* CTA Button */}
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setPhase('teaching')}
-              className="group relative px-10 py-4 bg-black text-white rounded-full font-bold text-lg shadow-xl shadow-black/10 flex items-center gap-3 overflow-hidden"
-            >
-              <span className="relative z-10">Start Lesson</span>
-              <span className="relative z-10 group-hover:translate-x-1 transition-transform">→</span>
-            </motion.button>
-          </div>
+            <div className="max-w-4xl mx-auto text-center">
+              {/* Floating Badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2 mb-8 bg-white px-4 py-2 rounded-full border border-zinc-200 shadow-sm"
+              >
+                <div className={`w-2 h-2 rounded-full
+                    ${lesson.difficulty === 'beginner' ? 'bg-green-500' : 'bg-blue-500'}
+                `} />
+                <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+                  {lesson.difficulty}
+                </span>
+                <div className="w-px h-3 bg-zinc-200 mx-2" />
+                <span className="text-xs font-bold text-zinc-400">
+                  +{lesson.xpReward} XP
+                </span>
+              </motion.div>
 
-          {/* Footer / Syllabus Preview */}
-          <div className="w-full max-w-5xl mx-auto px-6 pb-12 opacity-50">
-            <div className="h-px bg-gray-200 w-full mb-8" />
-            <span className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">Lesson Syllabus</span>
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-              {/* Simple preview of syllabus */}
-              {usingSections && sections.slice(0, 4).map((sec, i) => (
-                <div key={i} className="text-sm text-gray-300 font-medium">0{i + 1} {sec.sectionTitle}</div>
-              ))}
+              {/* Swiss Typography Title */}
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="text-7xl md:text-9xl font-black tracking-tighter-swiss text-zinc-900 mb-8 leading-[0.9]"
+              >
+                {lesson.title}
+              </motion.h1>
+
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="text-xl md:text-2xl text-zinc-500 max-w-2xl mx-auto font-medium leading-relaxed"
+              >
+                {lesson.description}
+              </motion.p>
+
+              {/* Start Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-12"
+              >
+                <button
+                  onClick={() => setPhase('teaching')}
+                  className="group relative inline-flex items-center gap-4 px-10 py-5 bg-zinc-900 text-white rounded-full font-bold text-lg shadow-xl hover:bg-zinc-800 hover:scale-105 transition-all duration-300"
+                >
+                  <span>Start Lesson</span>
+                  <span className="bg-white/20 rounded-full p-1 group-hover:bg-white group-hover:text-black transition-colors">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </span>
+                </button>
+              </motion.div>
             </div>
           </div>
 
-        </div>
-      );
-    }
+          {/* Timeline Section */}
+          <div className="relative z-10 px-6 pb-40">
+            <div className="max-w-3xl mx-auto mb-12 border-t border-zinc-200 pt-16">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-400 mb-8">Lesson Syllabus</h3>
+            </div>
 
-    if (phase === 'teaching') {
-      const slidesToShow = usingSections ? sections[currentSectionIndex].slides : (lesson.teachingSlides || []);
-      return (
-        <div className="p-0">
+            {lesson.teachingSections ? (
+              <LessonTimeline sections={lesson.teachingSections} />
+            ) : (
+              <div className="max-w-3xl mx-auto text-center p-12 bg-zinc-50 rounded-2xl border border-dashed border-zinc-200">
+                <span className="text-zinc-400">Legacy Lesson Format (Timeline unavailable)</span>
+              </div>
+            )}
+          </div>
+
+        </motion.div >
+      </AnimatePresence >
+    );
+  }
+
+  if (phase === 'teaching') {
+    // Get slides for current section (or all slides for legacy lessons)
+    const slidesToShow = usingSections
+      ? sections[currentSectionIndex].slides
+      : (lesson.teachingSlides || []);
+
+    const sectionTitle = usingSections
+      ? sections[currentSectionIndex].sectionTitle
+      : undefined;
+
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`teaching-${currentSectionIndex}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
           <TeachingSlide
             slides={slidesToShow}
             onComplete={handleTeachingComplete}
             lessonTitle={lesson.title}
-            transitionMessage={usingSections && sections[currentSectionIndex].exerciseId ? "Great! Now let's practice..." : lesson.narrative.quizTransition}
+            transitionMessage={
+              usingSections && sections[currentSectionIndex].exerciseId
+                ? "Great! Now let's practice what you just learned..."
+                : lesson.narrative.quizTransition
+            }
           />
-        </div>
-      );
+
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
+
+  if (phase === 'exercise') {
+    const currentSection = sections[currentSectionIndex];
+    const exercise = currentSection.exerciseId
+      ? getExerciseById(currentSection.exerciseId)
+      : null;
+
+    if (!exercise) {
+      // No exercise found, skip to next section
+      handleExerciseComplete({} as ValidationResult, {} as ExerciseFeedback);
+      return null;
     }
 
-    if (phase === 'exercise') {
-      const currentSection = sections[currentSectionIndex];
-      const exercise = currentSection.exerciseId ? getExerciseById(currentSection.exerciseId) : null;
-      if (!exercise) return <div>Exercise not found</div>;
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`exercise-${currentSectionIndex}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="min-h-screen bg-gradient-to-b from-sui-sky/20 to-white pt-24 sm:pt-32 pb-20 px-4 sm:px-6"
+        >
+          <div className="max-w-5xl mx-auto">
 
-      return (
-        <div className="p-8">
-          <ExerciseRenderer exercise={exercise} onComplete={handleExerciseComplete} />
-        </div>
-      );
-    }
 
-    if (phase === 'quiz') {
-      return (
-        <div className="p-8">
+            {/* Exercise Component */}
+            <ExerciseRenderer
+              exercise={exercise}
+              onComplete={handleExerciseComplete}
+            />
+
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
+
+  if (phase === 'quiz') {
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key="quiz"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+
           <QuizComponent
             questions={lesson.quiz}
             passThreshold={lesson.quizPassThreshold}
             onComplete={handleQuizComplete}
             transitionMessage={lesson.narrative.practiceTransition}
           />
-        </div>
-      );
-    }
-
-    if (phase === 'practice') {
-      return (
-        <div className="p-8">
-          <Confetti show={showConfetti} />
-          <div className="mb-6 p-5 bg-aleo-green/10 border border-aleo-green/20 rounded-2xl">
-            <h2 className="text-xl font-bold text-aleo-green-dark flex items-center gap-2">
-              <span className="text-2xl">✅</span>
-              Mission Accomplished
-            </h2>
-            <p className="text-gray-600 mt-2">You have completed the required modules. Use the editor to experiment freely.</p>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="font-bold text-black uppercase tracking-wider text-sm">Feedback & Hints</h3>
-            {practiceHints.map((hint, i) => (
-              <div key={i} className="p-4 bg-orange-50 border border-orange-100 rounded-xl text-orange-800 text-sm">
-                💡 {hint}
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-  };
-
-  // Intro, Teaching, and Quiz phases should be full-screen without sidebar/editor
-  // Only Exercise and Practice phases need the code editor
-  if (phase === 'intro' || phase === 'teaching' || phase === 'quiz') {
-    return (
-      <div className="min-h-screen bg-[#FAFAFA] text-zinc-900">
-        {renderContent()}
-
-      </div>
+        </motion.div>
+      </AnimatePresence>
     );
   }
 
-  // Check if current exercise needs code editor
-  const currentSection = sections[currentSectionIndex];
-  const exercise = currentSection?.exerciseId ? getExerciseById(currentSection.exerciseId) : null;
-  const exerciseNeedsEditor = exercise && (exercise.type === 'code_completion' || exercise.type === 'bug_fix');
-
-  // If exercise phase but exercise doesn't need editor, render without sidebar/editor
-  if (phase === 'exercise' && !exerciseNeedsEditor) {
-    return (
-      <div className="min-h-screen bg-[#FAFAFA] text-zinc-900">
-        {renderContent()}
-      </div>
-    );
-  }
-
-  // Exercise and Practice phases use the 3-column layout with editor
+  // Practice phase
   return (
-    <LessonLayout
-      sidebar={
-        <LessonSidebar
-          lesson={lesson}
-          currentSectionIndex={currentSectionIndex}
-          completedSections={completedSections}
-          phase={phase}
-        />
-      }
-      editorPanel={
-        <div className="flex flex-col h-full">
-          {/* Editor Header */}
-          <div className="h-10 bg-gray-50 border-b border-gray-100 flex items-center justify-between px-4">
-            <div className="flex items-center gap-2 text-xs font-mono text-gray-500">
-              <span className="w-2 h-2 rounded-full bg-gray-300"></span>
-              main.leo
+    <AnimatePresence mode="wait">
+      <motion.div
+        key="practice"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="flex flex-col h-screen bg-gradient-to-br from-sui-mist to-white"
+      >
+        <Confetti show={showConfetti} />
+
+
+        <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
+          {/* Left Panel - Instructions & Hints */}
+          <div className="w-full lg:w-1/2 p-8 overflow-y-auto bg-white border-r border-sui-gray-200">
+            <div className="mb-8">
+              <XPProgress />
+            </div>
+
+            <div className="max-w-2xl">
+              {/* Practice Transition Message */}
+              <div className="mb-6 p-5 bg-gradient-to-r from-sui-ocean/10 to-sui-ocean-dark/10 border-2 border-sui-ocean/20 rounded-2xl">
+                <h2 className="text-xl font-bold text-sui-ocean flex items-center gap-2">
+                  <span className="text-2xl">⚔️</span>
+                  {lesson.narrative.practiceTransition}
+                </h2>
+              </div>
+
+              <h1 className="text-3xl font-bold text-sui-navy mb-3">{lesson.title}</h1>
+              <p className="text-lg text-sui-gray-600 mb-6">{lesson.description}</p>
+
+              {/* Personalized Hints from Quiz */}
+              {practiceHints.length > 0 && (
+                <div className="mb-6 p-5 bg-orange-50 border-2 border-orange-300 rounded-2xl">
+                  <h3 className="font-bold text-orange-900 mb-3 flex items-center gap-2">
+                    <span>💡</span> Based on your quiz:
+                  </h3>
+                  <ul className="space-y-2">
+                    {practiceHints.map((hint, index) => (
+                      <li key={index} className="text-orange-800">
+                        • {hint}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Regular Hints */}
+              <div className="mb-8">
+                <button
+                  onClick={() => setShowHints(!showHints)}
+                  className="flex items-center gap-2 px-4 py-2 bg-sui-sky/50 text-sui-navy hover:bg-sui-sky transition-colors rounded-xl font-medium"
+                >
+                  💡 {showHints ? 'Hide' : 'Show'} Hints
+                </button>
+
+                <AnimatePresence>
+                  {showHints && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="mt-4 space-y-3"
+                    >
+                      {lesson.hints.slice(0, currentHintIndex + 1).map((hint, index) => (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="p-4 bg-sui-ocean/5 border border-sui-ocean/20 rounded-xl text-sui-navy"
+                        >
+                          <span className="font-medium">Hint {index + 1}:</span> {hint}
+                        </motion.div>
+                      ))}
+
+                      {currentHintIndex < lesson.hints.length - 1 && (
+                        <button
+                          onClick={showNextHint}
+                          className="text-sm text-sui-ocean hover:text-sui-ocean-dark font-medium"
+                        >
+                          Show next hint →
+                        </button>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
 
-          {/* Editor */}
-          <div className="flex-1 relative">
-            <LeoEditor
-              defaultValue={code}
-              onChange={setCode}
-              onRun={() => handleRunCode(code)}
-              height="100%"
-            />
-          </div>
-
-          {/* Terminal / Output */}
-          <div className="h-1/3 border-t-2 border-gray-100 bg-gray-50 flex flex-col">
-            <div className="px-4 py-2 border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-widest flex justify-between">
-              <span>Terminal Output</span>
-              <span className="text-green-600">● Live</span>
+          {/* Right Panel - Code Editor */}
+          <div className="w-full lg:w-1/2 p-8 flex flex-col bg-sui-gray-50">
+            <div className="flex-1 mb-6">
+              <MoveEditor
+                defaultValue={lesson.starterCode}
+                onChange={setCode}
+                onRun={handleRunCode}
+                height="calc(100vh - 320px)"
+              />
             </div>
-            <pre className="flex-1 p-4 font-mono text-xs text-gray-600 overflow-y-auto whitespace-pre-wrap">
-              {output || "// Output will appear here..."}
-            </pre>
+
+            {/* Output Console */}
+            <div className="h-56 bg-white border-2 border-sui-gray-200 rounded-2xl p-6 overflow-y-auto">
+              <div className="text-xs text-sui-gray-500 font-semibold mb-3 uppercase tracking-wider">
+                Compilation Output:
+              </div>
+              <pre className="text-sm text-sui-navy whitespace-pre-wrap font-mono leading-relaxed">
+                {output || '💡 Click "Run Code" to compile and test your solution...'}
+              </pre>
+            </div>
           </div>
         </div>
-      }
-    >
-      {renderContent()}
 
-    </LessonLayout>
+      </motion.div>
+    </AnimatePresence>
   );
 }
