@@ -1,32 +1,37 @@
-# Leo By Practice 🦁
+# Glide
 
-> Learn Aleo's Leo language by building real projects - completely in your browser!
+> Master Move. Build on Sui. From zero to mainnet.
 
-![Leo By Practice](https://img.shields.io/badge/Aleo-Leo-0E1525?style=for-the-badge)
-![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![Sui](https://img.shields.io/badge/Sui-Move-4DA2FF?style=for-the-badge)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
 
-## 🚀 Features
+## Features
 
-- ✨ **Zero Installation** - Everything runs in your browser
-- 🎮 **Gamified Learning** - XP, levels, achievements, and streaks
-- 💻 **Monaco Editor** - Full Leo syntax highlighting and auto-completion
-- 🎨 **Beautiful UI** - Glassmorphism design with smooth animations
-- 📱 **Responsive** - Works on desktop, tablet, and mobile
-- 🔗 **Aleo Integration** - Deploy contracts directly to testnet (Coming Soon)
+- **Zero Installation** - Everything runs in your browser. No toolchain setup, no CLI downloads.
+- **Gamified Learning** - Earn XP, level up, unlock achievements, and maintain daily streaks to stay motivated.
+- **Monaco Editor** - Professional code editing with full Move syntax highlighting and autocomplete.
+- **Interactive Lessons** - 15 progressive lessons covering 7 Move fundamentals and 8 Sui Messaging SDK modules.
+- **21+ Exercises** - Hands-on practice with four exercise types: Code Completion, Bug Fix, Multiple Choice, and Output Prediction.
+- **Daily Challenges** - Fresh coding challenges every day to keep your skills sharp.
+- **Dashboard** - Track your progress, review completed lessons, and monitor your learning stats.
 
-### Editor & Compiler
-- **Monaco Editor** - VS Code-like editing experience
-- **Custom Leo Language** - Full syntax highlighting
-- **Leo Compiler** - Browser-based compilation (simulated)
+## Tech Stack
 
-### State & Blockchain
-- **Zustand** - Lightweight state management
-- **IndexedDB** - Persistent local storage
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 |
+| Styling | Tailwind CSS v4 |
+| Animations | Framer Motion |
+| Code Editor | Monaco Editor |
+| State Management | Zustand |
+| Backend / Auth | Supabase |
+| ORM | Prisma |
 
-## 🚦 Getting Started
+## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or yarn
 
@@ -40,72 +45,26 @@ npm install
 npm run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to see the app!
+Visit [http://localhost:3000](http://localhost:3000) to start learning.
 
-## 📚 Project Structure
+## Project Structure
 
 ```
-leo-by-practice/
+glide/
 ├── app/
-│   ├── components/
-│   │   ├── editor/
-│   │   │   └── LeoEditor.tsx           # Monaco editor with Leo syntax
-│   │   ├── lessons/
-│   │   │   └── LessonView.tsx          # Split-screen lesson UI
-│   │   ├── gamification/
-│   │   │   ├── XPProgress.tsx          # XP bar with animations
-│   │   │   └── Confetti.tsx            # Celebration effects
-│   │   └── layout/
+│   ├── components/        # UI components
 │   ├── lib/
-│   │   ├── store/
-│   │   │   └── gameStore.ts            # Zustand game state
-│   │   ├── lessons/
-│   │   │   └── leo-lesson1.ts          # Lesson content
-│   ├── types/
-│   │   └── lesson.ts                    # TypeScript types
-│   ├── lessons/[id]/
-│   │   └── page.tsx                     # Dynamic lesson routes
-│   ├── layout.tsx                       # Root layout with providers
-│   └── page.tsx                         # Homepage
+│   │   ├── store/         # Zustand game state
+│   │   └── lessons/       # Lesson content files
+│   ├── data/              # Exercise database
+│   ├── types/             # TypeScript types
+│   ├── lessons/[id]/      # Dynamic lesson routes
+│   └── page.tsx           # Homepage
 ├── public/
-│   └── assets/
-└── PLATFORM_BLUEPRINT.md                # Full platform vision
+└── prisma/                # Database schema
 ```
 
-## 🎓 Lesson Structure
-
-Each lesson includes:
-
-- **Tutorial Content** - Explanation with examples
-- **Code Editor** - Pre-filled starter code
-- **Hints System** - Progressive help
-- **Validation** - Instant feedback on solutions
-- **XP Rewards** - Gamification incentives
-
-### Lesson 1: Hello Leo!
-Learn the fundamentals of Leo programming:
-- Programs in Leo
-- Types & Variables
-- Transitions & Functions
-
-## 🎨 Design System
-
-### Colors
-```css
---aleo-green: #00FFB3
---aleo-navy: #0E1525
---success: #00D4AA
---xp-gold: #FFD700
---bg-white: #FFFFFF
-```
-
-### Typography
-- **Sans**: Inter
-- **Mono**: Fira Code
-
-## 🔧 Development
-
-### Available Scripts
+## Available Scripts
 
 ```bash
 npm run dev      # Start development server
@@ -114,28 +73,26 @@ npm run start    # Start production server
 npm run lint     # Run ESLint
 ```
 
-## 🤝 Contributing
+## Contributing
 
-We welcome contributions!
+Contributions are welcome.
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create your feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add your feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 MIT License
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- [Aleo](https://aleo.org) - For the privacy-first blockchain
-- [Leo Language](https://leo-lang.org) - The programming language of ZK
-- [Monaco Editor](https://microsoft.github.io/monaco-editor/) - Code editor
+- [Sui](https://sui.io) - The blockchain platform powering the next generation of decentralized applications
+- [Move Language](https://move-language.github.io/move/) - A safe, flexible programming language for digital assets
+- [Mysten Labs](https://mystenlabs.com) - The team building the Sui network
 
 ---
 
-**Built with ❤️ for the Aleo community**
-
-🦁 Start learning Leo today - no installation required!
+Built for the Sui ecosystem.

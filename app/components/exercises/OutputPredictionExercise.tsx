@@ -174,7 +174,7 @@ export default function OutputPredictionExerciseComponent({
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+      <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
         <div className="flex items-start gap-3 sm:gap-4 mb-4">
           <div className={`w-10 h-10 sm:w-12 sm:h-12 ${
             exercise.outputType === 'value' ? 'bg-green-100' :
@@ -213,7 +213,7 @@ export default function OutputPredictionExerciseComponent({
       </div>
 
       {/* Code to Analyze */}
-      <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+      <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
         <h4 className="text-lg sm:text-xl font-bold text-sui-navy mb-4">
           Analyze This Code
         </h4>
@@ -237,7 +237,7 @@ export default function OutputPredictionExerciseComponent({
 
       {/* Execution Trace (if available) */}
       {exercise.executionSteps && exercise.executionSteps.length > 0 && (
-        <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+        <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
             <h4 className="text-lg sm:text-xl font-bold text-sui-navy">
               Execution Trace
@@ -258,7 +258,7 @@ export default function OutputPredictionExerciseComponent({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-gray-50 border-2 border-gray-200 rounded-lg p-3"
+                  className="bg-surface-secondary border-2 border-[var(--border-default)] rounded-lg p-3"
                 >
                   <div className="flex items-start gap-3">
                     <div className="px-2 py-1 bg-sui-ocean text-white text-xs font-bold rounded">
@@ -267,7 +267,7 @@ export default function OutputPredictionExerciseComponent({
                     <div className="flex-1">
                       <p className="text-sm text-sui-gray-700 mb-2">{step.description}</p>
                       {step.variables && Object.keys(step.variables).length > 0 && (
-                        <div className="bg-white rounded p-2 font-mono text-xs">
+                        <div className="bg-surface-elevated rounded p-2 font-mono text-xs">
                           {Object.entries(step.variables).map(([key, value]) => (
                             <div key={key} className="text-sui-navy">
                               <span className="text-purple-600">{key}</span> = <span className="text-green-600">{JSON.stringify(value)}</span>
@@ -285,7 +285,7 @@ export default function OutputPredictionExerciseComponent({
       )}
 
       {/* Answer Input */}
-      <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+      <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
         <h4 className="text-lg sm:text-xl font-bold text-sui-navy mb-4">
           What will be the output?
         </h4>
@@ -331,7 +331,7 @@ export default function OutputPredictionExerciseComponent({
 
       {/* Hints Section */}
       {exercise.hints.length > 0 && (
-        <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+        <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
             <h4 className="text-lg sm:text-xl font-bold text-sui-navy">
               Hints ({hintsUsed}/{exercise.hints.length})
@@ -407,16 +407,16 @@ export default function OutputPredictionExerciseComponent({
                   {feedback.message}
                 </h4>
                 {feedback.details && (
-                  <p className="text-sm text-gray-700 mt-2">{feedback.details}</p>
+                  <p className="text-sm text-foreground-secondary mt-2">{feedback.details}</p>
                 )}
                 {feedback.correctAnswer && (
-                  <div className="mt-3 p-3 bg-white rounded-lg border-2 border-gray-200">
-                    <div className="text-xs font-semibold text-gray-600 mb-1">Correct Answer:</div>
+                  <div className="mt-3 p-3 bg-surface-elevated rounded-lg border-2 border-[var(--border-default)]">
+                    <div className="text-xs font-semibold text-foreground-secondary mb-1">Correct Answer:</div>
                     <div className="font-mono text-sm text-sui-navy">{feedback.correctAnswer}</div>
                   </div>
                 )}
                 {feedback.earnedXP > 0 && (
-                  <div className="mt-3 px-3 py-2 bg-white rounded-lg border-2 border-sui-ocean/20">
+                  <div className="mt-3 px-3 py-2 bg-surface-elevated rounded-lg border-2 border-sui-ocean/20">
                     <span className="text-sui-ocean font-bold">+{feedback.earnedXP} XP</span>
                   </div>
                 )}

@@ -9,10 +9,10 @@ const cardVariants = cva(
         variants: {
             variant: {
                 default: "glass-panel",
-                solid: "bg-aleo-dark-gray border border-white/5",
+                solid: "bg-sui-gray-800 border border-white/5",
                 ghost: "bg-transparent border-none",
-                interactive: "glass-panel hover:border-aleo-green/30 hover:shadow-[0_0_20px_rgba(0,255,153,0.1)] hover:-translate-y-1 cursor-pointer",
-                clean: "bg-white border border-gray-200 text-black shadow-sm hover:border-aleo-green hover:shadow-md transition-all duration-300",
+                interactive: "glass-panel hover:border-sui-accent/30 hover:shadow-[0_0_20px_rgba(0,255,153,0.1)] hover:-translate-y-1 cursor-pointer",
+                clean: "bg-surface-elevated border border-[var(--border-default)] text-foreground shadow-sm hover:border-sui-accent hover:shadow-md transition-all duration-300",
             },
             padding: {
                 none: "p-0",

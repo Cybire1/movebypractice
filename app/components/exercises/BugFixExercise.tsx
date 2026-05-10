@@ -169,7 +169,7 @@ export default function BugFixExerciseComponent({
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+      <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
         <div className="flex items-start gap-3 sm:gap-4 mb-4">
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
             <svg className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -194,14 +194,14 @@ export default function BugFixExerciseComponent({
           <span className="px-3 py-1 rounded-full text-xs font-semibold bg-sui-sky/30 text-sui-ocean border border-sui-ocean/20">
             {exercise.topic.replace('_', ' ')}
           </span>
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-300">
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-surface-secondary text-foreground-secondary border border-gray-300">
             {exercise.bugs.length} bugs to fix
           </span>
         </div>
       </div>
 
       {/* Bug Information Panel */}
-      <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+      <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
         <div className="flex items-center justify-between mb-4">
           <h4 className="text-lg sm:text-xl font-bold text-sui-navy">
             Known Bugs ({exercise.bugs.length})
@@ -236,7 +236,7 @@ export default function BugFixExerciseComponent({
       </div>
 
       {/* Code Editor */}
-      <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+      <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
         <div className="flex items-center justify-between mb-4">
           <h4 className="text-lg sm:text-xl font-bold text-sui-navy">
             Fix the Code
@@ -271,7 +271,7 @@ export default function BugFixExerciseComponent({
 
       {/* Test Cases */}
       {exercise.testCases && exercise.testCases.length > 0 && (
-        <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+        <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
           <h4 className="text-lg sm:text-xl font-bold text-sui-navy mb-4">
             Test Cases {testResults && `(${testResults.passed}/${testResults.total} passed)`}
           </h4>
@@ -283,7 +283,7 @@ export default function BugFixExerciseComponent({
                 className={`rounded-lg p-3 text-sm ${
                   testResults && index < testResults.passed
                     ? 'bg-green-50 border-2 border-green-200'
-                    : 'bg-gray-50 border-2 border-gray-200'
+                    : 'bg-surface-secondary border-2 border-[var(--border-default)]'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
@@ -305,7 +305,7 @@ export default function BugFixExerciseComponent({
 
       {/* Hints Section */}
       {exercise.hints.length > 0 && (
-        <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
+        <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
             <h4 className="text-lg sm:text-xl font-bold text-sui-navy">
               Hints ({hintsUsed}/{exercise.hints.length})
@@ -377,10 +377,10 @@ export default function BugFixExerciseComponent({
                   {feedback.message}
                 </h4>
                 {feedback.details && (
-                  <p className="text-sm text-gray-700 mt-2">{feedback.details}</p>
+                  <p className="text-sm text-foreground-secondary mt-2">{feedback.details}</p>
                 )}
                 {feedback.earnedXP > 0 && (
-                  <div className="mt-3 px-3 py-2 bg-white rounded-lg border-2 border-sui-ocean/20">
+                  <div className="mt-3 px-3 py-2 bg-surface-elevated rounded-lg border-2 border-sui-ocean/20">
                     <span className="text-sui-ocean font-bold">+{feedback.earnedXP} XP</span>
                   </div>
                 )}

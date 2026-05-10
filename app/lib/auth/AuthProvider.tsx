@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const supabase = getSupabase();
 
-  const { loadFromDatabase, resetStore } = useGameStore();
+  const { loadFromServer, resetStore } = useGameStore();
 
   useEffect(() => {
     // Get initial session
@@ -38,9 +38,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
 
-      // Load user data from database if logged in
-      if (session?.user) {
-        await loadFromDatabase();
+      if (session?.user?.email) {
+        await loadFromServer(session.user.email);
       }
 
       setLoading(false);
@@ -53,12 +52,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
 
-      // Handle login - load data from database
-      if (event === 'SIGNED_IN' && session?.user) {
-        await loadFromDatabase();
+      if (event === 'SIGNED_IN' && session?.user?.email) {
+        await loadFromServer(session.user.email);
       }
 
-      // Handle logout - reset local store
       if (event === 'SIGNED_OUT') {
         resetStore();
       }
@@ -67,35 +64,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase.auth, loadFromDatabase, resetStore]);
+  }, [supabase.auth, loadFromServer, resetStore]);
 
-  // Create user profile in public.users table
-  const createUserProfile = async (userId: string, email: string, username?: string) => {
-    // @ts-expect-error Supabase types mismatch
-    const { error } = await supabase.from('users').insert({
-      id: userId,
-      email,
-      username: username || email.split('@')[0],
-    });
-
-    if (error && error.code !== '23505') {
-      // Ignore duplicate key errors
-      console.error('Error creating user profile:', error);
-    }
-  };
-
-  const signUp = async (email: string, password: string, username?: string) => {
-    const { data, error } = await supabase.auth.signUp({
+  const signUp = async (email: string, password: string, _username?: string) => {
+    const { error } = await supabase.auth.signUp({
       email,
       password,
     });
 
     if (error) throw error;
-
-    // Create user profile
-    if (data.user) {
-      await createUserProfile(data.user.id, email, username);
-    }
+    // User profile is created via the auth callback route or requireAuth()
   };
 
   const signIn = async (email: string, password: string) => {

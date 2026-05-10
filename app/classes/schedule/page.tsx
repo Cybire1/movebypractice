@@ -102,7 +102,7 @@ export default function ScheduleClassPage() {
     <div className="min-h-screen bg-white text-zinc-900 relative overflow-hidden pt-32 pb-24">
       {/* Background Assets */}
       <div className="absolute inset-0 bg-grid-graph opacity-60 pointer-events-none fixed" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-aleo-green/5 rounded-full blur-[100px] pointer-events-none fixed" />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sui-accent/5 rounded-full blur-[100px] pointer-events-none fixed" />
 
       <main className="relative z-10 container mx-auto px-6">
         <motion.div
@@ -113,14 +113,14 @@ export default function ScheduleClassPage() {
         >
           {/* Header */}
           <div className="mb-12 text-center md:text-left">
-            <Link href="/classes" className="inline-flex items-center gap-2 text-zinc-500 hover:text-aleo-green transition-colors mb-6 text-sm font-bold tracking-wide uppercase">
+            <Link href="/classes" className="inline-flex items-center gap-2 text-zinc-500 hover:text-sui-accent transition-colors mb-6 text-sm font-bold tracking-wide uppercase">
               ← Back to Calendar
             </Link>
             <h1 className="text-5xl md:text-6xl font-black tracking-tighter-swiss mb-4">
               Schedule Session
             </h1>
             <p className="text-xl text-zinc-500 max-w-xl">
-              Create a new live learning environment. Share your Leo knowledge.
+              Create a new live learning environment. Share your Sui knowledge.
             </p>
           </div>
 
@@ -154,7 +154,7 @@ export default function ScheduleClassPage() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
-                    placeholder="Ex: Advanced Leo Patterns"
+                    placeholder="Ex: Advanced Move Patterns"
                     className="w-full px-6 py-4 bg-zinc-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/5 transition-all text-lg font-medium placeholder:text-gray-400"
                   />
                 </div>
@@ -266,7 +266,7 @@ export default function ScheduleClassPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="group relative px-10 py-5 bg-zinc-900 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-aleo-green/20 hover:scale-105 transition-all duration-300 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="group relative px-10 py-5 bg-zinc-900 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-sui-accent/20 hover:scale-105 transition-all duration-300 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     {loading ? (
@@ -281,7 +281,7 @@ export default function ScheduleClassPage() {
                       </>
                     )}
                   </span>
-                  <div className="absolute inset-0 bg-aleo-green translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[0.23, 1, 0.32, 1]" />
+                  <div className="absolute inset-0 bg-sui-accent translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[0.23, 1, 0.32, 1]" />
                 </button>
               </Magnetic>
             </div>

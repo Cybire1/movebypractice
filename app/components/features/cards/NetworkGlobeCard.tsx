@@ -28,11 +28,11 @@ export default function NetworkGlobeCard() {
                 >
                     {/* Simple Latitude/Longitude Lines */}
                     {[...Array(6)].map((_, i) => (
-                        <div key={i} className="absolute inset-0 rounded-full border border-aleo-green/30"
+                        <div key={i} className="absolute inset-0 rounded-full border border-sui-accent/30"
                             style={{ transform: `rotateY(${i * 30}deg)` }} />
                     ))}
                     {[...Array(4)].map((_, i) => (
-                        <div key={i} className="absolute inset-0 rounded-full border border-aleo-green/20"
+                        <div key={i} className="absolute inset-0 rounded-full border border-sui-accent/20"
                             style={{ transform: `rotateX(${45 + (i * 20)}deg)` }} />
                     ))}
 
@@ -40,7 +40,7 @@ export default function NetworkGlobeCard() {
                     <motion.div
                         animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
                         transition={{ duration: 2, repeat: Infinity }}
-                        className="absolute top-1/4 left-1/4 w-3 h-3 bg-aleo-green rounded-full shadow-[0_0_10px_#00FF99]"
+                        className="absolute top-1/4 left-1/4 w-3 h-3 bg-sui-accent rounded-full shadow-[0_0_10px_#00FF99]"
                     />
                     <motion.div
                         animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}

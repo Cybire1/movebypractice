@@ -92,11 +92,11 @@ export default function QuizComponent({
 
   if (quizComplete) {
     return (
-      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-8">
+      <div className="min-h-screen bg-surface-secondary flex items-center justify-center p-8">
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="max-w-2xl w-full bg-white rounded-[2.5rem] shadow-2xl p-12 md:p-16 border border-zinc-100 text-center relative overflow-hidden"
+          className="max-w-2xl w-full bg-surface-elevated rounded-[2.5rem] shadow-2xl p-12 md:p-16 border border-[var(--border-default)] text-center relative overflow-hidden"
         >
           {/* Confetti Background */}
           {passed && <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />}
@@ -117,11 +117,11 @@ export default function QuizComponent({
             </div>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-black text-zinc-900 mb-6 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 tracking-tight">
             {passed ? 'Lesson Mastered!' : 'Keep Going!'}
           </h2>
 
-          <p className="text-xl text-zinc-500 mb-12 font-medium leading-relaxed max-w-lg mx-auto">
+          <p className="text-xl text-foreground-secondary mb-12 font-medium leading-relaxed max-w-lg mx-auto">
             {passed
               ? "You've crushed the concepts. You're ready to prove your skills in the code editor."
               : "You're getting there! Review the concepts and try again to unlock the practice."
@@ -132,7 +132,7 @@ export default function QuizComponent({
             {!passed && (
               <button
                 onClick={handleRetry}
-                className="px-10 py-5 bg-white text-zinc-900 border-2 border-zinc-200 rounded-full font-bold text-lg hover:border-zinc-900 transition-all"
+                className="px-10 py-5 bg-surface-elevated text-foreground border-2 border-[var(--border-default)] rounded-full font-bold text-lg hover:border-foreground transition-all"
               >
                 Try Again
               </button>
@@ -155,7 +155,7 @@ export default function QuizComponent({
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center p-6 md:p-12 relative overflow-hidden">
+    <div className="min-h-screen bg-surface-secondary flex flex-col items-center justify-center p-6 md:p-12 relative overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
@@ -168,11 +168,11 @@ export default function QuizComponent({
           <div className="flex gap-2">
             {questions.map((_, idx) => (
               <div key={idx} className={`h-1.5 w-8 rounded-full transition-colors duration-300 ${idx < currentQuestionIndex ? 'bg-zinc-900' :
-                  idx === currentQuestionIndex ? 'bg-blue-500' : 'bg-zinc-200'
+                  idx === currentQuestionIndex ? 'bg-blue-500' : 'bg-surface-secondary'
                 }`} />
             ))}
           </div>
-          <div className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+          <div className="text-xs font-bold text-foreground-tertiary uppercase tracking-widest">
             Question {currentQuestionIndex + 1}
           </div>
         </div>
@@ -187,7 +187,7 @@ export default function QuizComponent({
           >
             {/* Question Card */}
             <div className="bg-transparent mb-12">
-              <h2 className="text-3xl md:text-5xl font-black text-zinc-900 leading-[1.1] tracking-tight">
+              <h2 className="text-3xl md:text-5xl font-black text-foreground leading-[1.1] tracking-tight">
                 {currentQuestion.question}
               </h2>
             </div>
@@ -199,8 +199,8 @@ export default function QuizComponent({
                 const isCorrect = index === currentQuestion.correctAnswer;
                 const showResult = showFeedback;
 
-                let cardStyle = "bg-white border-zinc-200 hover:border-zinc-300 hover:shadow-lg";
-                let textStyle = "text-zinc-600";
+                let cardStyle = "bg-surface-elevated border-[var(--border-default)] hover:border-foreground-tertiary hover:shadow-lg";
+                let textStyle = "text-foreground-secondary";
                 let icon = null;
 
                 if (showResult) {
@@ -213,7 +213,7 @@ export default function QuizComponent({
                     textStyle = "text-white font-bold";
                     icon = "❌";
                   } else {
-                    cardStyle = "bg-white opacity-50";
+                    cardStyle = "bg-surface-elevated opacity-50";
                   }
                 } else if (isSelected) {
                   cardStyle = "bg-zinc-900 border-zinc-900 shadow-xl ring-2 ring-zinc-900 ring-offset-2";
@@ -234,8 +234,8 @@ export default function QuizComponent({
                       {icon && <span className="text-2xl">{icon}</span>}
 
                       {!showFeedback && !isSelected && (
-                        <div className="w-8 h-8 rounded-full border-2 border-zinc-100 flex items-center justify-center group-hover:border-zinc-300 transition-colors">
-                          <div className="w-2 h-2 rounded-full bg-zinc-200 group-hover:bg-zinc-400" />
+                        <div className="w-8 h-8 rounded-full border-2 border-[var(--border-default)] flex items-center justify-center group-hover:border-zinc-300 transition-colors">
+                          <div className="w-2 h-2 rounded-full bg-foreground-tertiary group-hover:bg-foreground-secondary" />
                         </div>
                       )}
                       {!showFeedback && isSelected && (
@@ -257,8 +257,8 @@ export default function QuizComponent({
                   animate={{ opacity: 1, x: 0 }}
                   className="flex-1 mr-8"
                 >
-                  <p className="text-zinc-500 leading-relaxed font-medium">
-                    <span className="text-zinc-900 font-bold block mb-1">Why?</span>
+                  <p className="text-foreground-secondary leading-relaxed font-medium">
+                    <span className="text-foreground font-bold block mb-1">Why?</span>
                     {currentQuestion.explanation}
                   </p>
                 </motion.div>
@@ -269,7 +269,7 @@ export default function QuizComponent({
                 disabled={!showFeedback && selectedAnswer === null}
                 className={`px-10 py-5 rounded-full font-bold text-lg transition-all duration-300
                      ${!showFeedback && selectedAnswer === null
-                    ? 'bg-zinc-100 text-zinc-300 cursor-not-allowed'
+                    ? 'bg-surface-secondary text-foreground-tertiary cursor-not-allowed'
                     : 'bg-zinc-900 text-white shadow-xl hover:scale-105 active:scale-95'
                   }
                   `}

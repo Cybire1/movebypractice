@@ -106,7 +106,7 @@ export default function SlideAIAssistant({
 
         <motion.button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-3 pl-3 pr-5 py-2.5 bg-white backdrop-blur-2xl border border-zinc-200 rounded-full shadow-xl shadow-zinc-900/10 hover:shadow-zinc-900/20 hover:border-zinc-400 transition-all duration-500"
+          className="group relative flex items-center gap-3 pl-3 pr-5 py-2.5 bg-surface-elevated backdrop-blur-2xl border border-[var(--border-default)] rounded-full shadow-xl shadow-zinc-900/10 hover:shadow-zinc-900/20 hover:border-foreground-tertiary transition-all duration-500"
           whileHover={{ scale: 1.03, y: -2 }}
           whileTap={{ scale: 0.97 }}
           animate={{ y: [0, -4, 0] }}
@@ -165,10 +165,10 @@ export default function SlideAIAssistant({
 
           {/* Text */}
           <div className="flex flex-col items-start">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-foreground-secondary">
               AI Tutor
             </span>
-            <span className="text-sm font-bold text-zinc-900 leading-none">
+            <span className="text-sm font-bold text-foreground leading-none">
               Ask Lydia
             </span>
           </div>
@@ -196,7 +196,7 @@ export default function SlideAIAssistant({
             >
               {/* Backdrop */}
               <motion.div
-                className="absolute inset-0 bg-white/80"
+                className="absolute inset-0 bg-surface/80"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -209,7 +209,7 @@ export default function SlideAIAssistant({
                 exit={{ scale: 0.95, opacity: 0, y: 10 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl shadow-zinc-900/10 border border-zinc-200 overflow-hidden"
+                className="relative w-full max-w-md bg-surface rounded-[2.5rem] shadow-2xl shadow-zinc-900/10 border border-[var(--border-default)] overflow-hidden"
               >
                 {/* Decorative Gradient Blobs */}
                 <div className="absolute -top-32 -right-32 w-64 h-64 bg-zinc-300/20 rounded-full blur-[100px]" />
@@ -221,7 +221,7 @@ export default function SlideAIAssistant({
                     if (isVoiceActive) disconnect(), setIsVoiceActive(false);
                     setIsOpen(false);
                   }}
-                  className="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-zinc-100 text-zinc-400 hover:bg-zinc-200 hover:text-zinc-900 transition-all z-20"
+                  className="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-surface-secondary text-foreground-tertiary hover:bg-[var(--border-default)] hover:text-foreground transition-all z-20"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -275,11 +275,11 @@ export default function SlideAIAssistant({
                       </div>
 
                       {/* Text */}
-                      <h3 className="text-2xl font-bold text-zinc-900 mb-2 tracking-tight">
+                      <h3 className="text-2xl font-bold text-foreground mb-2 tracking-tight">
                         Hey, I'm Lydia
                       </h3>
-                      <p className="text-center text-zinc-500 mb-8 text-sm leading-relaxed max-w-xs">
-                        Your AI tutor for this slide. Ask me anything about <span className="text-zinc-900 font-medium">{slide.title}</span>
+                      <p className="text-center text-foreground-secondary mb-8 text-sm leading-relaxed max-w-xs">
+                        Your AI tutor for this slide. Ask me anything about <span className="text-foreground font-medium">{slide.title}</span>
                       </p>
 
                       {/* Start Button with Pulsing Ring */}
@@ -383,13 +383,13 @@ export default function SlideAIAssistant({
 
                       {/* Status Text */}
                       <motion.p
-                        className="text-zinc-900 font-bold text-xl mb-1"
+                        className="text-foreground font-bold text-xl mb-1"
                         animate={{ opacity: [0.7, 1, 0.7] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
                         {isSpeaking ? 'Lydia is speaking...' : 'Listening...'}
                       </motion.p>
-                      <p className="text-zinc-400 text-sm mb-8">
+                      <p className="text-foreground-tertiary text-sm mb-8">
                         {isSpeaking ? 'Wait for response to finish' : 'Ask your question now'}
                       </p>
 

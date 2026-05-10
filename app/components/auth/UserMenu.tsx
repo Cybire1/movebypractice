@@ -20,7 +20,7 @@ export default function UserMenu({ isHome = false }: UserMenuProps) {
 
   if (loading) {
     return (
-      <div className="w-9 h-9 rounded-full bg-gray-100 animate-pulse border border-gray-200"></div>
+      <div className="w-9 h-9 rounded-full bg-surface-secondary animate-pulse border border-[var(--border-default)]"></div>
     );
   }
 
@@ -43,13 +43,13 @@ export default function UserMenu({ isHome = false }: UserMenuProps) {
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center gap-2 pl-2 pr-4 py-1.5 border rounded-full text-sm font-semibold transition-all shadow-sm
           ${isHome
-            ? 'bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-aleo-green/50'
+            ? 'bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-sui-accent/50'
             : 'bg-black text-white border-black hover:bg-zinc-800'
           }`}
       >
         {/* Avatar Circle */}
         <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold
-          ${isHome ? 'bg-aleo-green text-black' : 'bg-white text-black'}`}>
+          ${isHome ? 'bg-sui-accent text-black' : 'bg-white text-black'}`}>
           {initial}
         </div>
         <span className="text-xs font-medium opacity-90">Account</span>
@@ -70,14 +70,14 @@ export default function UserMenu({ isHome = false }: UserMenuProps) {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="absolute right-0 mt-2 w-64 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-200 overflow-hidden z-50"
+              className="absolute right-0 mt-2 w-64 bg-[var(--surface-overlay)] backdrop-blur-xl rounded-2xl shadow-xl border border-[var(--border-default)] overflow-hidden z-50"
             >
               {/* User Info */}
-              <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
-                <p className="text-sm font-bold text-black truncate">{user.email}</p>
+              <div className="px-4 py-3 bg-surface-secondary border-b border-[var(--border-subtle)]">
+                <p className="text-sm font-bold text-foreground truncate">{user.email}</p>
                 <div className="flex items-center gap-1.5 mt-1">
-                  <span className="w-2 h-2 rounded-full bg-aleo-green animate-pulse" />
-                  <p className="text-[10px] uppercase tracking-wider font-bold text-gray-500">Connected</p>
+                  <span className="w-2 h-2 rounded-full bg-sui-accent animate-pulse" />
+                  <p className="text-[10px] uppercase tracking-wider font-bold text-foreground-secondary">Connected</p>
                 </div>
               </div>
 
@@ -86,35 +86,35 @@ export default function UserMenu({ isHome = false }: UserMenuProps) {
                 <Link
                   href="/dashboard"
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-100/80 rounded-lg transition-colors"
+                  className="block px-3 py-2 text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-secondary rounded-lg transition-colors"
                 >
                   <span className="mr-2">📊</span> Dashboard
                 </Link>
                 <Link
                   href="/profile"
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-100/80 rounded-lg transition-colors"
+                  className="block px-3 py-2 text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-secondary rounded-lg transition-colors"
                 >
                   <span className="mr-2">👤</span> Profile
                 </Link>
                 <Link
                   href="/achievements"
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-100/80 rounded-lg transition-colors"
+                  className="block px-3 py-2 text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-secondary rounded-lg transition-colors"
                 >
                   <span className="mr-2">🏆</span> Achievements
                 </Link>
                 <Link
                   href="/classes"
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-100/80 rounded-lg transition-colors"
+                  className="block px-3 py-2 text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-secondary rounded-lg transition-colors"
                 >
                   <span className="mr-2">🎥</span> Live Classes
                 </Link>
               </div>
 
               {/* Sign Out */}
-              <div className="p-1 border-t border-gray-100">
+              <div className="p-1 border-t border-[var(--border-subtle)]">
                 <button
                   onClick={handleSignOut}
                   className="w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors text-left font-medium flex items-center gap-2"

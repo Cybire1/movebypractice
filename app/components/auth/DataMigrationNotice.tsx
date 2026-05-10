@@ -2,7 +2,7 @@
 
 /**
  * Data Migration Notice
- * Prompts users to sync their local progress to Supabase after signup/login
+ * Prompts users to sync their local progress to their account
  */
 
 import { useState, useEffect } from 'react';
@@ -12,27 +12,29 @@ import { useGameStore } from '@/app/lib/store/gameStore';
 
 export default function DataMigrationNotice() {
   const { user } = useAuth();
-  const { xp, completedLessons, achievements, syncWithSupabase, lastSyncedAt, isSyncing } = useGameStore();
+  const { xp, completedLessons, achievements, syncToServer, userEmail } = useGameStore();
   const [showNotice, setShowNotice] = useState(false);
-  const [hasLocalData, setHasLocalData] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
-    // Check if user has local progress but hasn't synced yet
-    if (user && !lastSyncedAt && (xp > 0 || completedLessons.length > 0 || achievements.length > 0)) {
-      setHasLocalData(true);
+    // Show if user is logged in, has local progress, but hasn't been synced
+    if (user && !userEmail && (xp > 0 || completedLessons.length > 0 || achievements.length > 0)) {
       setShowNotice(true);
     }
-  }, [user, xp, completedLessons, achievements, lastSyncedAt]);
+  }, [user, xp, completedLessons, achievements, userEmail]);
 
   const handleSync = async () => {
     if (!user) return;
 
     try {
-      await syncWithSupabase(user.id);
+      setIsSyncing(true);
+      await syncToServer();
       setShowNotice(false);
     } catch (error) {
       console.error('Failed to sync data:', error);
       alert('Failed to sync your progress. Please try again.');
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -40,7 +42,7 @@ export default function DataMigrationNotice() {
     setShowNotice(false);
   };
 
-  if (!hasLocalData || !showNotice) return null;
+  if (!showNotice) return null;
 
   return (
     <AnimatePresence>

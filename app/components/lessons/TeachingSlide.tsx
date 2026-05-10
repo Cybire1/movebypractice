@@ -65,13 +65,13 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
   }, [currentSlideIndex]);
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] text-zinc-900 flex flex-col selection:bg-zinc-900 selection:text-white">
+    <div className="min-h-screen bg-surface text-foreground flex flex-col selection:bg-zinc-900 selection:text-white">
       {/* Top Progress Bar - Fixed */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex gap-1.5 px-4 py-3 bg-[#FDFDFD]/80 backdrop-blur-md border-b border-zinc-100">
+      <div className="fixed top-0 left-0 right-0 z-50 flex gap-1.5 px-4 py-3 bg-[var(--surface-overlay)] backdrop-blur-md border-b border-[var(--border-subtle)]">
         {slides.map((_, index) => (
           <div
             key={index}
-            className="h-1 flex-1 rounded-full bg-zinc-100 overflow-hidden"
+            className="h-1 flex-1 rounded-full bg-surface-secondary overflow-hidden"
           >
             <motion.div
               className="h-full bg-zinc-900"
@@ -94,7 +94,7 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
             <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
               {/* Live Help Button (New) */}
               <motion.button
-                className="group relative flex items-center gap-2.5 px-4 py-2.5 bg-white/80 backdrop-blur-md border border-zinc-200/50 rounded-full shadow-sm hover:shadow-xl hover:border-zinc-300 transition-all"
+                className="group relative flex items-center gap-2.5 px-4 py-2.5 bg-[var(--surface-overlay)] backdrop-blur-md border border-[var(--border-default)] rounded-full shadow-sm hover:shadow-xl hover:border-zinc-300 transition-all"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => alert("Connecting to live instructor queue...")}
@@ -103,7 +103,7 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
                   <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                   <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-20" />
                 </div>
-                <span className="text-sm font-semibold text-zinc-700 group-hover:text-zinc-900">Live Help</span>
+                <span className="text-sm font-semibold text-foreground-secondary group-hover:text-foreground">Live Help</span>
               </motion.button>
 
 
@@ -128,7 +128,7 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
                     className="mb-8"
                   >
                     <div className="relative w-32 h-32 md:w-40 md:h-40">
-                      <div className="absolute inset-0 bg-aleo-green/20 blur-[40px] rounded-full opacity-50" />
+                      <div className="absolute inset-0 bg-sui-accent/20 blur-[40px] rounded-full opacity-50" />
                       <img
                         src={currentSlide.illustration}
                         alt="Icon"
@@ -141,19 +141,19 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="w-16 h-16 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center text-3xl mb-8 shadow-sm"
+                    className="w-16 h-16 rounded-2xl bg-surface-secondary border border-[var(--border-subtle)] flex items-center justify-center text-3xl mb-8 shadow-sm"
                   >
                     {currentSlide.emoji}
                   </motion.div>
                 )}
 
                 {/* Title */}
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter-swiss mb-6 text-zinc-900 leading-[0.9]">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter-swiss mb-6 text-foreground leading-[0.9]">
                   {currentSlide.title}
                 </h2>
 
                 {/* Content */}
-                <div className="text-lg md:text-xl font-medium text-zinc-500 leading-relaxed max-w-xl">
+                <div className="text-lg md:text-xl font-medium text-foreground-secondary leading-relaxed max-w-xl">
                   {currentSlide.content}
                 </div>
               </motion.div>
@@ -164,7 +164,7 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
               {!isFirstSlide && (
                 <button
                   onClick={goToPreviousSlide}
-                  className="w-14 h-14 rounded-full flex items-center justify-center transition-all text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 border border-transparent hover:border-zinc-200"
+                  className="w-14 h-14 rounded-full flex items-center justify-center transition-all text-foreground-secondary hover:bg-surface-secondary hover:text-foreground border border-transparent hover:border-[var(--border-default)]"
                 >
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </button>
@@ -185,14 +185,14 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
           </div>
 
           {/* RIGHT: Interactive/Visual Panel */}
-          <div className={`w-full lg:w-[55%] bg-zinc-50/50 order-2 lg:order-none relative overflow-hidden flex items-center justify-center p-4 lg:p-12
+          <div className={`w-full lg:w-[55%] bg-surface-secondary/50 order-2 lg:order-none relative overflow-hidden flex items-center justify-center p-4 lg:p-12
             ${!currentSlide.interactiveElement ? 'min-h-[200px] lg:h-auto' : 'min-h-[400px] lg:h-auto'}
           `}>
             {/* Background Grid */}
             <div className="absolute inset-0 z-0 bg-grid-zinc opacity-[0.05]" />
 
             {/* Radial Fade */}
-            <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-transparent to-[#FDFDFD] lg:hidden" />
+            <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-transparent to-surface lg:hidden" />
 
             <div className="relative w-full max-w-3xl z-10">
               <AnimatePresence mode="wait">
@@ -205,7 +205,7 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
                   className="w-full"
                 >
                   {currentSlide.interactiveElement ? (
-                    <div className="glass-panel-subtle rounded-2xl md:rounded-3xl shadow-2xl shadow-zinc-200/50 border border-zinc-200/60 overflow-hidden">
+                    <div className="glass-panel-subtle rounded-2xl md:rounded-3xl shadow-2xl shadow-[var(--border-default)]/50 border border-[var(--border-default)] overflow-hidden">
                       {/* Code Block Container */}
                       <div className="max-h-[60vh] lg:max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
                         {renderInteractiveElement()}
@@ -230,11 +230,11 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
                         </div>
                       </motion.div>
                       {/* Ambient Glow */}
-                      <div className="absolute -inset-4 bg-aleo-green/20 rounded-[3rem] blur-3xl -z-10 opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                      <div className="absolute -inset-4 bg-sui-accent/20 rounded-[3rem] blur-3xl -z-10 opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                     </div>
                   ) : (
-                    <div className="glass-panel-subtle rounded-2xl md:rounded-3xl p-8 md:p-16 text-center border-2 border-dashed border-zinc-200">
-                      <span className="text-zinc-300 font-bold tracking-widest uppercase text-sm">Concept Illustration</span>
+                    <div className="glass-panel-subtle rounded-2xl md:rounded-3xl p-8 md:p-16 text-center border-2 border-dashed border-[var(--border-default)]">
+                      <span className="text-foreground-tertiary font-bold tracking-widest uppercase text-sm">Concept Illustration</span>
                     </div>
                   )}
                 </motion.div>
@@ -246,12 +246,12 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
       </div>
 
       {/* MOBILE STICKY ACTION BAR */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-xl border-t border-zinc-100 lg:hidden z-50 safe-area-bottom">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-[var(--surface-overlay)] backdrop-blur-xl border-t border-[var(--border-subtle)] lg:hidden z-50 safe-area-bottom">
         <div className="flex items-center gap-3 max-w-md mx-auto">
           {!isFirstSlide && (
             <button
               onClick={goToPreviousSlide}
-              className="w-12 h-12 flex items-center justify-center rounded-xl bg-zinc-100 text-zinc-900 hover:bg-zinc-200 transition-colors"
+              className="w-12 h-12 flex items-center justify-center rounded-xl bg-surface-secondary text-foreground hover:bg-[var(--border-default)] transition-colors"
               aria-label="Previous slide"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>

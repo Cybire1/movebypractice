@@ -76,17 +76,20 @@ export function getSessionFromReq(req: Request): Session {
 }
 
 export class LiveKitController {
-  private roomService: RoomServiceClient;
+  private _roomService: RoomServiceClient | null = null;
 
-  constructor() {
-    const httpUrl = process.env
-      .LIVEKIT_URL!.replace('wss://', 'https://')
-      .replace('ws://', 'http://');
-    this.roomService = new RoomServiceClient(
-      httpUrl,
-      process.env.LIVEKIT_API_KEY!,
-      process.env.LIVEKIT_API_SECRET!
-    );
+  private get roomService(): RoomServiceClient {
+    if (!this._roomService) {
+      const url = process.env.LIVEKIT_URL;
+      if (!url) throw new Error('LIVEKIT_URL is not configured');
+      const httpUrl = url.replace('wss://', 'https://').replace('ws://', 'http://');
+      this._roomService = new RoomServiceClient(
+        httpUrl,
+        process.env.LIVEKIT_API_KEY!,
+        process.env.LIVEKIT_API_SECRET!
+      );
+    }
+    return this._roomService;
   }
 
   /**
@@ -406,6 +409,41 @@ export class LiveKitController {
       session.user_id,
       JSON.stringify(participantMetadata),
       participant.permission
+    );
+  }
+
+  /**
+   * Update participant permissions (mute/unmute)
+   */
+  async updateParticipantPermissions(
+    session: Session,
+    { student_id, canPublish }: { student_id: string; canPublish: boolean }
+  ) {
+    const rooms = await this.roomService.listRooms([session.room_name]);
+    if (rooms.length === 0) {
+      throw new Error('Class room does not exist');
+    }
+
+    const room = rooms[0];
+    const metadata = JSON.parse(room.metadata) as ClassMetadata;
+
+    if (metadata.instructor_id !== session.user_id) {
+      throw new Error('Only the instructor can manage participant permissions');
+    }
+
+    const participant = await this.roomService.getParticipant(
+      session.room_name,
+      student_id
+    );
+
+    const permission = participant.permission || ({} as ParticipantPermission);
+    permission.canPublish = canPublish;
+
+    await this.roomService.updateParticipant(
+      session.room_name,
+      student_id,
+      participant.metadata,
+      permission
     );
   }
 

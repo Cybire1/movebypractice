@@ -95,13 +95,13 @@ export default function DragDropInteractive({ config }: DragDropInteractiveProps
   return (
     <div className="space-y-8 py-4 select-none">
       <div className="text-center space-y-2">
-        <div className="flex items-center justify-center gap-2 text-zinc-500 font-medium text-sm uppercase tracking-widest">
+        <div className="flex items-center justify-center gap-2 text-foreground-secondary font-medium text-sm uppercase tracking-widest">
           <span>Drag & Drop Challenge</span>
           <span>⚡️</span>
         </div>
-        <div className="w-full max-w-xs mx-auto h-1.5 bg-zinc-100 rounded-full overflow-hidden">
+        <div className="w-full max-w-xs mx-auto h-1.5 bg-surface-secondary rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-aleo-green"
+            className="h-full bg-sui-accent"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.5 }}
@@ -110,7 +110,7 @@ export default function DragDropInteractive({ config }: DragDropInteractiveProps
       </div>
 
       {/* Items Pool */}
-      <div className="min-h-[120px] z-10 relative flex items-center justify-center p-6 bg-zinc-50/50 rounded-3xl border border-zinc-100 inner-shadow">
+      <div className="min-h-[120px] z-10 relative flex items-center justify-center p-6 bg-surface-secondary/50 rounded-3xl border border-[var(--border-subtle)] inner-shadow">
         <div className="flex gap-4 flex-wrap justify-center w-full">
           <AnimatePresence>
             {items.map((item) => {
@@ -129,11 +129,11 @@ export default function DragDropInteractive({ config }: DragDropInteractiveProps
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.8, opacity: 0 }}
-                  className="relative z-0 group px-5 py-3 bg-white rounded-xl border border-zinc-200/60 shadow-sm flex items-center gap-3 hover:border-aleo-green/50 transition-colors"
+                  className="relative z-0 group px-5 py-3 bg-surface-elevated rounded-xl border border-[var(--border-default)] shadow-sm flex items-center gap-3 hover:border-sui-accent/50 transition-colors"
                   style={{ touchAction: "none" }}
                 >
                   <span className="text-2xl filter grayscale group-hover:grayscale-0 transition-all duration-300">{item.emoji}</span>
-                  <span className="font-bold text-zinc-700 font-mono text-sm">{item.label}</span>
+                  <span className="font-bold text-foreground-secondary font-mono text-sm">{item.label}</span>
 
                   {/* Dots handle */}
                   <div className="flex flex-col gap-0.5 opacity-20 group-hover:opacity-100 transition-opacity">
@@ -161,12 +161,12 @@ export default function DragDropInteractive({ config }: DragDropInteractiveProps
               key={target.id}
               ref={(el) => { dropZoneRefs.current[target.id] = el; }}
               className={`relative overflow-hidden group min-h-[140px] p-6 rounded-3xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-4 ${placedItem
-                  ? 'border-zinc-200 bg-white'
-                  : 'border-dashed border-zinc-200 bg-zinc-50/30'
+                  ? 'border-[var(--border-default)] bg-surface-elevated'
+                  : 'border-dashed border-[var(--border-default)] bg-surface-secondary/30'
                 }`}
             >
               {/* Label */}
-              <h4 className={`text-xs font-bold uppercase tracking-widest transition-colors ${placedItem ? 'text-zinc-400' : 'text-zinc-500'}`}>
+              <h4 className={`text-xs font-bold uppercase tracking-widest transition-colors ${placedItem ? 'text-foreground-tertiary' : 'text-foreground-secondary'}`}>
                 {target.label}
               </h4>
 
@@ -200,8 +200,8 @@ export default function DragDropInteractive({ config }: DragDropInteractiveProps
                     </button>
                   </motion.div>
                 ) : (
-                  <div className={`p-4 rounded-full transition-colors bg-zinc-100`}>
-                    <svg className={`w-6 h-6 text-zinc-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className={`p-4 rounded-full transition-colors bg-surface-secondary`}>
+                    <svg className={`w-6 h-6 text-foreground-tertiary`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
                   </div>
@@ -221,10 +221,10 @@ export default function DragDropInteractive({ config }: DragDropInteractiveProps
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             className={`fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full flex items-center gap-3 shadow-2xl border z-50 ${feedback.type === 'success'
                 ? 'bg-zinc-900 text-white border-zinc-800'
-                : 'bg-white text-zinc-900 border-red-100'
+                : 'bg-surface-elevated text-foreground border-red-100'
               }`}
           >
-            <div className={`w-2 h-2 rounded-full ${feedback.type === 'success' ? 'bg-aleo-green' : 'bg-red-500 animate-pulse'}`} />
+            <div className={`w-2 h-2 rounded-full ${feedback.type === 'success' ? 'bg-sui-accent' : 'bg-red-500 animate-pulse'}`} />
             <span className="font-bold text-sm">{feedback.message}</span>
           </motion.div>
         )}

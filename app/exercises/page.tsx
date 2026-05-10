@@ -89,14 +89,14 @@ export default function ExercisesPage() {
   // If an exercise is selected, show the practice interface
   if (selectedExercise) {
     return (
-      <div className="min-h-screen bg-[#FDFDFD] pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
+      <div className="min-h-screen bg-surface pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           {/* Back Button */}
           <button
             onClick={() => setSelectedExercise(null)}
-            className="mb-8 flex items-center gap-2 text-zinc-500 hover:text-zinc-900 font-medium transition-colors group"
+            className="mb-8 flex items-center gap-2 text-foreground-secondary hover:text-foreground font-medium transition-colors group"
           >
-            <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center group-hover:bg-zinc-200 transition-colors">
+            <div className="w-8 h-8 rounded-full bg-surface-secondary flex items-center justify-center group-hover:bg-[var(--border-default)] transition-colors">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
@@ -115,7 +115,7 @@ export default function ExercisesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] pt-24 pb-12 px-4 sm:px-6 font-sans text-zinc-900">
+    <div className="min-h-screen bg-surface pt-28 sm:pt-32 pb-12 px-4 sm:px-6 font-sans text-foreground">
       <div className="max-w-7xl mx-auto space-y-12">
 
         {/* Header Section */}
@@ -125,10 +125,10 @@ export default function ExercisesPage() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-2"
           >
-            <h1 className="text-6xl font-black tracking-tight text-zinc-900">
+            <h1 className="text-6xl font-black tracking-tight text-foreground">
               Practice Hub
             </h1>
-            <p className="text-xl text-zinc-500 font-medium max-w-lg">
+            <p className="text-xl text-foreground-secondary font-medium max-w-lg">
               Master Move language concepts through hands-on interactive challenges.
             </p>
           </motion.div>
@@ -182,12 +182,12 @@ export default function ExercisesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-3xl border border-zinc-200 p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
+            className="bg-surface-elevated rounded-3xl border border-[var(--border-default)] p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
           >
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-50 rounded-full" />
             <div className="relative z-10 text-center">
               <div className="text-4xl font-black text-blue-600 mb-2">{stats.masteredExercises}</div>
-              <div className="text-sm font-bold text-zinc-500 uppercase tracking-wide">Exercises Mastered</div>
+              <div className="text-sm font-bold text-foreground-secondary uppercase tracking-wide">Exercises Mastered</div>
             </div>
           </motion.div>
 
@@ -196,12 +196,12 @@ export default function ExercisesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white rounded-3xl border border-zinc-200 p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
+            className="bg-surface-elevated rounded-3xl border border-[var(--border-default)] p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
           >
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-green-50 rounded-full" />
             <div className="relative z-10 text-center">
               <div className="text-4xl font-black text-green-600 mb-2">{stats.totalXP}</div>
-              <div className="text-sm font-bold text-zinc-500 uppercase tracking-wide">Total XP Earned</div>
+              <div className="text-sm font-bold text-foreground-secondary uppercase tracking-wide">Total XP Earned</div>
             </div>
           </motion.div>
         </div>
@@ -212,14 +212,14 @@ export default function ExercisesPage() {
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl shadow-zinc-200/20 rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between"
+            className="bg-[var(--surface-overlay)] backdrop-blur-xl border border-[var(--border-default)] shadow-xl shadow-zinc-200/20 rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between"
           >
             {/* Left: Dropdowns */}
             <div className="flex flex-wrap gap-2">
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as ExerciseType | 'all')}
-                className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-semibold text-sm rounded-xl px-4 py-2.5 border-none outline-none focus:ring-2 focus:ring-zinc-900/10 cursor-pointer transition-colors appearance-none"
+                className="bg-surface-secondary hover:bg-[var(--border-default)] text-foreground-secondary font-semibold text-sm rounded-xl px-4 py-2.5 border-none outline-none focus:ring-2 focus:ring-zinc-900/10 cursor-pointer transition-colors appearance-none"
                 style={{ backgroundImage: 'none' }}
               >
                 <option value="all">All Types</option>
@@ -232,7 +232,7 @@ export default function ExercisesPage() {
               <select
                 value={filterDifficulty}
                 onChange={(e) => setFilterDifficulty(e.target.value as ExerciseDifficulty | 'all')}
-                className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-semibold text-sm rounded-xl px-4 py-2.5 border-none outline-none focus:ring-2 focus:ring-zinc-900/10 cursor-pointer transition-colors appearance-none"
+                className="bg-surface-secondary hover:bg-[var(--border-default)] text-foreground-secondary font-semibold text-sm rounded-xl px-4 py-2.5 border-none outline-none focus:ring-2 focus:ring-zinc-900/10 cursor-pointer transition-colors appearance-none"
                 style={{ backgroundImage: 'none' }}
               >
                 <option value="all">All Difficulties</option>
@@ -244,7 +244,7 @@ export default function ExercisesPage() {
               <select
                 value={filterTopic}
                 onChange={(e) => setFilterTopic(e.target.value as ExerciseTopic | 'all')}
-                className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-semibold text-sm rounded-xl px-4 py-2.5 border-none outline-none focus:ring-2 focus:ring-zinc-900/10 cursor-pointer transition-colors appearance-none"
+                className="bg-surface-secondary hover:bg-[var(--border-default)] text-foreground-secondary font-semibold text-sm rounded-xl px-4 py-2.5 border-none outline-none focus:ring-2 focus:ring-zinc-900/10 cursor-pointer transition-colors appearance-none"
                 style={{ backgroundImage: 'none' }}
               >
                 <option value="all">All Topics</option>
@@ -268,7 +268,7 @@ export default function ExercisesPage() {
                   {showCompleted && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M5 13l4 4L19 7" /></svg>}
                 </div>
                 <input type="checkbox" checked={showCompleted} onChange={(e) => setShowCompleted(e.target.checked)} className="hidden" />
-                <span className="text-sm font-semibold text-zinc-600 group-hover:text-zinc-900 transition-colors">Show Completed</span>
+                <span className="text-sm font-semibold text-foreground-secondary group-hover:text-zinc-900 transition-colors">Show Completed</span>
               </label>
             </div>
           </motion.div>
@@ -277,10 +277,10 @@ export default function ExercisesPage() {
         {/* Exercises Grid */}
         <div>
           {filteredExercises.length === 0 ? (
-            <div className="text-center py-24 bg-zinc-50 rounded-3xl border-2 border-dashed border-zinc-200">
+            <div className="text-center py-24 bg-surface-secondary rounded-3xl border-2 border-dashed border-[var(--border-default)]">
               <div className="text-8xl mb-6 opacity-20 filter grayscale">🦖</div>
-              <h3 className="text-2xl font-black text-zinc-400 mb-2">No Challenges Found</h3>
-              <p className="text-zinc-400 font-medium">Try loosening your filters to find more exercises.</p>
+              <h3 className="text-2xl font-black text-foreground-tertiary mb-2">No Challenges Found</h3>
+              <p className="text-foreground-tertiary font-medium">Try loosening your filters to find more exercises.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -295,7 +295,7 @@ export default function ExercisesPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                     onClick={() => setSelectedExercise(exercise)}
-                    className="bg-white rounded-3xl border border-zinc-200 p-6 md:p-8 cursor-pointer group hover:shadow-xl hover:shadow-zinc-200/50 hover:border-zinc-300 transition-all hover:-translate-y-1 relative overflow-hidden"
+                    className="bg-surface-elevated rounded-3xl border border-[var(--border-default)] p-6 md:p-8 cursor-pointer group hover:shadow-xl hover:shadow-zinc-200/50 hover:border-foreground-tertiary transition-all hover:-translate-y-1 relative overflow-hidden"
                   >
                     <div className="flex justify-between items-start mb-6 relative z-10">
                       <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border ${getDifficultyColor(exercise.difficulty)}`}>
@@ -309,16 +309,16 @@ export default function ExercisesPage() {
                     </div>
 
                     <div className="relative z-10">
-                      <h3 className="text-xl font-bold text-zinc-900 mb-2 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-blue-600 transition-colors">
                         {exercise.title}
                       </h3>
-                      <p className="text-sm text-zinc-500 font-medium line-clamp-2 mb-6">
+                      <p className="text-sm text-foreground-secondary font-medium line-clamp-2 mb-6">
                         {exercise.description}
                       </p>
 
-                      <div className="flex items-center justify-between text-xs font-bold text-zinc-400 uppercase tracking-wider">
+                      <div className="flex items-center justify-between text-xs font-bold text-foreground-tertiary uppercase tracking-wider">
                         <span className="flex items-center gap-1">
-                          <span className="w-2 h-2 rounded-full bg-zinc-300"></span>
+                          <span className="w-2 h-2 rounded-full bg-foreground-tertiary"></span>
                           {exercise.type.replace('_', ' ')}
                         </span>
                         <span>{exercise.baseXP} XP</span>
@@ -326,7 +326,7 @@ export default function ExercisesPage() {
                     </div>
 
                     {/* Hover Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-zinc-50 opacity-0 group-hover:opacity-100 transition-opacity z-0" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-surface via-surface to-surface-secondary opacity-0 group-hover:opacity-100 transition-opacity z-0" />
                   </motion.div>
                 );
               })}

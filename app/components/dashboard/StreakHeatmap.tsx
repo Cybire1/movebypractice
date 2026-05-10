@@ -90,7 +90,7 @@ export default function StreakHeatmap() {
 
   const getLevelColor = (level: number) => {
     const colors = {
-      0: 'bg-sui-gray-100',
+      0: 'bg-surface-secondary',
       1: 'bg-green-200',
       2: 'bg-green-400',
       3: 'bg-green-600',
@@ -101,7 +101,7 @@ export default function StreakHeatmap() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
+      <div className="bg-surface-elevated rounded-3xl shadow-lg p-6 md:p-8">
         <div className="h-48 flex items-center justify-center">
           <div className="w-12 h-12 border-4 border-sui-ocean border-t-transparent rounded-full animate-spin"></div>
         </div>
@@ -116,12 +116,12 @@ export default function StreakHeatmap() {
   }
 
   return (
-    <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
+    <div className="bg-surface-elevated rounded-3xl shadow-lg p-6 md:p-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-sui-navy">Activity Streak</h2>
-          <p className="text-sui-gray-600 text-sm mt-1">
+          <h2 className="text-2xl font-bold text-foreground">Activity Streak</h2>
+          <p className="text-foreground-secondary text-sm mt-1">
             {totalActiveDays} active days this year
           </p>
         </div>
@@ -136,7 +136,7 @@ export default function StreakHeatmap() {
           {/* Day labels */}
           <div className="flex gap-1 mb-2 pl-12">
             {['Mon', 'Wed', 'Fri'].map((day, i) => (
-              <div key={day} className="text-xs text-sui-gray-500 w-3" style={{ marginLeft: i === 0 ? 0 : '24px' }}>
+              <div key={day} className="text-xs text-foreground-tertiary w-3" style={{ marginLeft: i === 0 ? 0 : '24px' }}>
                 {day}
               </div>
             ))}
@@ -147,7 +147,7 @@ export default function StreakHeatmap() {
             {/* Month labels column */}
             <div className="flex flex-col gap-1 w-10">
               {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, i) => (
-                <div key={month} className="text-xs text-sui-gray-500 h-3">
+                <div key={month} className="text-xs text-foreground-tertiary h-3">
                   {i % 3 === 0 ? month : ''}
                 </div>
               ))}
@@ -172,8 +172,8 @@ export default function StreakHeatmap() {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-between mt-6 pt-6 border-t border-sui-gray-200">
-        <span className="text-sm text-sui-gray-600">Less</span>
+      <div className="flex items-center justify-between mt-6 pt-6 border-t border-[var(--border-default)]">
+        <span className="text-sm text-foreground-secondary">Less</span>
         <div className="flex gap-1">
           {[0, 1, 2, 3, 4].map((level) => (
             <div
@@ -182,7 +182,7 @@ export default function StreakHeatmap() {
             ></div>
           ))}
         </div>
-        <span className="text-sm text-sui-gray-600">More</span>
+        <span className="text-sm text-foreground-secondary">More</span>
       </div>
     </div>
   );

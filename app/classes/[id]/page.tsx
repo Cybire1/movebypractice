@@ -57,7 +57,7 @@ export default function ClassDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7]">
-        <div className="w-16 h-16 border-4 border-aleo-green border-t-transparent rounded-full animate-spin" />
+        <div className="w-16 h-16 border-4 border-sui-accent border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -67,7 +67,7 @@ export default function ClassDetailPage() {
       <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7]">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-zinc-900 mb-4">Class Not Found</h1>
-          <Link href="/classes" className="text-aleo-green font-semibold hover:underline">
+          <Link href="/classes" className="text-sui-accent font-semibold hover:underline">
             ← Back to Classes
           </Link>
         </div>
@@ -111,7 +111,7 @@ export default function ClassDetailPage() {
       <div className="absolute inset-0 bg-grid-graph opacity-60 pointer-events-none fixed" />
 
       <div className="max-w-4xl mx-auto relative z-10">
-        <Link href="/classes" className="inline-flex items-center gap-2 text-zinc-500 hover:text-aleo-green transition-colors mb-8 text-sm font-bold">
+        <Link href="/classes" className="inline-flex items-center gap-2 text-zinc-500 hover:text-sui-accent transition-colors mb-8 text-sm font-bold">
           ← Back to Classes
         </Link>
 
@@ -129,8 +129,8 @@ export default function ClassDetailPage() {
               </span>
             )}
             {classData.status === 'scheduled' && (
-              <span className="flex items-center gap-2 px-4 py-2 bg-aleo-green/10 border border-aleo-green/20 rounded-full">
-                <span className="text-sm font-bold text-aleo-green-dark">SCHEDULED</span>
+              <span className="flex items-center gap-2 px-4 py-2 bg-sui-accent/10 border border-sui-accent/20 rounded-full">
+                <span className="text-sm font-bold text-sui-accent-dark">SCHEDULED</span>
               </span>
             )}
             <span className="text-sm text-zinc-500 font-medium">
@@ -174,7 +174,7 @@ export default function ClassDetailPage() {
               </span>
             )}
             {classData.qaEnabled && (
-              <span className="px-4 py-2 bg-aleo-green/10 text-aleo-green-dark rounded-full text-sm font-semibold">
+              <span className="px-4 py-2 bg-sui-accent/10 text-sui-accent-dark rounded-full text-sm font-semibold">
                 ❓ Q&A Enabled
               </span>
             )}
@@ -190,7 +190,7 @@ export default function ClassDetailPage() {
             {classData.status === 'live' && (
               <Link
                 href={`/classes/watch/${classData.id}`}
-                className="px-8 py-4 bg-aleo-green text-zinc-900 rounded-full font-bold text-lg hover:bg-aleo-green-dim transition-colors shadow-lg shadow-aleo-green/30 inline-flex items-center gap-2"
+                className="px-8 py-4 bg-sui-accent text-zinc-900 rounded-full font-bold text-lg hover:bg-sui-accent-dim transition-colors shadow-lg shadow-sui-accent/30 inline-flex items-center gap-2"
               >
                 <span>Join Live Stream</span>
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -205,7 +205,7 @@ export default function ClassDetailPage() {
                   <button
                     onClick={startClass}
                     disabled={starting}
-                    className="px-8 py-4 bg-aleo-green text-zinc-900 rounded-full font-bold text-lg hover:bg-aleo-green-dim transition-colors shadow-lg shadow-aleo-green/30 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
+                    className="px-8 py-4 bg-sui-accent text-zinc-900 rounded-full font-bold text-lg hover:bg-sui-accent-dim transition-colors shadow-lg shadow-sui-accent/30 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
                   >
                     {starting ? (
                       <>
@@ -222,7 +222,7 @@ export default function ClassDetailPage() {
                     )}
                   </button>
                 ) : (
-                  <button className="px-8 py-4 bg-aleo-green text-zinc-900 rounded-full font-bold text-lg hover:bg-aleo-green-dim transition-colors shadow-lg shadow-aleo-green/30">
+                  <button className="px-8 py-4 bg-sui-accent text-zinc-900 rounded-full font-bold text-lg hover:bg-sui-accent-dim transition-colors shadow-lg shadow-sui-accent/30">
                     Register for Class
                   </button>
                 )}

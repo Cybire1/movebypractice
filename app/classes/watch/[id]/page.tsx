@@ -104,7 +104,7 @@ export default function WatchClassPage({
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-950">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-aleo-green border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-16 h-16 border-4 border-sui-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-white text-lg">Joining class...</p>
         </div>
       </div>
@@ -120,7 +120,7 @@ export default function WatchClassPage({
           <p className="text-gray-400 mb-6">{error}</p>
           <button
             onClick={joinClass}
-            className="px-6 py-3 bg-aleo-green hover:bg-aleo-green-dim text-zinc-900 rounded-lg font-semibold transition-colors"
+            className="px-6 py-3 bg-sui-accent hover:bg-sui-accent-dim text-zinc-900 rounded-lg font-semibold transition-colors"
           >
             Try Again
           </button>
@@ -183,7 +183,7 @@ export default function WatchClassPage({
 
               {/* Tab content */}
               <div className="flex-1 min-h-0">
-                {activeTab === 'chat' && <ClassChat />}
+                {activeTab === 'chat' && <ClassChat classId={classId} />}
                 {activeTab === 'qa' && (
                   <QuestionsPanel classId={classId} isInstructor={isInstructor} />
                 )}
@@ -194,9 +194,9 @@ export default function WatchClassPage({
 
               {/* Actions */}
               {isInstructor ? (
-                <div className="bg-aleo-green/10 border border-aleo-green/20 rounded-lg p-4">
+                <div className="bg-sui-accent/10 border border-sui-accent/20 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-aleo-green text-sm font-bold">👨‍🏫 Instructor Mode</span>
+                    <span className="text-sui-accent text-sm font-bold">👨‍🏫 Instructor Mode</span>
                   </div>
                   <p className="text-gray-400 text-xs">
                     You have full control of this class. Students can see your video and audio.

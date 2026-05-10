@@ -3,74 +3,51 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const codeSnippet = `program token.aleo {
-    // Private token with zero-knowledge transfers
+const codeSnippet = `module token::token {
+    use sui::coin::{Self, Coin, TreasuryCap};
+    use sui::transfer;
+    use sui::tx_context::{Self, TxContext};
 
-    record Token {
-        owner: address,
+    /// The type identifier of our token
+    struct TOKEN has drop {}
+
+    /// Initialize the token module
+    fun init(witness: TOKEN, ctx: &mut TxContext) {
+        let (treasury, metadata) = coin::create_currency(
+            witness, 9,
+            b"TOKEN", b"Token",
+            b"A custom token on Sui",
+            option::none(), ctx
+        );
+        transfer::public_freeze_object(metadata);
+        transfer::public_transfer(treasury, tx_context::sender(ctx));
+    }
+
+    /// Mint new tokens
+    public entry fun mint(
+        treasury: &mut TreasuryCap<TOKEN>,
         amount: u64,
-    }
-
-    mapping balances: address => u64;
-
-    // Mint new tokens privately
-    transition mint_private(
-        receiver: address,
-        amount: u64
-    ) -> Token {
-        return Token {
-            owner: receiver,
-            amount: amount,
-        };
-    }
-
-    // Transfer tokens privately
-    transition transfer_private(
-        sender: Token,
-        receiver: address,
-        amount: u64
-    ) -> (Token, Token) {
-        let difference: u64 = sender.amount - amount;
-
-        let remaining: Token = Token {
-            owner: sender.owner,
-            amount: difference,
-        };
-
-        let transferred: Token = Token {
-            owner: receiver,
-            amount: amount,
-        };
-
-        return (remaining, transferred);
-    }
-
-    // Transfer tokens publicly
-    transition transfer_public(
-        public receiver: address,
-        public amount: u64
+        recipient: address,
+        ctx: &mut TxContext
     ) {
-        return then finalize(self.caller, receiver, amount);
+        let coin = coin::mint(treasury, amount, ctx);
+        transfer::public_transfer(coin, recipient);
     }
 
-    finalize transfer_public(
-        sender: address,
-        receiver: address,
-        amount: u64
+    /// Transfer tokens to a recipient
+    public entry fun transfer_token(
+        token: Coin<TOKEN>,
+        recipient: address,
     ) {
-        let sender_balance: u64 = Mapping::get_or_use(
-            balances,
-            sender,
-            0u64
-        );
-        Mapping::set(balances, sender, sender_balance - amount);
+        transfer::public_transfer(token, recipient);
+    }
 
-        let receiver_balance: u64 = Mapping::get_or_use(
-            balances,
-            receiver,
-            0u64
-        );
-        Mapping::set(balances, receiver, receiver_balance + amount);
+    /// Burn tokens
+    public entry fun burn(
+        treasury: &mut TreasuryCap<TOKEN>,
+        token: Coin<TOKEN>,
+    ) {
+        coin::burn(treasury, token);
     }
 }`;
 
@@ -129,8 +106,8 @@ export default function InteractiveCodeVisualizer() {
                         <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29]"></div>
                     </div>
                     <div className="text-[10px] font-mono font-medium text-gray-500 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-aleo-green/20"></span>
-                        token.aleo
+                        <span className="w-2 h-2 rounded-full bg-sui-accent/20"></span>
+                        token.move
                     </div>
                     <div className="w-12"></div> {/* Spacer for center alignment */}
                 </div>
@@ -138,28 +115,28 @@ export default function InteractiveCodeVisualizer() {
                 {/* Code Area */}
                 <div ref={scrollRef} className="p-6 h-[400px] overflow-y-auto font-mono text-sm leading-relaxed no-scrollbar scroll-smooth bg-white text-gray-800">
                     <pre className="whitespace-pre-wrap">
-                        <code className="language-leo">
+                        <code className="language-move">
                             {displayedCode.split(/(\s+)/).map((chunk, i) => {
-                                // Light Mode Leo Syntax Highlighting
+                                // Light Mode Move Syntax Highlighting
                                 let color = "text-gray-800";
 
                                 // Keywords (red/pink)
-                                if (["program", "record", "struct", "mapping", "transition", "finalize", "return", "let", "if", "else", "for", "public", "private", "const", "function", "inline", "then"].includes(chunk.trim())) {
+                                if (["module", "struct", "fun", "public", "entry", "use", "let", "return", "if", "else", "for", "const", "has", "drop", "store", "key", "copy", "transfer", "mut"].includes(chunk.trim())) {
                                     color = "text-red-500 font-bold";
                                 }
 
                                 // Types (blue)
-                                if (["u8", "u16", "u32", "u64", "u128", "i8", "i16", "i32", "i64", "i128", "field", "group", "scalar", "address", "bool", "Token"].includes(chunk.trim())) {
+                                if (["u8", "u16", "u32", "u64", "u128", "u256", "address", "bool", "vector", "option", "Coin", "TreasuryCap", "TxContext", "TOKEN"].includes(chunk.trim())) {
                                     color = "text-blue-600 font-bold";
                                 }
 
                                 // Built-in functions (blue)
-                                if (["Mapping::get", "Mapping::set", "Mapping::get_or_use", "self.caller", "self.signer"].includes(chunk.trim())) {
+                                if (["coin::mint", "coin::burn", "coin::create_currency", "transfer::public_transfer", "transfer::public_freeze_object", "tx_context::sender"].includes(chunk.trim())) {
                                     color = "text-blue-600 font-bold";
                                 }
 
                                 // Special keywords (purple)
-                                if (["owner", "amount", "sender", "receiver", "balances"].includes(chunk.trim())) {
+                                if (["treasury", "recipient", "amount", "witness", "coin", "metadata", "token", "ctx"].includes(chunk.trim())) {
                                     color = "text-purple-600";
                                 }
 
@@ -168,8 +145,8 @@ export default function InteractiveCodeVisualizer() {
                                     color = "text-green-600";
                                 }
 
-                                // Program name (orange)
-                                if (chunk.trim().includes(".aleo")) {
+                                // Module name (orange)
+                                if (chunk.trim().includes("::") && !chunk.trim().startsWith("//")) {
                                     color = "text-orange-600 font-semibold";
                                 }
 

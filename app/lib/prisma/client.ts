@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client'
 import { Pool } from 'pg'
 
 const prismaClientSingleton = () => {
-  // Ensure DATABASE_URL is available
   if (!process.env.DATABASE_URL) {
     throw new Error(
       'DATABASE_URL environment variable is not set. Please check your .env file.'
@@ -26,8 +25,22 @@ declare global {
   var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>
 }
 
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
+function getPrismaClient() {
+  if (!globalThis.prismaGlobal) {
+    globalThis.prismaGlobal = prismaClientSingleton()
+  }
+  return globalThis.prismaGlobal
+}
+
+const prisma = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    const client = getPrismaClient()
+    const value = (client as any)[prop]
+    if (typeof value === 'function') {
+      return value.bind(client)
+    }
+    return value
+  },
+})
 
 export default prisma
-
-if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma

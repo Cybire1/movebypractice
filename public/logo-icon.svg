@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="14" fill="#0a0a0a"/>
+  <defs>
+    <linearGradient id="icon-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A90D9"/>
+      <stop offset="100%" stop-color="#6BB5FF"/>
+    </linearGradient>
+  </defs>
+  <!-- Left half: white, shifted up-left -->
+  <path d="M 32 10 A 17 17 0 0 0 32 44 Z" fill="#ffffff" transform="translate(-3, -2)"/>
+  <!-- Right half: blue gradient, shifted down-right -->
+  <path d="M 32 10 A 17 17 0 0 1 32 44 Z" fill="url(#icon-gradient)" transform="translate(3, 2)"/>
+</svg>

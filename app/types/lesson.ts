@@ -40,7 +40,10 @@ export interface TeachingSection {
 }
 
 // Quiz weakness topics for personalized practice
-export type WeaknessTopic = 'abilities' | 'ownership' | 'entry-functions' | 'types' | 'structs' | 'modules';
+export type WeaknessTopic = 'abilities' | 'ownership' | 'entry-functions' | 'types' | 'structs' | 'modules'
+  | 'messaging-concepts' | 'sdk-setup' | 'channels' | 'encryption' | 'walrus-storage' | 'react-patterns' | 'production-config'
+  | 'move-basics' | 'move-types' | 'control-flow' | 'structs-objects' | 'collections' | 'ownership-transfer' | 'generics'
+  | 'deepbook-predict';
 
 export interface QuizQuestion {
   question: string;
@@ -67,6 +70,7 @@ export interface LessonContent {
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   xpReward: number;
   order: number;
+  language?: 'move' | 'typescript';
 
   // Narrative-driven storytelling
   narrative: LessonNarrative;

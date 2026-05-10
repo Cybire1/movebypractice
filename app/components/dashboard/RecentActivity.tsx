@@ -103,7 +103,7 @@ export default function RecentActivity() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
+      <div className="bg-surface-elevated rounded-3xl shadow-lg p-6 md:p-8">
         <div className="h-96 flex items-center justify-center">
           <div className="w-12 h-12 border-4 border-sui-ocean border-t-transparent rounded-full animate-spin"></div>
         </div>
@@ -112,12 +112,12 @@ export default function RecentActivity() {
   }
 
   return (
-    <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8 h-fit sticky top-24">
+    <div className="bg-surface-elevated rounded-3xl shadow-lg p-6 md:p-8 h-fit sticky top-24">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-sui-navy">Recent Activity</h2>
-          <p className="text-sui-gray-600 text-sm mt-1">Your latest achievements</p>
+          <h2 className="text-2xl font-bold text-foreground">Recent Activity</h2>
+          <p className="text-foreground-secondary text-sm mt-1">Your latest achievements</p>
         </div>
         <div className="w-12 h-12 bg-sui-sky rounded-xl flex items-center justify-center">
           <span className="text-2xl">⚡</span>
@@ -142,13 +142,13 @@ export default function RecentActivity() {
 
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-sui-navy text-sm">
+                <p className="font-semibold text-foreground text-sm">
                   {activity.title}
                 </p>
-                <p className="text-sui-gray-600 text-xs mt-1">
+                <p className="text-foreground-secondary text-xs mt-1">
                   {activity.description}
                 </p>
-                <p className="text-sui-gray-500 text-xs mt-1">
+                <p className="text-foreground-tertiary text-xs mt-1">
                   {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
                 </p>
               </div>
@@ -157,8 +157,8 @@ export default function RecentActivity() {
         ) : (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🎯</div>
-            <p className="text-sui-gray-600 font-medium">No activity yet</p>
-            <p className="text-sui-gray-500 text-sm mt-2">
+            <p className="text-foreground-secondary font-medium">No activity yet</p>
+            <p className="text-foreground-tertiary text-sm mt-2">
               Start learning to see your activity here!
             </p>
           </div>
@@ -167,7 +167,7 @@ export default function RecentActivity() {
 
       {/* View All Link */}
       {activities.length > 0 && (
-        <div className="mt-6 pt-6 border-t border-sui-gray-200">
+        <div className="mt-6 pt-6 border-t border-[var(--border-default)]">
           <button className="w-full px-4 py-2 bg-sui-sky text-sui-ocean font-semibold rounded-xl hover:bg-sui-ocean hover:text-white transition-colors">
             View All Activity
           </button>

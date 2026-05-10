@@ -32,7 +32,12 @@ export type ExerciseTopic =
   | 'ownership'
   | 'storage'
   | 'transfer'
-  | 'testing';
+  | 'testing'
+  | 'messaging'
+  | 'encryption'
+  | 'sdk_integration'
+  | 'react_patterns'
+  | 'deepbook_predict';
 
 // ============================================================================
 // BASE EXERCISE INTERFACE
@@ -85,7 +90,7 @@ export interface CodeCompletionExercise extends BaseExercise {
   caseSensitive?: boolean;        // Case-sensitive validation
 
   // Display
-  language: 'move' | 'rust';
+  language: 'move' | 'rust' | 'typescript';
   readOnlyRanges?: {              // Parts user can't edit
     start: number;
     end: number;
@@ -123,7 +128,7 @@ export interface BugFixExercise extends BaseExercise {
   }[];
 
   // Display
-  language: 'move' | 'rust';
+  language: 'move' | 'rust' | 'typescript';
   highlightBugLines?: boolean;    // Show which lines have bugs
 }
 
@@ -163,7 +168,7 @@ export interface OutputPredictionExercise extends BaseExercise {
 
   // Code to analyze
   code: string;                   // Code to predict output for
-  language: 'move' | 'rust';
+  language: 'move' | 'rust' | 'typescript';
 
   // Expected output
   correctOutput: string;

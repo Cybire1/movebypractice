@@ -7,11 +7,11 @@ import { LessonContent, WeaknessTopic } from '@/app/types/lesson';
 import { useGameStore } from '@/app/lib/store/gameStore';
 import TeachingSlide from './TeachingSlide';
 import QuizComponent from './QuizComponent';
-import MoveEditor from '../editor/MoveEditor';
+import TypeScriptEditor from '../editor/TypeScriptEditor';
 import XPProgress from '../gamification/XPProgress';
 import Confetti from '../gamification/Confetti';
 import PhaseProgress from './PhaseProgress';
-import { compileMove } from '@/app/lib/compiler/moveCompiler';
+import { validateTypeScript } from '@/app/lib/compiler/tsPatternValidator';
 import ExerciseRenderer from '../exercises/ExerciseRenderer';
 import { getExerciseById } from '@/app/data/exercises';
 import { ValidationResult, ExerciseFeedback } from '@/app/types/exercises';
@@ -85,10 +85,9 @@ export default function LessonView({ lesson }: LessonViewProps) {
 
   // Practice phase handlers
   const handleRunCode = async (code: string) => {
-    setOutput('🚀 Compiling Move code with real compiler...\n');
-
+    setOutput('🔍 Validating TypeScript code...\n');
     try {
-      const result = await compileMove(code);
+      const result = await validateTypeScript(code, lesson.solution);
       setOutput(result.output);
 
       if (result.success) {
@@ -98,7 +97,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
       }
     } catch (error) {
       setOutput(
-        '❌ Compilation error:\n\n' +
+        '❌ Validation error:\n\n' +
         (error instanceof Error ? error.message : 'Unknown error') +
         '\n\nCheck the hints if you need help!'
       );
@@ -125,7 +124,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="min-h-screen bg-[#FAFAFA] text-zinc-900"
+          className="min-h-screen bg-surface-secondary text-foreground"
         >
           {/* Noise Texture */}
           <div className="fixed inset-0 z-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat" />
@@ -136,7 +135,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
             <div className="max-w-4xl mx-auto mb-16">
               <Link
                 href="/lessons"
-                className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-900 transition-colors text-sm font-medium tracking-wide uppercase"
+                className="inline-flex items-center gap-2 text-foreground-tertiary hover:text-foreground transition-colors text-sm font-medium tracking-wide uppercase"
               >
                 ← Curriculum
               </Link>
@@ -147,16 +146,16 @@ export default function LessonView({ lesson }: LessonViewProps) {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-2 mb-8 bg-white px-4 py-2 rounded-full border border-zinc-200 shadow-sm"
+                className="inline-flex items-center gap-2 mb-8 bg-surface-elevated px-4 py-2 rounded-full border border-[var(--border-default)] shadow-sm"
               >
                 <div className={`w-2 h-2 rounded-full
                     ${lesson.difficulty === 'beginner' ? 'bg-green-500' : 'bg-blue-500'}
                 `} />
-                <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+                <span className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
                   {lesson.difficulty}
                 </span>
-                <div className="w-px h-3 bg-zinc-200 mx-2" />
-                <span className="text-xs font-bold text-zinc-400">
+                <div className="w-px h-3 bg-[var(--border-default)] mx-2" />
+                <span className="text-xs font-bold text-foreground-tertiary">
                   +{lesson.xpReward} XP
                 </span>
               </motion.div>
@@ -166,7 +165,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="text-7xl md:text-9xl font-black tracking-tighter-swiss text-zinc-900 mb-8 leading-[0.9]"
+                className="text-7xl md:text-9xl font-black tracking-tighter-swiss text-foreground mb-8 leading-[0.9]"
               >
                 {lesson.title}
               </motion.h1>
@@ -176,7 +175,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="text-xl md:text-2xl text-zinc-500 max-w-2xl mx-auto font-medium leading-relaxed"
+                className="text-xl md:text-2xl text-foreground-secondary max-w-2xl mx-auto font-medium leading-relaxed"
               >
                 {lesson.description}
               </motion.p>
@@ -205,15 +204,15 @@ export default function LessonView({ lesson }: LessonViewProps) {
 
           {/* Timeline Section */}
           <div className="relative z-10 px-6 pb-40">
-            <div className="max-w-3xl mx-auto mb-12 border-t border-zinc-200 pt-16">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-400 mb-8">Lesson Syllabus</h3>
+            <div className="max-w-3xl mx-auto mb-12 border-t border-[var(--border-default)] pt-16">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-foreground-tertiary mb-8">Lesson Syllabus</h3>
             </div>
 
             {lesson.teachingSections ? (
               <LessonTimeline sections={lesson.teachingSections} />
             ) : (
-              <div className="max-w-3xl mx-auto text-center p-12 bg-zinc-50 rounded-2xl border border-dashed border-zinc-200">
-                <span className="text-zinc-400">Legacy Lesson Format (Timeline unavailable)</span>
+              <div className="max-w-3xl mx-auto text-center p-12 bg-surface-secondary rounded-2xl border border-dashed border-[var(--border-default)]">
+                <span className="text-foreground-tertiary">Legacy Lesson Format (Timeline unavailable)</span>
               </div>
             )}
           </div>
@@ -329,7 +328,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
 
         <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
           {/* Left Panel - Instructions & Hints */}
-          <div className="w-full lg:w-1/2 p-8 overflow-y-auto bg-white border-r border-sui-gray-200">
+          <div className="w-full lg:w-1/2 p-8 overflow-y-auto bg-surface border-r border-[var(--border-default)]">
             <div className="mb-8">
               <XPProgress />
             </div>
@@ -409,7 +408,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
           {/* Right Panel - Code Editor */}
           <div className="w-full lg:w-1/2 p-8 flex flex-col bg-sui-gray-50">
             <div className="flex-1 mb-6">
-              <MoveEditor
+              <TypeScriptEditor
                 defaultValue={lesson.starterCode}
                 onChange={setCode}
                 onRun={handleRunCode}
@@ -418,7 +417,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
             </div>
 
             {/* Output Console */}
-            <div className="h-56 bg-white border-2 border-sui-gray-200 rounded-2xl p-6 overflow-y-auto">
+            <div className="h-56 bg-surface border-2 border-[var(--border-default)] rounded-2xl p-6 overflow-y-auto">
               <div className="text-xs text-sui-gray-500 font-semibold mb-3 uppercase tracking-wider">
                 Compilation Output:
               </div>

@@ -1,54 +1,25 @@
 'use client';
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import Hero from "./components/Hero";
-import Testimonials from "./components/Testimonials";
 import Link from "next/link";
-import { Card } from "@/app/components/ui/Card";
-import ConnectWallet from "@/app/components/ConnectWallet";
 import InteractiveFeatureGrid from "@/app/components/features/InteractiveFeatureGrid";
 import TimelineSection from "@/app/components/TimelineSection";
 import TestimonialsSection from "@/app/components/TestimonialsSection";
 import Footer from "@/app/components/Footer";
-import { Badge } from "./components/ui/Badge";
 
 export default function Home() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  // Smooth spring physics for scroll animations
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  // Parallax effects
-  const featuresScale = useTransform(smoothProgress, [0.1, 0.4], [0.95, 1]);
-  const stepsScale = useTransform(smoothProgress, [0.5, 0.8], [0.8, 1]);
-
   return (
-    <div ref={containerRef} className="min-h-screen bg-aleo-black text-white selection:bg-aleo-green selection:text-black">
+    <div className="min-h-screen bg-surface text-foreground selection:bg-sui-accent selection:text-sui-navy">
       {/* Hero Section */}
       <Hero />
 
-      {/* Spacer */}
-      <div className="h-20" />
-
-      {/* Features Section - Modern Bento Grid */}
-      <motion.section
+      {/* Features Section */}
+      <section
         id="features"
-        style={{ scale: featuresScale }}
-        className="py-24 px-6 relative z-20 bg-[#FAFAFA] text-black"
+        className="py-24 px-6 bg-surface-tertiary relative z-20"
       >
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-multiply skew-y-3 transform origin-top-left -z-10" />
-
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -63,33 +34,60 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="inline-block mb-6"
             >
-              <Badge variant="default" className="text-sm px-4 py-1.5">
+              <span className="px-4 py-2 bg-[var(--accent-bg)] text-[var(--accent-text)] rounded-full text-sm font-semibold border border-[var(--border-default)]">
                 Features
-              </Badge>
+              </span>
             </motion.div>
-            <h2 className="text-5xl md:text-6xl font-bold font-sans mb-6 text-black">
-              Everything You Need to <span className="text-aleo-green-dark">Master Leo</span>
+            <h2 className="text-5xl md:text-6xl font-bold font-sans mb-6 text-foreground">
+              Everything You Need to <span className="text-foreground-tertiary">Master Move</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-medium">
-              Learn Aleo's Leo language with interactive lessons, instant compilation, and hands-on zero-knowledge projects.
+            <p className="text-xl text-foreground-secondary max-w-3xl mx-auto">
+              A complete learning platform designed for developers who want to build on Sui.
             </p>
           </motion.div>
 
-          {/* Interactive Feature Grid 2.0 */}
           <InteractiveFeatureGrid />
         </div>
-      </motion.section>
+      </section>
 
-      {/* How It Works - Vertical Sticky Terminal */}
+      {/* How It Works */}
       <TimelineSection />
 
-      {/* Testimonials & Community */}
-
-      {/* Testimonials & Community */}
+      {/* Testimonials & Partner Logos */}
       <TestimonialsSection />
+
+      {/* CTA */}
+      <section className="relative py-24 md:py-32 bg-surface overflow-hidden">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="inline-block px-4 py-1.5 bg-surface-secondary text-foreground-secondary text-sm font-mono font-bold rounded-full mb-6">
+              Accepting New Students
+            </span>
+            <h2 className="text-4xl md:text-6xl font-black text-foreground mb-6 tracking-tight">
+              Ready to break stuff?
+            </h2>
+            <p className="text-xl text-foreground-secondary max-w-2xl mx-auto mb-10">
+              Join the cohort defining the future of on-chain finance on Sui.
+            </p>
+            <Link href="/lessons">
+              <span className="inline-flex items-center gap-3 px-10 py-5 bg-black text-white rounded-full hover:bg-zinc-800 transition-all font-bold text-lg hover:-translate-y-1">
+                <span>Start Building</span>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Footer */}
       <Footer />
-    </div >
+    </div>
   );
 }

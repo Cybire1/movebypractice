@@ -55,7 +55,7 @@ export default function StatsCards({ xp, level, streak, completedLessons }: Stat
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: index * 0.05 }}
           whileHover={{ scale: 1.05, y: -5 }}
-          className="bg-white rounded-2xl shadow-lg p-6 relative overflow-hidden"
+          className="bg-surface-elevated rounded-2xl shadow-lg p-6 relative overflow-hidden"
         >
           {/* Background Gradient */}
           <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${stat.color} opacity-10 rounded-full blur-2xl`}></div>
@@ -67,10 +67,10 @@ export default function StatsCards({ xp, level, streak, completedLessons }: Stat
 
           {/* Value */}
           <div className="relative z-10">
-            <p className="text-3xl md:text-4xl font-bold text-sui-navy mb-1">
+            <p className="text-3xl md:text-4xl font-bold text-foreground mb-1">
               {stat.value}
             </p>
-            <p className="text-sm text-sui-gray-600 font-medium">
+            <p className="text-sm text-foreground-secondary font-medium">
               {stat.label}
             </p>
           </div>

@@ -82,7 +82,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Au
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative pointer-events-auto"
+              className="bg-surface rounded-3xl shadow-2xl max-w-md w-full p-8 relative pointer-events-auto"
             >
               {/* Close Button */}
               <button
@@ -109,7 +109,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Au
                 <button
                   onClick={() => handleOAuthLogin('google')}
                   disabled={loading}
-                  className="w-full px-6 py-3 bg-white border-2 border-sui-gray-300 rounded-full hover:border-sui-ocean transition-all font-semibold text-sui-navy flex items-center justify-center gap-3"
+                  className="w-full px-6 py-3 bg-surface-elevated border-2 border-[var(--border-default)] rounded-full hover:border-sui-ocean transition-all font-semibold text-foreground flex items-center justify-center gap-3"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -135,10 +135,10 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Au
               {/* Divider */}
               <div className="relative mb-6">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-sui-gray-200"></div>
+                  <div className="w-full border-t border-[var(--border-default)]"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-sui-gray-500">or continue with email</span>
+                  <span className="px-4 bg-surface text-foreground-secondary">or continue with email</span>
                 </div>
               </div>
 
@@ -154,7 +154,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Au
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className="w-full px-4 py-3 border-2 border-sui-gray-300 rounded-xl focus:border-sui-ocean focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 border-2 border-[var(--border-default)] rounded-xl focus:border-sui-ocean focus:outline-none transition-colors bg-surface text-foreground"
                       placeholder="movewizard"
                     />
                   </div>
@@ -170,7 +170,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Au
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-3 border-2 border-sui-gray-300 rounded-xl focus:border-sui-ocean focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 border-2 border-[var(--border-default)] rounded-xl focus:border-sui-ocean focus:outline-none transition-colors bg-surface text-foreground"
                     placeholder="you@example.com"
                   />
                 </div>
@@ -185,7 +185,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Au
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full px-4 py-3 border-2 border-sui-gray-300 rounded-xl focus:border-sui-ocean focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 border-2 border-[var(--border-default)] rounded-xl focus:border-sui-ocean focus:outline-none transition-colors bg-surface text-foreground"
                     placeholder="••••••••"
                   />
                 </div>

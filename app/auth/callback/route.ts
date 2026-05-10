@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { prisma } from '@/app/lib/prisma';
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
+  const next = requestUrl.searchParams.get('next') || '/';
 
   if (code) {
     const cookieStore = await cookies();
@@ -23,9 +25,7 @@ export async function GET(request: NextRequest) {
                 cookieStore.set(name, value, options)
               );
             } catch {
-              // The `setAll` method was called from a Server Component.
-              // This can be ignored if you have middleware refreshing
-              // user sessions.
+              // setAll called from Server Component — safe to ignore
             }
           },
         },
@@ -35,11 +35,40 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
-      // Redirect to home page after successful login
-      return NextResponse.redirect(new URL('/', request.url));
+      // Get the authenticated user
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (user) {
+        // Upsert user into Prisma DB
+        const email = user.email || '';
+        const username = email.split('@')[0] || user.id.slice(0, 8);
+        const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
+
+        await prisma.user.upsert({
+          where: { id: user.id },
+          create: {
+            id: user.id,
+            email,
+            username,
+            avatarUrl,
+          },
+          update: {
+            email,
+            avatarUrl,
+          },
+        });
+
+        // Ensure stats record exists
+        await prisma.userStats.upsert({
+          where: { userId: user.id },
+          create: { userId: user.id },
+          update: {},
+        });
+      }
+
+      return NextResponse.redirect(new URL(next, request.url));
     }
   }
 
-  // If there's an error, redirect to home with error message
   return NextResponse.redirect(new URL('/?error=auth_failed', request.url));
 }

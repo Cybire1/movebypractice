@@ -152,7 +152,7 @@ export function QuestionsPanel({ classId, isInstructor = false }: QuestionsPanel
                 <div className="flex-shrink-0 flex flex-col items-center gap-1">
                   <button
                     onClick={() => upvoteQuestion(question.id, question.upvotes)}
-                    className="text-zinc-500 hover:text-aleo-green transition-colors"
+                    className="text-zinc-500 hover:text-sui-accent transition-colors"
                   >
                     ▲
                   </button>
@@ -167,7 +167,7 @@ export function QuestionsPanel({ classId, isInstructor = false }: QuestionsPanel
                     {isInstructor && (
                       <button
                         onClick={() => setReplyingTo(question.id)}
-                        className="text-aleo-green hover:text-aleo-green-light font-bold text-xs uppercase tracking-wider"
+                        className="text-sui-accent hover:text-sui-accent-light font-bold text-xs uppercase tracking-wider"
                       >
                         Answer
                       </button>
@@ -198,14 +198,14 @@ export function QuestionsPanel({ classId, isInstructor = false }: QuestionsPanel
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Write your answer..."
-                    className="w-full bg-zinc-800 text-white rounded px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-aleo-green/50"
+                    className="w-full bg-zinc-800 text-white rounded px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-sui-accent/50"
                     rows={2}
                   />
                   <div className="flex gap-2 mt-2">
                     <button
                       onClick={() => answerQuestion(question.id)}
                       disabled={!replyText.trim() || loading}
-                      className="px-3 py-1 bg-aleo-green hover:bg-aleo-green-dim disabled:bg-zinc-700 text-zinc-900 font-bold text-sm rounded transition-colors"
+                      className="px-3 py-1 bg-sui-accent hover:bg-sui-accent-dim disabled:bg-zinc-700 text-zinc-900 font-bold text-sm rounded transition-colors"
                     >
                       Submit
                     </button>
@@ -234,13 +234,13 @@ export function QuestionsPanel({ classId, isInstructor = false }: QuestionsPanel
               value={newQuestion}
               onChange={(e) => setNewQuestion(e.target.value)}
               placeholder="Ask a question..."
-              className="bg-zinc-800 text-white rounded px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-aleo-green/50 placeholder:text-zinc-500"
+              className="bg-zinc-800 text-white rounded px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-sui-accent/50 placeholder:text-zinc-500"
               rows={2}
             />
             <button
               onClick={askQuestion}
               disabled={!newQuestion.trim() || loading}
-              className="px-4 py-2 bg-aleo-green hover:bg-aleo-green-dim disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-zinc-900 rounded font-bold transition-colors"
+              className="px-4 py-2 bg-sui-accent hover:bg-sui-accent-dim disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-zinc-900 rounded font-bold transition-colors"
             >
               Ask Question
             </button>

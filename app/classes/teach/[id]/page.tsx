@@ -104,7 +104,7 @@ export default function TeachClassPage({
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-950">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-aleo-green border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-16 h-16 border-4 border-sui-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-white text-lg">Starting class...</p>
         </div>
       </div>
@@ -120,7 +120,7 @@ export default function TeachClassPage({
           <p className="text-gray-400 mb-6">{error}</p>
           <button
             onClick={startClass}
-            className="px-6 py-3 bg-aleo-green hover:bg-aleo-green-dim text-zinc-900 rounded-lg font-semibold transition-colors"
+            className="px-6 py-3 bg-sui-accent hover:bg-sui-accent-dim text-zinc-900 rounded-lg font-semibold transition-colors"
           >
             Try Again
           </button>
@@ -197,7 +197,7 @@ export default function TeachClassPage({
 
               {/* Tab content */}
               <div className="flex-1 min-h-0">
-                {activeTab === 'chat' && <ClassChat />}
+                {activeTab === 'chat' && <ClassChat classId={classId} />}
                 {activeTab === 'qa' && (
                   <QuestionsPanel classId={classId} isInstructor={true} />
                 )}

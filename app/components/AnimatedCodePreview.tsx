@@ -5,80 +5,96 @@ import { useState, useEffect } from 'react';
 
 const codeExamples = [
   {
-    title: 'private_transfer.aleo',
-    code: `transition transfer(
-  sender: Token,
-  receiver: address,
-  amount: u64
-) -> (Token, Token) {
-  let remaining: Token = Token {
-    owner: sender.owner,
-    amount: sender.amount - amount,
-  };
-
-  let sent: Token = Token {
-    owner: receiver,
-    amount: amount,
-  };
-
-  return (remaining, sent);
-}`,
-  },
-  {
-    title: 'voting.aleo',
-    code: `transition vote(
-  public proposal: field,
-  choice: bool
+    title: 'transfer.move',
+    code: `public entry fun transfer(
+  token: Coin<TOKEN>,
+  amount: u64,
+  recipient: address,
+  ctx: &mut TxContext
 ) {
-  return then finalize(proposal, choice);
-}
-
-finalize vote(
-  proposal: field,
-  choice: bool
-) {
-  let count: u64 = Mapping::get_or_use(
-    votes, proposal, 0u64
+  let split_coin = coin::split(
+    &mut token, amount, ctx
   );
-  Mapping::set(votes, proposal, count + 1u64);
+  transfer::public_transfer(
+    split_coin, recipient
+  );
+  transfer::public_transfer(
+    token, tx_context::sender(ctx)
+  );
 }`,
   },
   {
-    title: 'mint_nft.aleo',
-    code: `transition mint(
-  receiver: address,
-  metadata: field
-) -> NFT {
-  return NFT {
-    owner: receiver,
-    data: metadata,
-    id: self.caller,
+    title: 'voting.move',
+    code: `public entry fun vote(
+  proposal: &mut Proposal,
+  choice: bool,
+  ctx: &mut TxContext
+) {
+  let voter = tx_context::sender(ctx);
+  assert!(!table::contains(
+    &proposal.voters, voter
+  ), EAlreadyVoted);
+  table::add(&mut proposal.voters, voter, true);
+  if (choice) {
+    proposal.yes_votes = proposal.yes_votes + 1;
+  } else {
+    proposal.no_votes = proposal.no_votes + 1;
   };
 }`,
   },
   {
-    title: 'auction_bid.aleo',
-    code: `transition bid(
-  public item: field,
-  amount: u64
-) -> Bid {
-  assert(amount > 0u64);
-
-  return Bid {
-    bidder: self.caller,
-    amount: amount,
-  } then finalize(item, amount);
+    title: 'mint_nft.move',
+    code: `public entry fun mint(
+  name: vector<u8>,
+  description: vector<u8>,
+  url: vector<u8>,
+  ctx: &mut TxContext
+) {
+  let nft = NFT {
+    id: object::new(ctx),
+    name: string::utf8(name),
+    description: string::utf8(description),
+    url: url::new_unsafe_from_bytes(url),
+  };
+  transfer::public_transfer(
+    nft, tx_context::sender(ctx)
+  );
 }`,
   },
   {
-    title: 'token_swap.aleo',
-    code: `transition swap(
-  token_a: Token,
-  token_b: Token
-) -> (Token, Token) {
-  return (
-    Token { owner: token_b.owner, amount: token_a.amount },
-    Token { owner: token_a.owner, amount: token_b.amount }
+    title: 'auction.move',
+    code: `public entry fun bid(
+  auction: &mut Auction,
+  coin: Coin<SUI>,
+  ctx: &mut TxContext
+) {
+  let bid_amount = coin::value(&coin);
+  assert!(bid_amount > auction.highest_bid, ETooLow);
+
+  auction.highest_bid = bid_amount;
+  auction.highest_bidder = tx_context::sender(ctx);
+  balance::join(&mut auction.funds,
+    coin::into_balance(coin));
+}`,
+  },
+  {
+    title: 'token_swap.move',
+    code: `public entry fun swap<A, B>(
+  pool: &mut Pool<A, B>,
+  coin_a: Coin<A>,
+  ctx: &mut TxContext
+) {
+  let amount_in = coin::value(&coin_a);
+  let amount_out = calculate_output(
+    amount_in, pool
+  );
+  balance::join(&mut pool.balance_a,
+    coin::into_balance(coin_a));
+  let coin_out = coin::take(
+    &mut pool.balance_b, amount_out, ctx
+  );
+  transfer::public_transfer(
+    coin_out, tx_context::sender(ctx)
   );
 }`,
   },
@@ -143,82 +159,77 @@ export default function AnimatedCodePreview() {
       return <span className="text-gray-500 italic">{text}</span>;
     }
 
-    // Program declaration
-    if (trimmedText.startsWith('program')) {
+    // Module declaration
+    if (trimmedText.startsWith('module')) {
       return (
         <>
           {leadingSpaces}
-          <span className="text-aleo-green font-bold">program</span>
-          <span className="text-white">{trimmedText.replace('program', '')}</span>
+          <span className="text-sui-accent font-bold">module</span>
+          <span className="text-white">{trimmedText.replace('module', '')}</span>
         </>
       );
     }
 
-    // Record declaration
-    if (trimmedText.startsWith('record')) {
+    // Struct declaration
+    if (trimmedText.startsWith('struct')) {
       return (
         <>
           {leadingSpaces}
-          <span className="text-aleo-green font-bold">record</span>
-          <span className="text-white">{trimmedText.replace('record', '')}</span>
+          <span className="text-sui-accent font-bold">struct</span>
+          <span className="text-white">{trimmedText.replace('struct', '')}</span>
         </>
       );
     }
 
-    // Transition declaration
-    if (trimmedText.startsWith('transition')) {
+    // Function declarations (public entry fun)
+    if (trimmedText.startsWith('public entry fun') || trimmedText.startsWith('public fun') || trimmedText.startsWith('fun')) {
+      const match = trimmedText.match(/^(public\s+entry\s+fun|public\s+fun|fun)/);
+      const keyword = match ? match[1] : 'fun';
       return (
         <>
           {leadingSpaces}
-          <span className="text-aleo-green font-bold">transition</span>
-          <span className="text-white">{trimmedText.replace('transition', '')}</span>
-        </>
-      );
-    }
-
-    // Finalize declaration
-    if (trimmedText.startsWith('finalize')) {
-      return (
-        <>
-          {leadingSpaces}
-          <span className="text-aleo-green font-bold">finalize</span>
-          <span className="text-white">{trimmedText.replace('finalize', '')}</span>
-        </>
-      );
-    }
-
-    // Mapping declaration
-    if (trimmedText.startsWith('mapping')) {
-      return (
-        <>
-          {leadingSpaces}
-          <span className="text-aleo-green font-bold">mapping</span>
-          <span className="text-white">{trimmedText.replace('mapping', '')}</span>
-        </>
-      );
-    }
-
-    // Return, let, assert statements
-    if (trimmedText.startsWith('return') || trimmedText.startsWith('let') || trimmedText.startsWith('assert')) {
-      const keyword = trimmedText.split(/\s+/)[0];
-      return (
-        <>
-          {leadingSpaces}
-          <span className="text-aleo-green font-bold">{keyword}</span>
+          <span className="text-sui-accent font-bold">{keyword}</span>
           <span className="text-white">{trimmedText.replace(keyword, '')}</span>
         </>
       );
     }
 
-    // Mapping operations
-    if (trimmedText.includes('Mapping::')) {
-      const parts = trimmedText.split('Mapping::');
+    // Use declaration
+    if (trimmedText.startsWith('use')) {
       return (
         <>
           {leadingSpaces}
-          <span className="text-white">{parts[0]}</span>
-          <span className="text-aleo-green-light font-bold">Mapping::</span>
-          <span className="text-white">{parts[1]}</span>
+          <span className="text-sui-accent font-bold">use</span>
+          <span className="text-white">{trimmedText.replace('use', '')}</span>
+        </>
+      );
+    }
+
+    // Let, assert!, if, else statements
+    if (trimmedText.startsWith('let') || trimmedText.startsWith('assert!') || trimmedText.startsWith('if') || trimmedText.startsWith('} else')) {
+      const keyword = trimmedText.split(/[\s(]/)[0];
+      return (
+        <>
+          {leadingSpaces}
+          <span className="text-sui-accent font-bold">{keyword}</span>
+          <span className="text-white">{trimmedText.replace(keyword, '')}</span>
+        </>
+      );
+    }
+
+    // Module operations (coin::, transfer::, etc.)
+    if (trimmedText.includes('::') && !trimmedText.startsWith('//')) {
+      const parts = trimmedText.split(/([\w]+::[\w]+)/);
+      return (
+        <>
+          {leadingSpaces}
+          {parts.map((part, i) =>
+            part.includes('::') ? (
+              <span key={i} className="text-sui-accent-light font-bold">{part}</span>
+            ) : (
+              <span key={i} className="text-white">{part}</span>
+            )
+          )}
         </>
       );
     }
@@ -228,8 +239,8 @@ export default function AnimatedCodePreview() {
       return (
         <>
           {leadingSpaces}
+          <span className="text-sui-accent font-bold">public</span>
           <span className="text-white">{trimmedText.replace('public', '')}</span>
-          <span className="text-aleo-green font-bold">public</span>
         </>
       );
     }
@@ -242,7 +253,7 @@ export default function AnimatedCodePreview() {
           {leadingSpaces}
           <span className="text-gray-400">{key.trim()}</span>
           <span className="text-white">: </span>
-          <span className="text-aleo-green-light">{value}</span>
+          <span className="text-sui-accent-light">{value}</span>
         </>
       );
     }
@@ -259,7 +270,7 @@ export default function AnimatedCodePreview() {
       className="relative w-full mx-auto pr-4 lg:pr-8"
     >
       {/* Glow Effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-aleo-green/10 to-transparent blur-3xl opacity-30" />
+      <div className="absolute inset-0 bg-gradient-to-r from-sui-accent/10 to-transparent blur-3xl opacity-30" />
 
       {/* Code Window */}
       <div className="relative bg-[#1E1E1E]/90 backdrop-blur-md rounded-xl lg:rounded-2xl shadow-2xl overflow-hidden border border-white/10 ring-1 ring-white/5">
@@ -282,7 +293,7 @@ export default function AnimatedCodePreview() {
             </motion.span>
           </AnimatePresence>
           {!isTypingComplete && !isTransitioning && (
-            <span className="ml-auto text-[10px] sm:text-xs text-aleo-green/70 animate-pulse hidden sm:inline font-mono">typing...</span>
+            <span className="ml-auto text-[10px] sm:text-xs text-sui-accent/70 animate-pulse hidden sm:inline font-mono">typing...</span>
           )}
           {isTransitioning && (
             <span className="ml-auto text-[10px] sm:text-xs text-white/50 hidden sm:inline font-mono">switching...</span>
@@ -310,7 +321,7 @@ export default function AnimatedCodePreview() {
                 {renderCodeWithSyntax(line)}
                 {/* Show cursor at the end of last line */}
                 {index === lines.length - 1 && showCursor && !isTransitioning && (
-                  <span className="inline-block w-1.5 sm:w-2 h-3 sm:h-4 lg:h-5 bg-aleo-green ml-0.5 align-middle shadow-[0_0_8px_rgba(0,255,153,0.8)]" />
+                  <span className="inline-block w-1.5 sm:w-2 h-3 sm:h-4 lg:h-5 bg-sui-accent ml-0.5 align-middle shadow-[0_0_8px_rgba(0,255,153,0.8)]" />
                 )}
               </code>
             </div>

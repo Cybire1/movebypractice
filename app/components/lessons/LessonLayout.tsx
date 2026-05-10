@@ -17,7 +17,7 @@ export default function LessonLayout({
     isEditorExpanded = false
 }: LessonLayoutProps) {
     return (
-        <div className="flex h-screen w-full bg-[#FAFAFA] overflow-hidden">
+        <div className="flex h-screen w-full bg-surface-secondary overflow-hidden">
 
             {/* Sidebar - Mission Control */}
             <div className="hidden md:block flex-shrink-0">
@@ -28,7 +28,7 @@ export default function LessonLayout({
             <div className="flex-1 flex flex-col min-w-0">
 
                 {/* Mobile Header (Placeholder) */}
-                <div className="md:hidden h-14 border-b border-gray-100 bg-white flex items-center px-4">
+                <div className="md:hidden h-14 border-b border-[var(--border-default)] bg-surface flex items-center px-4">
                     <span className="font-bold text-sm">Mission Control</span>
                 </div>
 
@@ -43,7 +43,7 @@ export default function LessonLayout({
 
                     {/* Right Pane: Editor & Terminal */}
                     {/* Persistent, but responsive sizing */}
-                    <div className="w-[45%] border-l-2 border-gray-100 flex flex-col bg-white relative z-20 shadow-[-10px_0_40px_-20px_rgba(0,0,0,0.05)]">
+                    <div className="w-[45%] border-l-2 border-[var(--border-default)] flex flex-col bg-surface relative z-20 shadow-[-10px_0_40px_-20px_rgba(0,0,0,0.05)]">
                         {editorPanel}
                     </div>
 

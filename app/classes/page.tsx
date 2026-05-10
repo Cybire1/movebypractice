@@ -4,13 +4,13 @@ import { format } from 'date-fns';
 import LiveHero from '@/app/components/classes/LiveHero';
 
 export const metadata = {
-  title: 'Live Classes - Move By Practice',
+  title: 'Live Classes - Glide',
   description: 'Join live classes and learn Move programming from experienced instructors',
 };
 
 export default async function ClassesPage() {
   // Fetch all upcoming and live classes using Prisma
-  let classes;
+  let classes: any[];
   try {
     classes = await prisma.class.findMany({
       where: {

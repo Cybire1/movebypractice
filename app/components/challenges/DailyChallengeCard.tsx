@@ -59,7 +59,7 @@ export default function DailyChallengeCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative bg-white rounded-2xl sm:rounded-3xl border-2 border-sui-navy p-6 sm:p-8 shadow-xl"
+      className="relative bg-surface-elevated rounded-2xl sm:rounded-3xl border-2 border-sui-navy p-6 sm:p-8 shadow-xl"
     >
       {/* Header */}
       <div className="flex items-start justify-between mb-6">
@@ -83,7 +83,7 @@ export default function DailyChallengeCard({
             <span className="px-3 py-1 rounded-full text-xs sm:text-sm font-semibold bg-sui-sky/30 text-sui-ocean border border-sui-ocean/20">
               {challenge.topic.replace('_', ' ')}
             </span>
-            <span className="px-3 py-1 rounded-full text-xs sm:text-sm font-semibold bg-gray-100 text-gray-700 border border-gray-300">
+            <span className="px-3 py-1 rounded-full text-xs sm:text-sm font-semibold bg-surface-secondary text-foreground-secondary border border-[var(--border-default)]">
               ~{challenge.estimatedTime} min
             </span>
           </div>

@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,6 +10,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        surface: {
+          DEFAULT: 'var(--surface-primary)',
+          secondary: 'var(--surface-secondary)',
+          tertiary: 'var(--surface-tertiary)',
+          elevated: 'var(--surface-elevated)',
+          overlay: 'var(--surface-overlay)',
+        },
+        foreground: {
+          DEFAULT: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          tertiary: 'var(--text-tertiary)',
+        },
         sui: {
           ocean: 'var(--sui-ocean)',
           'ocean-dark': 'var(--sui-ocean-dark)',
@@ -30,24 +43,18 @@ const config: Config = {
             800: 'var(--sui-gray-800)',
             900: 'var(--sui-gray-900)',
           },
-        },
-        aleo: {
-          black: 'var(--aleo-black)',
-          'dark-gray': 'var(--aleo-dark-gray)',
-          green: 'var(--aleo-green)',
-          'green-neon': 'var(--aleo-green-neon)',
-          'green-dim': 'var(--aleo-green-dim)',
-          'green-dark': 'var(--aleo-green-dark)',
-          'green-light': 'var(--aleo-green-light)',
-          navy: 'var(--aleo-navy)',
-          midnight: 'var(--aleo-midnight)',
-          slate: 'var(--aleo-slate)',
+          dark: 'var(--sui-dark)',
+          accent: 'var(--sui-accent)',
+          'accent-bright': 'var(--sui-accent-bright)',
+          'accent-dim': 'var(--sui-accent-dim)',
+          'accent-dark': 'var(--sui-accent-dark)',
+          'accent-light': 'var(--sui-accent-light)',
+          slate: 'var(--sui-slate)',
         },
       },
       fontFamily: {
-        sans: ['Aleo Sans', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
         mono: ['Azeret Mono', 'monospace'],
-        aleo: ['Aleo', 'sans-serif'], // Keep existing if needed
       },
     },
   },

@@ -104,7 +104,7 @@ export default function ProgressChart() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
+      <div className="bg-surface-elevated rounded-3xl shadow-lg p-6 md:p-8">
         <div className="h-80 flex items-center justify-center">
           <div className="w-12 h-12 border-4 border-sui-ocean border-t-transparent rounded-full animate-spin"></div>
         </div>
@@ -113,12 +113,12 @@ export default function ProgressChart() {
   }
 
   return (
-    <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
+    <div className="bg-surface-elevated rounded-3xl shadow-lg p-6 md:p-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-sui-navy">Progress Overview</h2>
-          <p className="text-sui-gray-600 text-sm mt-1">Your XP growth over time</p>
+          <h2 className="text-2xl font-bold text-foreground">Progress Overview</h2>
+          <p className="text-foreground-secondary text-sm mt-1">Your XP growth over time</p>
         </div>
         <div className="w-12 h-12 bg-sui-sky rounded-xl flex items-center justify-center">
           <span className="text-2xl">📈</span>
@@ -168,18 +168,18 @@ export default function ProgressChart() {
           <div className="h-full flex items-center justify-center">
             <div className="text-center">
               <div className="text-6xl mb-4">📊</div>
-              <p className="text-sui-gray-600 font-medium">No progress data yet</p>
-              <p className="text-sui-gray-500 text-sm mt-2">Complete lessons to see your progress!</p>
+              <p className="text-foreground-secondary font-medium">No progress data yet</p>
+              <p className="text-foreground-tertiary text-sm mt-2">Complete lessons to see your progress!</p>
             </div>
           </div>
         )}
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-sui-gray-200">
+      <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-[var(--border-default)]">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-sui-ocean rounded"></div>
-          <span className="text-sm text-sui-gray-600">Total XP</span>
+          <span className="text-sm text-foreground-secondary">Total XP</span>
         </div>
       </div>
     </div>

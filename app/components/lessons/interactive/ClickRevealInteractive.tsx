@@ -30,8 +30,8 @@ export default function ClickRevealInteractive({ config }: ClickRevealInteractiv
   return (
     <div className="space-y-8 py-8 perspective-1000">
       <div className="text-center space-y-2">
-        <h3 className="text-2xl font-bold tracking-tight text-zinc-900">Discover Features</h3>
-        <p className="text-zinc-500 font-medium">Click each card to reveal details</p>
+        <h3 className="text-2xl font-bold tracking-tight text-foreground">Discover Features</h3>
+        <p className="text-foreground-secondary font-medium">Click each card to reveal details</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -49,21 +49,21 @@ export default function ClickRevealInteractive({ config }: ClickRevealInteractiv
                 >
                   {/* FRONT FACE */}
                   <div className="absolute inset-0 backface-hidden">
-                    <div className="h-full w-full bg-white/60 backdrop-blur-xl border border-white/20 rounded-3xl shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center justify-center p-8 group-hover:border-aleo-green/30">
+                    <div className="h-full w-full bg-surface-elevated/60 backdrop-blur-xl border border-[var(--border-default)] rounded-3xl shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col items-center justify-center p-8 group-hover:border-sui-accent/30">
                       {/* Gradient Blob for subtle background */}
                       <div className="absolute inset-0 rounded-3xl overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        <div className="absolute -top-10 -right-10 w-24 h-24 bg-aleo-green/20 blur-2xl rounded-full" />
+                        <div className="absolute -top-10 -right-10 w-24 h-24 bg-sui-accent/20 blur-2xl rounded-full" />
                         <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full" />
                       </div>
 
                       <div className="relative z-10 flex flex-col items-center text-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-zinc-50 border border-zinc-100 flex items-center justify-center text-zinc-400 font-mono text-sm group-hover:bg-aleo-green/10 group-hover:text-aleo-green-dark group-hover:border-aleo-green/20 transition-colors">
+                        <div className="w-12 h-12 rounded-full bg-surface-secondary border border-[var(--border-subtle)] flex items-center justify-center text-foreground-tertiary font-mono text-sm group-hover:bg-sui-accent/10 group-hover:text-sui-accent-dark group-hover:border-sui-accent/20 transition-colors">
                           0{index + 1}
                         </div>
-                        <h4 className="text-xl md:text-2xl font-black tracking-tight text-zinc-900">
+                        <h4 className="text-xl md:text-2xl font-black tracking-tight text-foreground">
                           {reveal.label}
                         </h4>
-                        <span className="text-xs font-bold uppercase tracking-widest text-zinc-400 group-hover:text-aleo-green-dark/70 transition-colors">
+                        <span className="text-xs font-bold uppercase tracking-widest text-zinc-400 group-hover:text-sui-accent-dark/70 transition-colors">
                           Reveal
                         </span>
                       </div>
@@ -77,10 +77,10 @@ export default function ClickRevealInteractive({ config }: ClickRevealInteractiv
                   >
                     <div className="h-full w-full bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-800 p-8 flex flex-col items-center justify-center text-center relative overflow-hidden">
                       {/* Glowing Ring */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-aleo-green/20 via-transparent to-transparent opacity-50" />
+                      <div className="absolute inset-0 bg-gradient-to-tr from-sui-accent/20 via-transparent to-transparent opacity-50" />
 
                       <div className="relative z-10">
-                        <div className="mb-4 text-aleo-green">
+                        <div className="mb-4 text-sui-accent">
                           <svg className="w-8 h-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
@@ -107,7 +107,7 @@ export default function ClickRevealInteractive({ config }: ClickRevealInteractiv
             animate={{ opacity: 1, y: 0 }}
             className="flex justify-center"
           >
-            <div className="px-4 py-2 bg-zinc-100 rounded-full text-xs font-bold text-zinc-500 tracking-wide uppercase">
+            <div className="px-4 py-2 bg-surface-secondary rounded-full text-xs font-bold text-foreground-secondary tracking-wide uppercase">
               {revealedIndices.size} of {reveals.length} cards revealed
             </div>
           </motion.div>

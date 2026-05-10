@@ -34,7 +34,7 @@ const BentoItem = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
       className={`
-        group relative overflow-hidden rounded-[2rem] border border-black/5 bg-white/60 p-6 backdrop-blur-xl transition-all duration-300 hover:shadow-2xl hover:shadow-sui-navy/5
+        group relative overflow-hidden rounded-[2rem] border border-[var(--border-subtle)] bg-surface-elevated/60 p-6 backdrop-blur-xl transition-all duration-300 hover:shadow-2xl hover:shadow-sui-navy/5
         ${colSpan === 2 ? 'md:col-span-2' : colSpan === 3 ? 'md:col-span-3' : colSpan === 4 ? 'md:col-span-4' : 'md:col-span-1'}
         ${rowSpan === 2 ? 'md:row-span-2' : 'md:row-span-1'}
         ${className}
@@ -168,10 +168,10 @@ const NetworkVisualizer = () => {
       </div>
 
       <div className="mt-auto z-10 flex gap-2">
-        <div className="px-2 py-1 bg-white/80 rounded-lg border border-black/5 text-[10px] font-mono text-sui-navy overflow-hidden">
+        <div className="px-2 py-1 bg-surface-elevated/80 rounded-lg border border-[var(--border-subtle)] text-[10px] font-mono text-sui-navy overflow-hidden">
           0x8...a3f2
         </div>
-        <div className="px-2 py-1 bg-white/80 rounded-lg border border-black/5 text-[10px] font-mono text-sui-navy overflow-hidden">
+        <div className="px-2 py-1 bg-surface-elevated/80 rounded-lg border border-[var(--border-subtle)] text-[10px] font-mono text-sui-navy overflow-hidden">
           Mycoin::Store
         </div>
       </div>
@@ -242,7 +242,7 @@ const CredentialCard = ({ achievement }: { achievement: any }) => {
   const rotateY = useTransform(x, [-100, 100], [-30, 30]);
 
   if (!achievement) return (
-    <div className="h-full w-full rounded-[2rem] border border-black/5 bg-white/60 p-6 backdrop-blur-xl flex items-center justify-center text-sui-gray-400 text-center">
+    <div className="h-full w-full rounded-[2rem] border border-[var(--border-subtle)] bg-surface-elevated/60 p-6 backdrop-blur-xl flex items-center justify-center text-sui-gray-400 text-center">
       <div>
         <div className="w-12 h-12 bg-sui-gray-100 rounded-full mx-auto mb-2 flex items-center justify-center">🔒</div>
         <p className="text-sm">Complete lessons to earn credentials</p>
@@ -285,7 +285,7 @@ const CredentialCard = ({ achievement }: { achievement: any }) => {
 
 export default function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
-  const { xp, level, streak, completedLessons, achievements, loadFromDatabase } = useGameStore();
+  const { xp, level, streak, completedLessons, achievements, loadFromServer } = useGameStore();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -293,14 +293,14 @@ export default function DashboardPage() {
     if (!authLoading && !user) {
       router.push('/');
     }
-    if (user) {
-      loadFromDatabase().then(() => setIsLoading(false));
+    if (user?.email) {
+      loadFromServer(user.email).then(() => setIsLoading(false));
     }
-  }, [user, authLoading, router, loadFromDatabase]);
+  }, [user, authLoading, router, loadFromServer]);
 
   if (authLoading || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7]">
+      <div className="min-h-screen flex items-center justify-center bg-surface-secondary">
         <div className="w-16 h-16 border-4 border-sui-navy border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -309,7 +309,7 @@ export default function DashboardPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-[#F5F5F7] text-sui-navy pt-28 pb-20 px-4 md:px-8 bg-grid-graph">
+    <div className="min-h-screen bg-surface-secondary text-sui-navy pt-28 pb-20 px-4 md:px-8 bg-grid-graph">
 
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8 flex items-end justify-between">

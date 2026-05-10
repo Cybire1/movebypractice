@@ -120,7 +120,7 @@ export default function ChallengeInterface({
     <div className="min-h-screen bg-gradient-to-b from-sui-sky/20 to-white pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto w-full">
         {/* Header with Timer */}
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 border-2 border-sui-navy">
+        <div className="bg-surface-elevated rounded-xl sm:rounded-2xl shadow-lg p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 border-2 border-sui-navy">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex-1 min-w-0">
               <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-sui-navy mb-1 sm:mb-2">
@@ -145,7 +145,7 @@ export default function ChallengeInterface({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onExit}
-                className="p-1.5 sm:p-2 md:p-3 bg-gray-100 hover:bg-gray-200 rounded-lg sm:rounded-xl transition-colors"
+                className="p-1.5 sm:p-2 md:p-3 bg-surface-secondary hover:bg-gray-200 rounded-lg sm:rounded-xl transition-colors"
                 title="Exit challenge"
               >
                 <svg className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -158,7 +158,7 @@ export default function ChallengeInterface({
 
         <div className="flex flex-col xl:grid xl:grid-cols-2 gap-4 sm:gap-6">
           {/* Left: Code Editor or Multiple Choice */}
-          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-sui-gray-200 w-full">
+          <div className="bg-surface-elevated rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-sui-gray-200 w-full">
             <h3 className="text-lg sm:text-xl font-bold text-sui-navy mb-4">
               {challenge.type === 'output_prediction' ? 'Select Your Answer' : 'Your Solution'}
             </h3>
@@ -242,7 +242,7 @@ export default function ChallengeInterface({
           {/* Right: Hints & Info */}
           <div className="space-y-4 sm:space-y-6 w-full">
             {/* Hints Panel */}
-            <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-sui-gray-200">
+            <div className="bg-surface-elevated rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-sui-gray-200">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg sm:text-xl font-bold text-sui-navy">
                   Hints ({hintsRevealed}/3)
@@ -294,7 +294,7 @@ export default function ChallengeInterface({
             </div>
 
             {/* XP Breakdown */}
-            <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-sui-gray-200">
+            <div className="bg-surface-elevated rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-sui-gray-200">
               <h3 className="text-lg sm:text-xl font-bold text-sui-navy mb-4">
                 Potential Rewards
               </h3>
@@ -310,7 +310,7 @@ export default function ChallengeInterface({
                     Speed Bonus:
                     <span className="text-xs text-sui-gray-500">(≤3 min)</span>
                   </span>
-                  <span className={`font-bold text-base sm:text-lg ${timeElapsed <= 180 ? 'text-purple-600' : 'text-gray-400 line-through'}`}>
+                  <span className={`font-bold text-base sm:text-lg ${timeElapsed <= 180 ? 'text-purple-600' : 'text-foreground-tertiary line-through'}`}>
                     +{challenge.timeBonus}
                   </span>
                 </div>
@@ -319,7 +319,7 @@ export default function ChallengeInterface({
                   <span className="text-sm sm:text-base text-sui-gray-700 flex items-center gap-2">
                     No Hints:
                   </span>
-                  <span className={`font-bold text-base sm:text-lg ${hintsRevealed === 0 ? 'text-green-600' : 'text-gray-400 line-through'}`}>
+                  <span className={`font-bold text-base sm:text-lg ${hintsRevealed === 0 ? 'text-green-600' : 'text-foreground-tertiary line-through'}`}>
                     +{challenge.noHintBonus}
                   </span>
                 </div>
@@ -339,13 +339,13 @@ export default function ChallengeInterface({
 
             {/* Test Cases (if available) */}
             {challenge.testCases && challenge.testCases.length > 0 && (
-              <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-sui-gray-200">
+              <div className="bg-surface-elevated rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-sui-gray-200">
                 <h3 className="text-lg sm:text-xl font-bold text-sui-navy mb-4">
                   Test Cases
                 </h3>
                 <div className="space-y-2">
                   {challenge.testCases.map((testCase, index) => (
-                    <div key={index} className="bg-gray-50 rounded-lg p-3 text-sm">
+                    <div key={index} className="bg-surface-secondary rounded-lg p-3 text-sm">
                       <div className="text-sui-gray-600">{testCase.description}</div>
                       <div className="font-mono text-sui-navy mt-1">
                         Expected: {testCase.expectedOutput}

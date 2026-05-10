@@ -201,10 +201,10 @@ export default function CodeCompletionExerciseComponent({
     switch (type) {
       case 'keyword': return 'text-purple-600';
       case 'type': return 'text-amber-600';
-      case 'comment': return 'text-zinc-400';
+      case 'comment': return 'text-foreground-tertiary';
       case 'string': return 'text-green-600';
       case 'number': return 'text-orange-500';
-      default: return 'text-zinc-700';
+      default: return 'text-foreground';
     }
   };
 
@@ -216,9 +216,9 @@ export default function CodeCompletionExerciseComponent({
       const parts = line.split(/(\{blank:\w+\})/g);
 
       return (
-        <div key={lineIndex} className="flex items-center min-h-[32px] group hover:bg-zinc-50/50 transition-colors">
+        <div key={lineIndex} className="flex items-center min-h-[32px] group hover:bg-surface-secondary/50 transition-colors">
           {/* Line number */}
-          <span className="w-10 text-right pr-4 text-zinc-300 text-sm font-mono select-none">
+          <span className="w-10 text-right pr-4 text-foreground-tertiary text-sm font-mono select-none">
             {lineIndex + 1}
           </span>
           {/* Line content */}
@@ -252,14 +252,14 @@ export default function CodeCompletionExerciseComponent({
                         font-mono text-sm
                         rounded-lg border-2 outline-none
                         transition-all duration-200
-                        placeholder:text-zinc-300
+                        placeholder:text-foreground-tertiary
                         ${validationState === 'correct'
                           ? 'bg-green-50 border-green-400 text-green-700'
                           : validationState === 'incorrect'
                             ? 'bg-red-50 border-red-400 text-red-700'
                             : isFocused
-                              ? 'bg-white border-zinc-900 text-zinc-900 ring-4 ring-zinc-900/10'
-                              : 'bg-zinc-100 border-zinc-200 text-zinc-700 hover:border-zinc-300'
+                              ? 'bg-surface-elevated border-zinc-900 text-foreground ring-4 ring-zinc-900/10'
+                              : 'bg-surface-secondary border-[var(--border-default)] text-foreground hover:border-zinc-300'
                         }
                       `}
                       style={{ width: `${Math.max(100, value.length * 10 + 40)}px` }}
@@ -306,9 +306,9 @@ export default function CodeCompletionExerciseComponent({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-[2rem] border border-zinc-200 p-8 shadow-xl shadow-zinc-200/50 relative overflow-hidden"
+        className="bg-surface-elevated rounded-[2rem] border border-[var(--border-default)] p-8 shadow-xl shadow-zinc-200/50 relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-zinc-50 to-transparent rounded-bl-full" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-surface-secondary to-transparent rounded-bl-full" />
 
         <div className="relative z-10 flex items-start justify-between gap-6">
           <div className="flex-1">
@@ -320,15 +320,15 @@ export default function CodeCompletionExerciseComponent({
                 }`}>
                 {exercise.difficulty}
               </span>
-              <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-zinc-100 text-zinc-600 border border-zinc-200">
+              <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-surface-secondary text-foreground-secondary border border-[var(--border-default)]">
                 {exercise.topic.replace('_', ' ')}
               </span>
             </div>
 
-            <h2 className="text-3xl font-black text-zinc-900 mb-2 tracking-tight">
+            <h2 className="text-3xl font-black text-foreground mb-2 tracking-tight">
               {exercise.title}
             </h2>
-            <p className="text-lg text-zinc-500 font-medium leading-relaxed">
+            <p className="text-lg text-foreground-secondary font-medium leading-relaxed">
               {exercise.description}
             </p>
           </div>
@@ -359,8 +359,8 @@ export default function CodeCompletionExerciseComponent({
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-2xl font-black text-zinc-900">{filledBlanks}</span>
-              <span className="text-xs text-zinc-400 font-bold">/ {totalBlanks}</span>
+              <span className="text-2xl font-black text-foreground">{filledBlanks}</span>
+              <span className="text-xs text-foreground-tertiary font-bold">/ {totalBlanks}</span>
             </div>
           </div>
         </div>
@@ -382,34 +382,34 @@ export default function CodeCompletionExerciseComponent({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white rounded-2xl overflow-hidden shadow-xl border border-zinc-200"
+        className="bg-surface-elevated rounded-2xl overflow-hidden shadow-xl border border-[var(--border-default)]"
       >
         {/* Editor Header */}
-        <div className="flex items-center justify-between px-4 py-3 bg-zinc-50 border-b border-zinc-200">
+        <div className="flex items-center justify-between px-4 py-3 bg-surface-secondary border-b border-[var(--border-default)]">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-400" />
             <div className="w-3 h-3 rounded-full bg-amber-400" />
             <div className="w-3 h-3 rounded-full bg-green-400" />
           </div>
-          <span className="text-xs font-mono text-zinc-400 font-medium">exercise.move</span>
+          <span className="text-xs font-mono text-foreground-tertiary font-medium">exercise.move</span>
           <div className="w-16" />
         </div>
 
         {/* Code Editor with Inline Blanks */}
-        <div className="p-4 bg-white overflow-x-auto">
+        <div className="p-4 bg-surface-elevated overflow-x-auto">
           <div className="space-y-0">
             {renderCodeWithBlanks()}
           </div>
         </div>
 
         {/* Legend */}
-        <div className="flex items-center justify-center gap-6 px-4 py-3 bg-zinc-50 border-t border-zinc-200">
-          <div className="flex items-center gap-2 text-xs text-zinc-500">
-            <div className="w-4 h-4 rounded border-2 border-zinc-200 bg-zinc-100" />
+        <div className="flex items-center justify-center gap-6 px-4 py-3 bg-surface-secondary border-t border-[var(--border-default)]">
+          <div className="flex items-center gap-2 text-xs text-foreground-secondary">
+            <div className="w-4 h-4 rounded border-2 border-[var(--border-default)] bg-surface-secondary" />
             <span>Empty</span>
           </div>
-          <div className="flex items-center gap-2 text-xs text-zinc-700">
-            <div className="w-4 h-4 rounded border-2 border-zinc-900 bg-white" />
+          <div className="flex items-center gap-2 text-xs text-foreground">
+            <div className="w-4 h-4 rounded border-2 border-zinc-900 bg-surface-elevated" />
             <span>Focused</span>
           </div>
           <div className="flex items-center gap-2 text-xs text-green-700">
@@ -431,10 +431,10 @@ export default function CodeCompletionExerciseComponent({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-lg"
+          className="bg-surface-elevated rounded-2xl border border-[var(--border-default)] p-6 shadow-lg"
         >
           <div className="flex items-center justify-between mb-4">
-            <h4 className="text-lg font-bold text-zinc-900">
+            <h4 className="text-lg font-bold text-foreground">
               💡 Hints ({hintsUsed}/{exercise.hints.length})
             </h4>
             {hintsUsed < exercise.hints.length && (
@@ -520,7 +520,7 @@ export default function CodeCompletionExerciseComponent({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleRetry}
-                  className="px-6 py-3 bg-white hover:bg-zinc-50 rounded-xl font-bold text-zinc-900 shadow-lg border border-zinc-200 transition-colors"
+                  className="px-6 py-3 bg-surface-elevated hover:bg-surface-secondary rounded-xl font-bold text-foreground shadow-lg border border-[var(--border-default)] transition-colors"
                 >
                   Try Again
                 </motion.button>

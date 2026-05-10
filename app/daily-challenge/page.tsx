@@ -106,7 +106,7 @@ export default function DailyChallengePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sui-sky/20 to-white py-8 sm:py-16 px-4 sm:px-6">
+    <div className="min-h-screen bg-gradient-to-b from-sui-sky/20 to-surface pt-28 sm:pt-32 pb-8 sm:pb-16 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
@@ -137,7 +137,7 @@ export default function DailyChallengePage() {
           transition={{ delay: 0.2 }}
           className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4"
         >
-          <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6 text-center">
+          <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-[var(--border-default)] p-4 sm:p-6 text-center">
             <div className="text-3xl sm:text-4xl font-bold text-sui-ocean mb-2">
               {userStreak.currentStreak}
             </div>
@@ -146,7 +146,7 @@ export default function DailyChallengePage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6 text-center">
+          <div className="bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-[var(--border-default)] p-4 sm:p-6 text-center">
             <div className="text-3xl sm:text-4xl font-bold text-sui-ocean mb-2">
               {userStreak.longestStreak}
             </div>
@@ -170,7 +170,7 @@ export default function DailyChallengePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="mt-8 bg-white rounded-xl sm:rounded-2xl border-2 border-sui-gray-200 p-4 sm:p-6"
+          className="mt-8 bg-surface-elevated rounded-xl sm:rounded-2xl border-2 border-[var(--border-default)] p-4 sm:p-6"
         >
           <h2 className="text-xl sm:text-2xl font-bold text-sui-navy mb-4">
             How Daily Challenges Work

@@ -5,6 +5,7 @@
 
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { prisma } from '@/app/lib/prisma'
 
 export async function getServerUser() {
   const cookieStore = await cookies()
@@ -23,9 +24,7 @@ export async function getServerUser() {
               cookieStore.set(name, value, options)
             )
           } catch {
-            // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // setAll called from Server Component — safe to ignore
           }
         },
       },
@@ -38,4 +37,56 @@ export async function getServerUser() {
   } = await supabase.auth.getUser()
 
   return { user, error }
+}
+
+/**
+ * Require authentication and return the Prisma DB user.
+ * Upserts the user if they don't exist in Prisma yet (handles OAuth first-login).
+ * Throws a structured error if not authenticated.
+ */
+export async function requireAuth() {
+  const { user: supabaseUser, error } = await getServerUser()
+
+  if (error || !supabaseUser) {
+    throw new AuthError('Unauthorized', 401)
+  }
+
+  const email = supabaseUser.email || ''
+  const username = email.split('@')[0] || supabaseUser.id.slice(0, 8)
+  const avatarUrl =
+    supabaseUser.user_metadata?.avatar_url ||
+    supabaseUser.user_metadata?.picture ||
+    null
+
+  // Upsert user in Prisma
+  const dbUser = await prisma.user.upsert({
+    where: { id: supabaseUser.id },
+    create: {
+      id: supabaseUser.id,
+      email,
+      username,
+      avatarUrl,
+    },
+    update: {
+      email,
+      avatarUrl,
+    },
+  })
+
+  // Ensure stats exist
+  await prisma.userStats.upsert({
+    where: { userId: supabaseUser.id },
+    create: { userId: supabaseUser.id },
+    update: {},
+  })
+
+  return dbUser
+}
+
+export class AuthError extends Error {
+  status: number
+  constructor(message: string, status: number) {
+    super(message)
+    this.status = status
+  }
 }

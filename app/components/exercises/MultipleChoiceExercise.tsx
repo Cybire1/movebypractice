@@ -157,7 +157,7 @@ export default function MultipleChoiceExerciseComponent({
   return (
     <div className="space-y-6 md:space-y-8 max-w-4xl mx-auto pb-32">
       {/* Header Card */}
-      <div className="bg-white rounded-[1.5rem] md:rounded-[2rem] border border-zinc-200 p-5 md:p-8 shadow-xl shadow-zinc-200/50 relative overflow-hidden group">
+      <div className="bg-surface-elevated rounded-[1.5rem] md:rounded-[2rem] border border-[var(--border-default)] p-5 md:p-8 shadow-xl shadow-zinc-200/50 relative overflow-hidden group">
         <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
           <svg className="w-32 h-32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -174,14 +174,14 @@ export default function MultipleChoiceExerciseComponent({
                   }`}>
                   {exercise.difficulty}
                 </span>
-                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-zinc-100 text-zinc-500 border border-zinc-200">
+                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-surface-secondary text-foreground-secondary border border-[var(--border-default)]">
                   {exercise.topic.replace('_', ' ')}
                 </span>
               </div>
-              <h3 className="text-2xl md:text-4xl font-black text-zinc-900 mb-2 md:mb-3 tracking-tight">
+              <h3 className="text-2xl md:text-4xl font-black text-foreground mb-2 md:mb-3 tracking-tight">
                 {exercise.title}
               </h3>
-              <p className="text-lg text-zinc-500 font-medium leading-relaxed max-w-2xl">
+              <p className="text-lg text-foreground-secondary font-medium leading-relaxed max-w-2xl">
                 {exercise.description}
               </p>
             </div>
@@ -193,9 +193,9 @@ export default function MultipleChoiceExerciseComponent({
       <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
         {/* Question & Code Column */}
         <div className="space-y-8">
-          <div className="bg-white rounded-[2rem] border border-zinc-200 p-8 shadow-sm">
-            <h4 className="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-6">Challenge</h4>
-            <p className="text-2xl font-bold text-zinc-800 leading-snug">
+          <div className="bg-surface-elevated rounded-[2rem] border border-[var(--border-default)] p-8 shadow-sm">
+            <h4 className="text-sm font-bold text-foreground-tertiary uppercase tracking-widest mb-6">Challenge</h4>
+            <p className="text-2xl font-bold text-foreground leading-snug">
               {exercise.question}
             </p>
           </div>
@@ -209,7 +209,7 @@ export default function MultipleChoiceExerciseComponent({
                   <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
                   <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
                 </div>
-                <span className="ml-4 text-xs font-mono text-zinc-500">task_reference.move</span>
+                <span className="ml-4 text-xs font-mono text-foreground-secondary">task_reference.move</span>
               </div>
               <div className="p-4">
                 <Editor
@@ -236,7 +236,7 @@ export default function MultipleChoiceExerciseComponent({
         {/* Options Column */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-bold text-zinc-400 uppercase tracking-widest">
+            <h4 className="text-sm font-bold text-foreground-tertiary uppercase tracking-widest">
               {exercise.allowMultipleAnswers ? 'Select all that apply' : 'Choose the best answer'}
             </h4>
             {/* Hints Button */}
@@ -270,14 +270,14 @@ export default function MultipleChoiceExerciseComponent({
                       ? 'bg-red-50 border-red-500 shadow-red-100 shadow-lg message-shake'
                       : isSelected
                         ? 'bg-zinc-900 border-zinc-900 text-white shadow-xl'
-                        : 'bg-white border-zinc-200 hover:border-zinc-300 hover:shadow-lg'
+                        : 'bg-surface-elevated border-[var(--border-default)] hover:border-zinc-300 hover:shadow-lg'
                     }`}
                 >
                   <div className="flex items-start gap-4 relative z-10">
                     <div className={`flex-shrink-0 w-6 h-6 mt-0.5 rounded-${exercise.allowMultipleAnswers ? 'md' : 'full'} border-2 flex items-center justify-center transition-colors ${showCorrect ? 'border-green-600 bg-green-600 text-white' :
                       showIncorrect ? 'border-red-600 bg-red-600 text-white' :
                         isSelected ? 'border-white bg-white text-zinc-900' :
-                          'border-zinc-300 group-hover:border-zinc-400'
+                          'border-[var(--border-default)] group-hover:border-foreground-tertiary'
                       }`}>
                       {(isSelected || showCorrect || showIncorrect) && (
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
@@ -292,7 +292,7 @@ export default function MultipleChoiceExerciseComponent({
                       <span className={`text-base md:text-lg font-medium ${isSelected && !showExplanations ? 'text-white' :
                         showCorrect ? 'text-green-900' :
                           showIncorrect ? 'text-red-900' :
-                            'text-zinc-700'
+                            'text-foreground'
                         }`}>
                         {option.text}
                       </span>
@@ -375,7 +375,7 @@ export default function MultipleChoiceExerciseComponent({
               {feedback.type !== 'success' && (
                 <button
                   onClick={() => { setFeedback(null); setShowExplanations(false); }}
-                  className="px-6 py-3 bg-white rounded-xl font-bold text-sm shadow-sm hover:bg-zinc-50 transition-colors"
+                  className="px-6 py-3 bg-surface-elevated rounded-xl font-bold text-sm shadow-sm hover:bg-surface-secondary transition-colors"
                 >
                   Try Again
                 </button>

@@ -57,7 +57,7 @@ export default function HolographicTokenCard() {
                     {/* Content Layer (Popped out) */}
                     <div style={{ transform: "translateZ(50px)" }} className="absolute inset-0 flex flex-col p-6 z-20">
                         <div className="flex items-center justify-between mb-4">
-                            <div className="w-10 h-10 bg-aleo-green/10 rounded-xl flex items-center justify-center text-aleo-green-dark">
+                            <div className="w-10 h-10 bg-sui-accent/10 rounded-xl flex items-center justify-center text-sui-accent-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /><path d="m9 15 2 2 4-4" /></svg>
                             </div>
                         </div>
@@ -75,7 +75,7 @@ export default function HolographicTokenCard() {
                                 {/* Token Sheen */}
                                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent rounded-xl" />
 
-                                <div className="w-12 h-12 bg-aleo-green rounded-full flex items-center justify-center mb-2 shadow-lg shadow-aleo-green/20">
+                                <div className="w-12 h-12 bg-sui-accent rounded-full flex items-center justify-center mb-2 shadow-lg shadow-sui-accent/20">
                                     <span className="text-black font-bold text-xl">A</span>
                                 </div>
                                 <div className="h-2 w-16 bg-gray-700 rounded-full mb-1" />
