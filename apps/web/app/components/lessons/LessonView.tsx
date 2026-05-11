@@ -335,25 +335,24 @@ export default function LessonView({ lesson }: LessonViewProps) {
 
             <div className="max-w-2xl">
               {/* Practice Transition Message */}
-              <div className="mb-6 p-5 bg-gradient-to-r from-sui-ocean/10 to-sui-ocean-dark/10 border-2 border-sui-ocean/20 rounded-2xl">
-                <h2 className="text-xl font-bold text-sui-ocean flex items-center gap-2">
-                  <span className="text-2xl">⚔️</span>
+              <div className="mb-6 p-5 bg-[#4A90D9]/10 border-2 border-[#4A90D9]/20 rounded-2xl">
+                <h2 className="text-xl font-bold text-[#4A90D9] flex items-center gap-2">
                   {lesson.narrative.practiceTransition}
                 </h2>
               </div>
 
-              <h1 className="text-3xl font-bold text-sui-navy mb-3">{lesson.title}</h1>
-              <p className="text-lg text-sui-gray-600 mb-6">{lesson.description}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-3">{lesson.title}</h1>
+              <p className="text-lg text-foreground-secondary mb-6">{lesson.description}</p>
 
               {/* Personalized Hints from Quiz */}
               {practiceHints.length > 0 && (
-                <div className="mb-6 p-5 bg-orange-50 border-2 border-orange-300 rounded-2xl">
-                  <h3 className="font-bold text-orange-900 mb-3 flex items-center gap-2">
-                    <span>💡</span> Based on your quiz:
+                <div className="mb-6 p-5 bg-amber-500/10 border-2 border-amber-500/20 rounded-2xl">
+                  <h3 className="font-bold text-amber-500 mb-3 flex items-center gap-2">
+                    Based on your quiz:
                   </h3>
                   <ul className="space-y-2">
                     {practiceHints.map((hint, index) => (
-                      <li key={index} className="text-orange-800">
+                      <li key={index} className="text-foreground-secondary">
                         • {hint}
                       </li>
                     ))}
@@ -365,7 +364,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
               <div className="mb-8">
                 <button
                   onClick={() => setShowHints(!showHints)}
-                  className="flex items-center gap-2 px-4 py-2 bg-sui-sky/50 text-sui-navy hover:bg-sui-sky transition-colors rounded-xl font-medium"
+                  className="flex items-center gap-2 px-4 py-2 bg-surface-secondary text-foreground hover:bg-[var(--border-default)] transition-colors rounded-xl font-medium"
                 >
                   💡 {showHints ? 'Hide' : 'Show'} Hints
                 </button>
@@ -384,7 +383,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1 }}
-                          className="p-4 bg-sui-ocean/5 border border-sui-ocean/20 rounded-xl text-sui-navy"
+                          className="p-4 bg-[#4A90D9]/5 border border-[#4A90D9]/20 rounded-xl text-foreground"
                         >
                           <span className="font-medium">Hint {index + 1}:</span> {hint}
                         </motion.div>
@@ -393,7 +392,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
                       {currentHintIndex < lesson.hints.length - 1 && (
                         <button
                           onClick={showNextHint}
-                          className="text-sm text-sui-ocean hover:text-sui-ocean-dark font-medium"
+                          className="text-sm text-[#4A90D9] hover:text-[#6BB5FF] font-medium"
                         >
                           Show next hint →
                         </button>
@@ -406,23 +405,23 @@ export default function LessonView({ lesson }: LessonViewProps) {
           </div>
 
           {/* Right Panel - Code Editor */}
-          <div className="w-full lg:w-1/2 p-8 flex flex-col bg-sui-gray-50">
-            <div className="flex-1 mb-6">
+          <div className="w-full lg:w-1/2 p-8 flex flex-col bg-surface-secondary overflow-hidden">
+            <div className="flex-1 min-h-0 mb-4">
               <TypeScriptEditor
                 defaultValue={lesson.starterCode}
                 onChange={setCode}
                 onRun={handleRunCode}
-                height="calc(100vh - 320px)"
+                height="100%"
               />
             </div>
 
             {/* Output Console */}
-            <div className="h-56 bg-surface border-2 border-[var(--border-default)] rounded-2xl p-6 overflow-y-auto">
-              <div className="text-xs text-sui-gray-500 font-semibold mb-3 uppercase tracking-wider">
+            <div className="h-48 shrink-0 bg-surface border-2 border-[var(--border-default)] rounded-2xl p-4 overflow-y-auto">
+              <div className="text-xs text-foreground-tertiary font-semibold mb-3 uppercase tracking-wider">
                 Compilation Output:
               </div>
-              <pre className="text-sm text-sui-navy whitespace-pre-wrap font-mono leading-relaxed">
-                {output || '💡 Click "Run Code" to compile and test your solution...'}
+              <pre className="text-sm text-foreground whitespace-pre-wrap font-mono leading-relaxed">
+                {output || 'Click "Validate & Run" to compile and test your solution...'}
               </pre>
             </div>
           </div>

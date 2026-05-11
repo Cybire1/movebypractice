@@ -69,7 +69,7 @@ export default function ScheduleClassPage() {
       state: chatEnabled,
       setState: setChatEnabled,
       icon: (
-        <svg className="w-8 h-8 text-zinc-900/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <svg className="w-8 h-8 text-foreground/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
         </svg>
       )
@@ -80,7 +80,7 @@ export default function ScheduleClassPage() {
       state: qaEnabled,
       setState: setQaEnabled,
       icon: (
-        <svg className="w-8 h-8 text-zinc-900/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <svg className="w-8 h-8 text-foreground/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       )
@@ -91,7 +91,7 @@ export default function ScheduleClassPage() {
       state: donationsEnabled,
       setState: setDonationsEnabled,
       icon: (
-        <svg className="w-8 h-8 text-zinc-900/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <svg className="w-8 h-8 text-foreground/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       )
@@ -99,7 +99,7 @@ export default function ScheduleClassPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-zinc-900 relative overflow-hidden pt-32 pb-24">
+    <div className="min-h-screen bg-surface-secondary text-foreground relative overflow-hidden pt-32 pb-24">
       {/* Background Assets */}
       <div className="absolute inset-0 bg-grid-graph opacity-60 pointer-events-none fixed" />
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sui-accent/5 rounded-full blur-[100px] pointer-events-none fixed" />
@@ -113,13 +113,13 @@ export default function ScheduleClassPage() {
         >
           {/* Header */}
           <div className="mb-12 text-center md:text-left">
-            <Link href="/classes" className="inline-flex items-center gap-2 text-zinc-500 hover:text-sui-accent transition-colors mb-6 text-sm font-bold tracking-wide uppercase">
+            <Link href="/classes" className="inline-flex items-center gap-2 text-foreground-secondary hover:text-[#4A90D9] transition-colors mb-6 text-sm font-bold tracking-wide uppercase">
               ← Back to Calendar
             </Link>
             <h1 className="text-5xl md:text-6xl font-black tracking-tighter-swiss mb-4">
               Schedule Session
             </h1>
-            <p className="text-xl text-zinc-500 max-w-xl">
+            <p className="text-xl text-foreground-secondary max-w-xl">
               Create a new live learning environment. Share your Sui knowledge.
             </p>
           </div>
@@ -128,111 +128,111 @@ export default function ScheduleClassPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-red-50 border border-red-100 rounded-2xl p-6 mb-8 flex items-start gap-4"
+              className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 mb-8 flex items-start gap-4"
             >
               <span className="text-2xl">⚠️</span>
               <div>
-                <h3 className="font-bold text-red-800">Unable to schedule</h3>
-                <p className="text-red-600">{error}</p>
+                <h3 className="font-bold text-red-400">Unable to schedule</h3>
+                <p className="text-red-300">{error}</p>
               </div>
             </motion.div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Main Info Card */}
-            <div className="bg-white/50 backdrop-blur-md border border-gray-200 rounded-[2rem] p-8 md:p-10 shadow-sm">
+            <div className="bg-surface-elevated/50 backdrop-blur-md border border-[var(--border-default)] rounded-[2rem] p-8 md:p-10 shadow-sm">
               <h3 className="text-2xl font-bold mb-8 tracking-tight flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-zinc-900/5 text-zinc-900 flex items-center justify-center text-sm">1</span>
+                <span className="w-8 h-8 rounded-lg bg-foreground/5 text-foreground flex items-center justify-center text-sm">1</span>
                 Class Details
               </h3>
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-bold text-zinc-900 uppercase tracking-wider mb-2 ml-1">Title</label>
+                  <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2 ml-1">Title</label>
                   <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
                     placeholder="Ex: Advanced Move Patterns"
-                    className="w-full px-6 py-4 bg-zinc-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/5 transition-all text-lg font-medium placeholder:text-gray-400"
+                    className="w-full px-6 py-4 bg-surface-secondary border border-[var(--border-default)] rounded-2xl focus:outline-none focus:border-[#4A90D9] focus:ring-4 focus:ring-[#4A90D9]/10 transition-all text-lg font-medium placeholder:text-foreground-tertiary"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-zinc-900 uppercase tracking-wider mb-2 ml-1">Description</label>
+                  <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2 ml-1">Description</label>
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={4}
                     placeholder="What will students learn?"
-                    className="w-full px-6 py-4 bg-zinc-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/5 transition-all text-lg font-medium placeholder:text-gray-400 resize-none"
+                    className="w-full px-6 py-4 bg-surface-secondary border border-[var(--border-default)] rounded-2xl focus:outline-none focus:border-[#4A90D9] focus:ring-4 focus:ring-[#4A90D9]/10 transition-all text-lg font-medium placeholder:text-foreground-tertiary resize-none"
                   />
                 </div>
               </div>
             </div>
 
             {/* Timing Card */}
-            <div className="bg-white/50 backdrop-blur-md border border-gray-200 rounded-[2rem] p-8 md:p-10 shadow-sm">
+            <div className="bg-surface-elevated/50 backdrop-blur-md border border-[var(--border-default)] rounded-[2rem] p-8 md:p-10 shadow-sm">
               <h3 className="text-2xl font-bold mb-8 tracking-tight flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-zinc-900/5 text-zinc-900 flex items-center justify-center text-sm">2</span>
+                <span className="w-8 h-8 rounded-lg bg-foreground/5 text-foreground flex items-center justify-center text-sm">2</span>
                 Timing & Capacity
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-bold text-zinc-900 uppercase tracking-wider mb-2 ml-1">Date</label>
+                  <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2 ml-1">Date</label>
                   <input
                     type="date"
                     value={scheduledDate}
                     onChange={(e) => setScheduledDate(e.target.value)}
                     required
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-6 py-4 bg-zinc-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/5 transition-all font-medium"
+                    className="w-full px-6 py-4 bg-surface-secondary border border-[var(--border-default)] rounded-2xl focus:outline-none focus:border-[#4A90D9] focus:ring-4 focus:ring-[#4A90D9]/10 transition-all font-medium"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-zinc-900 uppercase tracking-wider mb-2 ml-1">Time</label>
+                  <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2 ml-1">Time</label>
                   <input
                     type="time"
                     value={scheduledTime}
                     onChange={(e) => setScheduledTime(e.target.value)}
                     required
-                    className="w-full px-6 py-4 bg-zinc-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/5 transition-all font-medium"
+                    className="w-full px-6 py-4 bg-surface-secondary border border-[var(--border-default)] rounded-2xl focus:outline-none focus:border-[#4A90D9] focus:ring-4 focus:ring-[#4A90D9]/10 transition-all font-medium"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-zinc-900 uppercase tracking-wider mb-2 ml-1">Duration (Min)</label>
+                  <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2 ml-1">Duration (Min)</label>
                   <input
                     type="number"
                     value={duration}
                     onChange={(e) => setDuration(parseInt(e.target.value))}
                     required
                     min={15} step={15}
-                    className="w-full px-6 py-4 bg-zinc-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/5 transition-all font-medium"
+                    className="w-full px-6 py-4 bg-surface-secondary border border-[var(--border-default)] rounded-2xl focus:outline-none focus:border-[#4A90D9] focus:ring-4 focus:ring-[#4A90D9]/10 transition-all font-medium"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-zinc-900 uppercase tracking-wider mb-2 ml-1">Max Students</label>
+                  <label className="block text-sm font-bold text-foreground uppercase tracking-wider mb-2 ml-1">Max Students</label>
                   <input
                     type="number"
                     value={maxStudents}
                     onChange={(e) => setMaxStudents(parseInt(e.target.value))}
                     required
                     min={1} max={500}
-                    className="w-full px-6 py-4 bg-zinc-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/5 transition-all font-medium"
+                    className="w-full px-6 py-4 bg-surface-secondary border border-[var(--border-default)] rounded-2xl focus:outline-none focus:border-[#4A90D9] focus:ring-4 focus:ring-[#4A90D9]/10 transition-all font-medium"
                   />
                 </div>
               </div>
             </div>
 
             {/* Features Selection */}
-            <div className="bg-white/50 backdrop-blur-md border border-gray-200 rounded-[2rem] p-8 md:p-10 shadow-sm">
+            <div className="bg-surface-elevated/50 backdrop-blur-md border border-[var(--border-default)] rounded-[2rem] p-8 md:p-10 shadow-sm">
               <h3 className="text-2xl font-bold mb-8 tracking-tight flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-zinc-900/5 text-zinc-900 flex items-center justify-center text-sm">3</span>
+                <span className="w-8 h-8 rounded-lg bg-foreground/5 text-foreground flex items-center justify-center text-sm">3</span>
                 Room Configuration
               </h3>
 
@@ -241,12 +241,12 @@ export default function ScheduleClassPage() {
                   <div
                     key={f.label}
                     onClick={() => f.setState(!f.state)}
-                    className={`cursor-pointer border-2 rounded-2xl p-6 transition-all duration-200 hover:scale-[1.02] ${f.state ? 'border-zinc-900 bg-zinc-900/5' : 'border-gray-100 bg-white hover:border-gray-200'
+                    className={`cursor-pointer border-2 rounded-2xl p-6 transition-all duration-200 hover:scale-[1.02] ${f.state ? 'border-foreground bg-foreground/5' : 'border-[var(--border-default)] bg-surface-elevated hover:border-foreground-tertiary'
                       }`}
                   >
                     <div className="text-2xl mb-3">{f.icon}</div>
-                    <div className="font-bold text-zinc-900 mb-1">{f.label}</div>
-                    <div className="text-xs text-zinc-500 font-medium">{f.desc}</div>
+                    <div className="font-bold text-foreground mb-1">{f.label}</div>
+                    <div className="text-xs text-foreground-secondary font-medium">{f.desc}</div>
                   </div>
                 ))}
               </div>
@@ -257,7 +257,7 @@ export default function ScheduleClassPage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-8 py-4 font-bold text-zinc-500 hover:text-zinc-900 transition-colors"
+                className="px-8 py-4 font-bold text-foreground-secondary hover:text-foreground transition-colors"
               >
                 Cancel
               </button>
@@ -266,7 +266,7 @@ export default function ScheduleClassPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="group relative px-10 py-5 bg-zinc-900 text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-sui-accent/20 hover:scale-105 transition-all duration-300 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="group relative px-10 py-5 bg-foreground text-surface rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-sui-accent/20 hover:scale-105 transition-all duration-300 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     {loading ? (

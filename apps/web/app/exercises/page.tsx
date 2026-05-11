@@ -212,7 +212,7 @@ export default function ExercisesPage() {
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-[var(--surface-overlay)] backdrop-blur-xl border border-[var(--border-default)] shadow-xl shadow-zinc-200/20 rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between"
+            className="bg-[var(--surface-overlay)] backdrop-blur-xl border border-[var(--border-default)] rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between"
           >
             {/* Left: Dropdowns */}
             <div className="flex flex-wrap gap-2">
@@ -264,11 +264,11 @@ export default function ExercisesPage() {
             {/* Right: Toggles */}
             <div className="flex items-center gap-4">
               <label className="flex items-center gap-2 cursor-pointer group">
-                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${showCompleted ? 'bg-zinc-900 border-zinc-900' : 'border-zinc-300 group-hover:border-zinc-400'}`}>
-                  {showCompleted && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M5 13l4 4L19 7" /></svg>}
+                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${showCompleted ? 'bg-foreground border-foreground' : 'border-foreground-tertiary/40 group-hover:border-foreground-tertiary'}`}>
+                  {showCompleted && <svg className="w-3 h-3 text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M5 13l4 4L19 7" /></svg>}
                 </div>
                 <input type="checkbox" checked={showCompleted} onChange={(e) => setShowCompleted(e.target.checked)} className="hidden" />
-                <span className="text-sm font-semibold text-foreground-secondary group-hover:text-zinc-900 transition-colors">Show Completed</span>
+                <span className="text-sm font-semibold text-foreground-secondary group-hover:text-foreground transition-colors">Show Completed</span>
               </label>
             </div>
           </motion.div>
@@ -295,21 +295,21 @@ export default function ExercisesPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                     onClick={() => setSelectedExercise(exercise)}
-                    className="bg-surface-elevated rounded-3xl border border-[var(--border-default)] p-6 md:p-8 cursor-pointer group hover:shadow-xl hover:shadow-zinc-200/50 hover:border-foreground-tertiary transition-all hover:-translate-y-1 relative overflow-hidden"
+                    className="bg-surface-elevated rounded-3xl border border-[var(--border-default)] p-6 md:p-8 cursor-pointer group hover:shadow-xl hover:shadow-[#4A90D9]/10 hover:border-[#4A90D9]/40 transition-all hover:-translate-y-1 relative overflow-hidden"
                   >
                     <div className="flex justify-between items-start mb-6 relative z-10">
                       <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border ${getDifficultyColor(exercise.difficulty)}`}>
                         {exercise.difficulty}
                       </span>
                       {isCompleted && (
-                        <span className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                        <span className="w-8 h-8 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center">
                           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M5 13l4 4L19 7" /></svg>
                         </span>
                       )}
                     </div>
 
                     <div className="relative z-10">
-                      <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-[#4A90D9] transition-colors">
                         {exercise.title}
                       </h3>
                       <p className="text-sm text-foreground-secondary font-medium line-clamp-2 mb-6">
@@ -326,7 +326,7 @@ export default function ExercisesPage() {
                     </div>
 
                     {/* Hover Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-surface via-surface to-surface-secondary opacity-0 group-hover:opacity-100 transition-opacity z-0" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#4A90D9]/[0.03] via-transparent to-[#4A90D9]/[0.06] opacity-0 group-hover:opacity-100 transition-opacity z-0" />
                   </motion.div>
                 );
               })}

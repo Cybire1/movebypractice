@@ -35,7 +35,7 @@ export default function Header() {
     const navItems = [
         { name: 'Lessons', href: '/lessons' },
         { name: 'Exercises', href: '/exercises' },
-        { name: 'Challenge', href: '/daily-challenge' },
+        { name: 'Live Classes', href: '/classes' },
     ];
 
     return (
