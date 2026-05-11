@@ -105,19 +105,21 @@ const renderCodeWithSyntax = (text: string) => {
 
 export default function Hero() {
     const [displayedCode, setDisplayedCode] = useState('');
-    const [charIndex, setCharIndex] = useState(0);
     const [showCursor, setShowCursor] = useState(true);
 
     // Typing effect
     useEffect(() => {
-        if (charIndex < heroCode.length) {
-            const timeout = setTimeout(() => {
-                setDisplayedCode(heroCode.slice(0, charIndex + 1));
-                setCharIndex(charIndex + 1);
-            }, 25);
-            return () => clearTimeout(timeout);
-        }
-    }, [charIndex]);
+        let index = 0;
+        const interval = setInterval(() => {
+            if (index < heroCode.length) {
+                index++;
+                setDisplayedCode(heroCode.slice(0, index));
+            } else {
+                clearInterval(interval);
+            }
+        }, 25);
+        return () => clearInterval(interval);
+    }, []);
 
     // Cursor blink
     useEffect(() => {
@@ -133,10 +135,11 @@ export default function Hero() {
         <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-surface text-foreground pt-24 md:pt-28">
             {/* Subtle grid background */}
             <div
-                className="absolute inset-0 opacity-[0.4] pointer-events-none"
+                className="absolute inset-0 pointer-events-none"
                 style={{
-                    backgroundImage: `linear-gradient(var(--border-subtle) 1px, transparent 1px), linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px)`,
+                    backgroundImage: `linear-gradient(var(--border-default) 1px, transparent 1px), linear-gradient(90deg, var(--border-default) 1px, transparent 1px)`,
                     backgroundSize: '40px 40px',
+                    opacity: 0.3,
                 }}
             />
 
@@ -154,7 +157,7 @@ export default function Hero() {
                                 <br className="hidden sm:block" />
                                 MOVE.
                             </span>
-                            <span className="block mt-4 text-xl sm:text-2xl md:text-3xl font-mono font-medium tracking-[0.2em] uppercase text-foreground-tertiary">
+                            <span className="block mt-4 text-xl sm:text-2xl md:text-3xl font-mono font-medium tracking-[0.2em] uppercase text-foreground-secondary">
                                 Build the future.
                             </span>
                         </h1>
