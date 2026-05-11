@@ -1,0 +1,21 @@
+{
+  "name": "@glide/shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    "./types": "./types/index.ts",
+    "./data": "./data/index.ts",
+    "./lessons": "./lessons/index.ts",
+    "./utils": "./utils/index.ts",
+    "./compiler": "./compiler/index.ts",
+    "./constants": "./constants/index.ts"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}
