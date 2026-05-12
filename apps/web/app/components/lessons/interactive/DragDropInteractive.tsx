@@ -111,7 +111,7 @@ export default function DragDropInteractive({ config }: DragDropInteractiveProps
 
       {/* Items Pool */}
       <div className="min-h-[120px] z-10 relative flex items-center justify-center p-6 bg-surface-secondary/50 rounded-3xl border border-[var(--border-subtle)] inner-shadow">
-        <div className="flex gap-4 flex-wrap justify-center w-full">
+        <div className="flex gap-2 sm:gap-3 md:gap-4 flex-wrap justify-center w-full">
           <AnimatePresence>
             {items.map((item) => {
               if (isItemPlaced(item.id)) return null;
@@ -152,7 +152,7 @@ export default function DragDropInteractive({ config }: DragDropInteractiveProps
       </div>
 
       {/* Drop Targets Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 relative z-0">
         {targets.map((target) => {
           const placedItem = getItemInTarget(target.id);
 

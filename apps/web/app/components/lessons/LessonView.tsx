@@ -165,7 +165,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="text-7xl md:text-9xl font-black tracking-tighter-swiss text-foreground mb-8 leading-[0.9]"
+                className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black tracking-tighter-swiss text-foreground mb-8 leading-[0.9]"
               >
                 {lesson.title}
               </motion.h1>
@@ -328,7 +328,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
 
         <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
           {/* Left Panel - Instructions & Hints */}
-          <div className="w-full lg:w-1/2 p-8 overflow-y-auto bg-surface border-r border-[var(--border-default)]">
+          <div className="w-full lg:w-1/2 p-4 sm:p-6 lg:p-8 overflow-y-auto bg-surface border-r border-[var(--border-default)]">
             <div className="mb-8">
               <XPProgress />
             </div>
@@ -405,7 +405,7 @@ export default function LessonView({ lesson }: LessonViewProps) {
           </div>
 
           {/* Right Panel - Code Editor */}
-          <div className="w-full lg:w-1/2 p-8 flex flex-col bg-surface-secondary overflow-hidden">
+          <div className="w-full lg:w-1/2 p-4 sm:p-6 lg:p-8 flex flex-col bg-surface-secondary overflow-hidden">
             <div className="flex-1 min-h-0 mb-4">
               <TypeScriptEditor
                 defaultValue={lesson.starterCode}

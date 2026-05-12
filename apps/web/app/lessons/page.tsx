@@ -401,7 +401,7 @@ function LessonCard({ lesson, i, isCompleted, isLocked }: { lesson: Lesson; i: n
 
             {/* Content */}
             <div className="relative z-10">
-              <h3 className="text-3xl font-bold mb-3 tracking-tight group-hover:text-[#8596A5] transition-colors">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-3 tracking-tight group-hover:text-[#8596A5] transition-colors">
                 {lesson.title}
               </h3>
               <p className="text-foreground-secondary font-medium leading-relaxed mb-8 max-w-md">
@@ -473,13 +473,13 @@ export default function LessonsPage() {
       <div className="fixed inset-0 z-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat" />
 
       {/* Header Section */}
-      <header className="relative z-10 pt-32 pb-16 px-6 max-w-7xl mx-auto">
+      <header className="relative z-10 pt-20 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-5xl md:text-8xl font-black tracking-tighter-swiss mb-4 leading-none"
+              className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter-swiss mb-4 leading-none"
             >
               Curriculum
             </motion.h1>
@@ -487,7 +487,7 @@ export default function LessonsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-xl text-foreground-secondary max-w-lg"
+              className="text-base sm:text-xl text-foreground-secondary max-w-lg"
             >
               A masterclass in Move. From zero to mainnet.
             </motion.p>
@@ -514,7 +514,7 @@ export default function LessonsPage() {
       </header>
 
       {/* Filter Bar */}
-      <div className="sticky top-24 z-20 px-6 mb-12">
+      <div className="sticky top-24 z-20 px-4 sm:px-6 mb-12">
         <div className="max-w-7xl mx-auto flex justify-center">
           <div className="inline-flex bg-[var(--surface-overlay)] backdrop-blur-md p-1.5 rounded-2xl border border-[var(--border-default)] shadow-lg shadow-zinc-200/50 dark:shadow-black/20 overflow-x-auto max-w-full scrollbar-hide">
             {(['All', 'Beginner', 'Intermediate', 'Advanced'] as const).map((f) => (
@@ -533,18 +533,18 @@ export default function LessonsPage() {
         </div>
       </div>
 
-      <main className="relative z-10 px-6 max-w-7xl mx-auto">
+      <main className="relative z-10 px-4 sm:px-6 max-w-7xl mx-auto">
         {/* Move Fundamentals Module */}
         {filteredMoveLessons.length > 0 && (
           <>
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-2">
-                <h2 className="text-3xl font-black tracking-tight text-foreground">Move Fundamentals</h2>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">Move Fundamentals</h2>
                 <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700">Move</span>
               </div>
               <p className="text-foreground-secondary font-medium">Master the Move language from first principles in 7 lessons.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(300px,auto)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-[minmax(250px,auto)] md:auto-rows-[minmax(300px,auto)]">
               {filteredMoveLessons.map((lesson, i) => {
                 const isCompleted = completedLessons.includes(lesson.id.toString());
                 const isLocked = lesson.isLocked;
@@ -561,12 +561,12 @@ export default function LessonsPage() {
           <>
             <div className="mt-24 mb-8">
               <div className="flex items-center gap-3 mb-2">
-                <h2 className="text-3xl font-black tracking-tight text-foreground">Sui Messaging SDK</h2>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">Sui Messaging SDK</h2>
                 <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-700">TypeScript</span>
               </div>
               <p className="text-foreground-secondary font-medium">Build encrypted, decentralized messaging on Sui in 8 lessons.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(300px,auto)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-[minmax(250px,auto)] md:auto-rows-[minmax(300px,auto)]">
               {filteredMsgLessons.map((lesson, i) => {
                 const isCompleted = completedLessons.includes(lesson.id.toString());
                 const isLocked = lesson.isLocked;
@@ -583,12 +583,12 @@ export default function LessonsPage() {
           <>
             <div className="mt-24 mb-8">
               <div className="flex items-center gap-3 mb-2">
-                <h2 className="text-3xl font-black tracking-tight text-foreground">DeepBook Predict</h2>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">DeepBook Predict</h2>
                 <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100 text-purple-700">TypeScript</span>
               </div>
               <p className="text-foreground-secondary font-medium">Build binary options trading dApps on Sui with DeepBook Predict in 8 lessons.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(300px,auto)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-[minmax(250px,auto)] md:auto-rows-[minmax(300px,auto)]">
               {filteredPredictLessons.map((lesson, i) => {
                 const isCompleted = completedLessons.includes(lesson.id.toString());
                 const isLocked = lesson.isLocked;

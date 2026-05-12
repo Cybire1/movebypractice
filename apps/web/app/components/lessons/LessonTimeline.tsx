@@ -18,7 +18,7 @@ export default function LessonTimeline({ sections }: LessonTimelineProps) {
 
     return (
         <div className="relative w-full">
-            <div className="overflow-x-auto pb-12 px-6 -mx-6 md:mx-0 md:px-0 scrollbar-hide">
+            <div className="overflow-x-auto pb-12 px-4 sm:px-6 -mx-4 sm:-mx-6 md:mx-0 md:px-0 scrollbar-hide">
                 <div className="relative min-w-max pt-20">
 
                     {/* Horizontal Line */}
@@ -32,7 +32,7 @@ export default function LessonTimeline({ sections }: LessonTimelineProps) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                                className="relative flex flex-col items-center w-[300px] md:w-[350px]"
+                                className="relative flex flex-col items-center w-[260px] sm:w-[300px] md:w-[350px]"
                             >
                                 {/* Section Header */}
                                 {module.sectionTitle && (

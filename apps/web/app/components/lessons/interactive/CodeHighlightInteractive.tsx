@@ -110,15 +110,15 @@ export default function CodeHighlightInteractive({ config }: CodeHighlightIntera
         </div>
       </div>
 
-      {/* Contextual Explanation Card (Floating) */}
+      {/* Contextual Explanation Card - inline on mobile, floating on md+ */}
       <AnimatePresence>
         {selectedHighlight && (
           <motion.div
-            initial={{ opacity: 0, x: 20, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 10, scale: 0.95 }}
-            className="absolute right-0 top-1/4 md:translate-x-[110%] w-full md:w-72 bg-[var(--surface-overlay)] backdrop-blur-xl rounded-2xl p-5 shadow-2xl border border-[var(--border-default)] z-50 ring-1 ring-black/5"
-            style={{ top: Math.max(0, (selectedLine || 0) * 28 + 60) }} // Rough positioning based on line height
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="relative w-full mt-4 md:mt-0 md:absolute md:right-0 md:top-1/4 md:translate-x-[110%] md:w-72 bg-[var(--surface-overlay)] backdrop-blur-xl rounded-2xl p-5 shadow-2xl border border-[var(--border-default)] z-50 ring-1 ring-black/5"
+            style={{ top: typeof window !== 'undefined' && window.innerWidth >= 768 ? Math.max(0, (selectedLine || 0) * 28 + 60) : undefined }} // Positioning only on md+
           >
             {/* Connector Dot */}
             <div className="hidden md:block absolute top-6 -left-3 w-6 h-6 bg-white rotate-45 border-l border-b border-white/20" />

@@ -89,7 +89,7 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
         <div className="flex flex-col lg:flex-row min-h-[calc(100vh-64px)] lg:h-screen">
 
           {/* LEFT: Narrative Panel */}
-          <div className="w-full lg:w-[45%] p-6 md:p-8 lg:p-16 overflow-y-auto flex flex-col justify-center relative z-10 order-1 lg:order-none">
+          <div className="w-full lg:w-[45%] p-4 sm:p-6 md:p-8 lg:p-16 overflow-y-auto flex flex-col justify-center relative z-10 order-1 lg:order-none">
             {/* Desktop Navigation / Tools - Fixed Top Right */}
             <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
               {/* Live Help Button (New) */}
@@ -185,7 +185,7 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
           </div>
 
           {/* RIGHT: Interactive/Visual Panel */}
-          <div className={`w-full lg:w-[55%] bg-surface-secondary/50 order-2 lg:order-none relative overflow-hidden flex items-center justify-center p-4 lg:p-12
+          <div className={`w-full lg:w-[55%] bg-surface-secondary/50 order-2 lg:order-none relative overflow-hidden flex items-center justify-center p-3 sm:p-4 lg:p-12
             ${!currentSlide.interactiveElement ? 'min-h-[200px] lg:h-auto' : 'min-h-[400px] lg:h-auto'}
           `}>
             {/* Background Grid */}

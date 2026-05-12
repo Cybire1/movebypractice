@@ -39,7 +39,7 @@ export default function ClickRevealInteractive({ config }: ClickRevealInteractiv
           const isRevealed = revealedIndices.has(index);
 
           return (
-            <div key={index} className="relative h-64 group cursor-pointer" onClick={() => toggleReveal(index)}>
+            <div key={index} className="relative h-48 sm:h-56 md:h-64 group cursor-pointer" onClick={() => toggleReveal(index)}>
               <div className="absolute inset-0 transition-all duration-500 preserve-3d" style={{ perspective: "1000px" }}>
                 <motion.div
                   initial={false}

@@ -187,7 +187,7 @@ export default function QuizComponent({
           >
             {/* Question Card */}
             <div className="bg-transparent mb-12">
-              <h2 className="text-3xl md:text-5xl font-black text-foreground leading-[1.1] tracking-tight">
+              <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black text-foreground leading-[1.1] tracking-tight">
                 {currentQuestion.question}
               </h2>
             </div>
@@ -227,7 +227,7 @@ export default function QuizComponent({
                     disabled={showFeedback}
                     whileHover={!showFeedback ? { scale: 1.02 } : {}}
                     whileTap={!showFeedback ? { scale: 0.98 } : {}}
-                    className={`w-full p-6 md:p-8 rounded-[2rem] border-2 text-left transition-all duration-300 relative group overflow-hidden ${cardStyle}`}
+                    className={`w-full p-4 sm:p-5 md:p-6 lg:p-8 rounded-xl sm:rounded-2xl md:rounded-[2rem] border-2 text-left transition-all duration-300 relative group overflow-hidden ${cardStyle}`}
                   >
                     <div className="flex items-center justify-between relative z-10">
                       <span className={`text-xl ${textStyle}`}>{option}</span>
