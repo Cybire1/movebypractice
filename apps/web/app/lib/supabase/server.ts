@@ -7,15 +7,12 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { Database } from './database.types'
 
-type SupabaseServerClient = ReturnType<typeof createServerClient<Database>>
+const FALLBACK_URL = 'https://placeholder.supabase.co'
+const FALLBACK_KEY = 'placeholder-anon-key'
 
-export async function createClient(): Promise<SupabaseServerClient | null> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-  if (!url || !key) {
-    return null
-  }
+export async function createClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || FALLBACK_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || FALLBACK_KEY
 
   const cookieStore = await cookies()
 

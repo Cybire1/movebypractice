@@ -6,34 +6,34 @@
 import { createBrowserClient } from '@supabase/ssr'
 import { Database } from './database.types'
 
-type SupabaseBrowserClient = ReturnType<typeof createBrowserClient<Database>>
+// Placeholders used during build when real env vars are not set.
+// The client will instantiate but any network call will fail at runtime,
+// which is exactly what we want: build passes, app fails loudly only when used.
+const FALLBACK_URL = 'https://placeholder.supabase.co'
+const FALLBACK_KEY = 'placeholder-anon-key'
 
-export function createClient(): SupabaseBrowserClient | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+export function createClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || FALLBACK_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || FALLBACK_KEY
 
-  // Return null during build/SSR when env vars are not configured.
-  // Auth-dependent UI must handle a null client gracefully.
-  if (!url || !key) {
-    if (typeof window !== 'undefined') {
-      console.warn(
-        '[supabase] NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY missing — auth disabled.'
-      )
-    }
-    return null
+  if (
+    typeof window !== 'undefined' &&
+    (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+  ) {
+    console.warn(
+      '[supabase] NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY missing — auth will not work.'
+    )
   }
 
   return createBrowserClient<Database>(url, key)
 }
 
 // Singleton instance for browser
-let supabaseInstance: SupabaseBrowserClient | null = null
-let hasInitialised = false
+let supabaseInstance: ReturnType<typeof createClient> | null = null
 
-export function getSupabase(): SupabaseBrowserClient | null {
-  if (!hasInitialised) {
+export function getSupabase() {
+  if (!supabaseInstance) {
     supabaseInstance = createClient()
-    hasInitialised = true
   }
   return supabaseInstance
 }

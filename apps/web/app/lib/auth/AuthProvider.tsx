@@ -24,14 +24,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-function notConfigured(): Promise<never> {
-  return Promise.reject(
-    new Error(
-      'Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.'
-    )
-  );
-}
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -41,11 +33,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { loadFromServer, resetStore } = useGameStore();
 
   useEffect(() => {
-    if (!supabase) {
-      setLoading(false);
-      return;
-    }
-
     // Get initial session
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
@@ -55,6 +42,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await loadFromServer(session.user.email);
       }
 
+      setLoading(false);
+    }).catch(() => {
+      // Supabase env vars likely missing — fail silently and keep app usable
       setLoading(false);
     });
 
@@ -77,10 +67,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase, loadFromServer, resetStore]);
+  }, [supabase.auth, loadFromServer, resetStore]);
 
   const signUp = async (email: string, password: string, _username?: string) => {
-    if (!supabase) return notConfigured();
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -91,7 +80,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signIn = async (email: string, password: string) => {
-    if (!supabase) return notConfigured();
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -101,13 +89,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
-    if (!supabase) return notConfigured();
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   };
 
   const signInWithGoogle = async () => {
-    if (!supabase) return notConfigured();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -119,7 +105,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signInWithGithub = async () => {
-    if (!supabase) return notConfigured();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
