@@ -367,13 +367,14 @@ function LessonCard({ lesson, i, isCompleted, isLocked }: { lesson: Lesson; i: n
       className={`${lesson.colSpan === 2 ? 'md:col-span-2' : ''}`}
     >
       <Link href={isLocked ? '#' : `/lessons/${lesson.id}`} className={isLocked ? 'cursor-not-allowed' : ''}>
+        {/* TiltCard wrapper kept for desktop; rotation is harmless on touch */}
         <TiltCard className={`h-full ${isLocked ? 'pointer-events-none' : ''}`}>
-          <SpotlightCard className={`h-full rounded-[2rem] p-6 md:p-8 flex flex-col justify-between transition-all duration-500
+          <SpotlightCard className={`h-full rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 md:p-8 flex flex-col justify-between transition-all duration-500
                           ${isLocked ? 'bg-surface-secondary opacity-60 grayscale' : 'bg-surface-elevated hover:shadow-2xl hover:shadow-zinc-900/10'}`
           }>
             {/* Top Row */}
-            <div className="flex justify-between items-start mb-8 relative z-10">
-              <div className="flex gap-2">
+            <div className="flex justify-between items-start mb-4 sm:mb-8 relative z-10 gap-2">
+              <div className="flex flex-wrap gap-2 items-center">
                 <div className="flex items-center gap-2">
                   <div className={`w-2 h-2 rounded-full
                     ${lesson.difficulty === 'Beginner' ? 'bg-sui-accent' :
@@ -381,12 +382,12 @@ function LessonCard({ lesson, i, isCompleted, isLocked }: { lesson: Lesson; i: n
                         'bg-black'
                     }
                   `} />
-                  <span className="text-xs font-bold uppercase tracking-widest text-foreground-secondary">
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-foreground-secondary">
                     {lesson.difficulty}
                   </span>
                 </div>
                 {isCompleted && (
-                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-zinc-900 text-white flex items-center gap-1">
+                  <span className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-zinc-900 text-white flex items-center gap-1">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
@@ -394,32 +395,32 @@ function LessonCard({ lesson, i, isCompleted, isLocked }: { lesson: Lesson; i: n
                   </span>
                 )}
               </div>
-              <span className="font-mono text-foreground-tertiary text-sm">
+              <span className="font-mono text-foreground-tertiary text-xs sm:text-sm shrink-0">
                 #{typeof lesson.id === 'number' ? String(lesson.id).padStart(2, '0') : lesson.id}
               </span>
             </div>
 
             {/* Content */}
             <div className="relative z-10">
-              <h3 className="text-2xl sm:text-3xl font-bold mb-3 tracking-tight group-hover:text-[#8596A5] transition-colors">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 tracking-tight group-hover:text-[#8596A5] transition-colors leading-tight">
                 {lesson.title}
               </h3>
-              <p className="text-foreground-secondary font-medium leading-relaxed mb-8 max-w-md">
+              <p className="text-sm sm:text-base text-foreground-secondary font-medium leading-relaxed mb-4 sm:mb-8 max-w-md">
                 {lesson.description}
               </p>
             </div>
 
             {/* Bottom Meta */}
-            <div className="relative z-10 mt-auto pt-6 border-t border-[var(--border-default)] flex items-center justify-between">
-              <div className="flex gap-4 text-sm font-semibold text-foreground-tertiary">
-                <span className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="relative z-10 mt-auto pt-3 sm:pt-6 border-t border-[var(--border-default)] flex items-center justify-between gap-2">
+              <div className="flex gap-3 sm:gap-4 text-xs sm:text-sm font-semibold text-foreground-tertiary">
+                <span className="flex items-center gap-1 sm:gap-1.5">
+                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   {lesson.duration}
                 </span>
-                <span className="flex items-center gap-1.5 text-sui-accent-dark">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <span className="flex items-center gap-1 sm:gap-1.5 text-sui-accent-dark">
+                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                   </svg>
                   {lesson.xp} XP
@@ -427,15 +428,15 @@ function LessonCard({ lesson, i, isCompleted, isLocked }: { lesson: Lesson; i: n
               </div>
 
               {/* Play Button Icon */}
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
+              <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 shrink-0
                                   ${isLocked ? 'bg-surface-secondary' : 'bg-surface-secondary group-hover:bg-sui-accent group-hover:text-black'}
                               `}>
                 {isLocked ? (
-                  <svg className="w-4 h-4 text-foreground-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-foreground-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                 ) : (
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 )}
@@ -544,7 +545,7 @@ export default function LessonsPage() {
               </div>
               <p className="text-foreground-secondary font-medium">Master the Move language from first principles in 7 lessons.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-[minmax(250px,auto)] md:auto-rows-[minmax(300px,auto)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 auto-rows-auto md:auto-rows-[minmax(300px,auto)]">
               {filteredMoveLessons.map((lesson, i) => {
                 const isCompleted = completedLessons.includes(lesson.id.toString());
                 const isLocked = lesson.isLocked;
@@ -566,7 +567,7 @@ export default function LessonsPage() {
               </div>
               <p className="text-foreground-secondary font-medium">Build encrypted, decentralized messaging on Sui in 8 lessons.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-[minmax(250px,auto)] md:auto-rows-[minmax(300px,auto)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 auto-rows-auto md:auto-rows-[minmax(300px,auto)]">
               {filteredMsgLessons.map((lesson, i) => {
                 const isCompleted = completedLessons.includes(lesson.id.toString());
                 const isLocked = lesson.isLocked;
@@ -588,7 +589,7 @@ export default function LessonsPage() {
               </div>
               <p className="text-foreground-secondary font-medium">Build binary options trading dApps on Sui with DeepBook Predict in 8 lessons.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-[minmax(250px,auto)] md:auto-rows-[minmax(300px,auto)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 auto-rows-auto md:auto-rows-[minmax(300px,auto)]">
               {filteredPredictLessons.map((lesson, i) => {
                 const isCompleted = completedLessons.includes(lesson.id.toString());
                 const isLocked = lesson.isLocked;
