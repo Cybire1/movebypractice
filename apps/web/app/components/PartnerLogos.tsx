@@ -15,7 +15,13 @@ const partners = [
 
 export default function PartnerLogos() {
     return (
-        <div className="border-y border-[var(--border-subtle)] bg-surface-secondary/50 py-12 overflow-hidden">
+        <div className="border-y border-[var(--border-subtle)] bg-surface-secondary/50 py-10 sm:py-12 overflow-hidden">
+            <div className="text-center mb-6 sm:mb-8 px-4">
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-foreground-tertiary">
+                    Protocols on Sui
+                </span>
+            </div>
+
             <div className="relative">
                 {/* Left fade */}
                 <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-surface to-transparent z-10 pointer-events-none" />
