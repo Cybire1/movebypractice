@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { TeachingSlide as TeachingSlideType } from '@/app/types/lesson';
 import DragDropInteractive from './interactive/DragDropInteractive';
 import ClickRevealInteractive from './interactive/ClickRevealInteractive';
@@ -153,8 +155,10 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
                 </h2>
 
                 {/* Content */}
-                <div className="text-lg md:text-xl font-medium text-foreground-secondary leading-relaxed max-w-xl">
-                  {currentSlide.content}
+                <div className="text-lg md:text-xl font-medium text-foreground-secondary leading-relaxed max-w-xl prose prose-zinc dark:prose-invert max-w-none prose-strong:text-foreground prose-strong:font-bold prose-code:bg-surface-secondary prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-foreground prose-code:font-mono prose-code:text-[0.9em] prose-code:before:content-[''] prose-code:after:content-[''] prose-a:text-blue-500 prose-a:no-underline hover:prose-a:underline prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-p:my-3">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {currentSlide.content || ''}
+                  </ReactMarkdown>
                 </div>
               </motion.div>
             </AnimatePresence>
