@@ -28,7 +28,7 @@ export default function DragDropInteractive({ config }: DragDropInteractiveProps
   }, []);
 
   // Store refs to drop zones for collision detection (desktop drag mode)
-  const dropZoneRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const dropZoneRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const handleDragEnd = (event: any, info: any, itemId: string) => {
     const dropPoint = {
