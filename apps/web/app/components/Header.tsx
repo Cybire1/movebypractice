@@ -48,10 +48,13 @@ export default function Header() {
                     bg-[var(--surface-overlay)] border-[var(--border-default)] shadow-[0_2px_20px_rgba(0,0,0,0.06)]`}
             >
                 {/* Logo */}
-                <Link href="/" className="px-4 py-2 flex items-center gap-3 group">
+                <Link href="/" className="px-4 py-2 flex items-center gap-2 sm:gap-3 group">
                     <LogoMark className="w-8 h-8 text-foreground transition-transform group-hover:scale-105" />
                     <span className="font-bold tracking-tight hidden sm:block transition-colors text-foreground group-hover:text-blue-600">
                         Glide<span className="text-blue-500">.</span>
+                    </span>
+                    <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-bold uppercase tracking-widest border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                        Beta
                     </span>
                 </Link>
 
