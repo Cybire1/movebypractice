@@ -308,8 +308,6 @@ export default function CodeCompletionExerciseComponent({
         animate={{ opacity: 1, y: 0 }}
         className="bg-surface-elevated rounded-[2rem] border border-[var(--border-default)] p-8 shadow-xl shadow-zinc-200/50 relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-surface-secondary to-transparent rounded-bl-full" />
-
         <div className="relative z-10 flex items-start justify-between gap-6">
           <div className="flex-1">
             {/* Badges */}
