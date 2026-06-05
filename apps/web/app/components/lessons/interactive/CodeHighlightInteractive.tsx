@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface CodeHighlightConfig {
@@ -15,6 +15,7 @@ interface CodeHighlightInteractiveProps {
 export default function CodeHighlightInteractive({ config }: CodeHighlightInteractiveProps) {
   const { code = '', highlights = [] } = config;
   const [selectedLine, setSelectedLine] = useState<number | null>(null);
+  const insightRef = useRef<HTMLDivElement>(null);
 
   const codeLines = code.split('\n');
 
@@ -24,8 +25,16 @@ export default function CodeHighlightInteractive({ config }: CodeHighlightIntera
 
   const selectedHighlight = selectedLine !== null ? getHighlightForLine(selectedLine) : null;
 
+  // On mobile, when an explanation appears below the code, scroll it into view
+  useEffect(() => {
+    if (!selectedHighlight || !insightRef.current) return;
+    if (typeof window === 'undefined') return;
+    if (window.innerWidth >= 768) return; // desktop already shows it adjacent
+    insightRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [selectedLine, selectedHighlight]);
+
   return (
-    <div className="w-full flex flex-col md:flex-row gap-8 items-start relative">
+    <div className="w-full flex flex-col md:flex-row gap-4 sm:gap-8 items-start relative">
       {/* Editor Window */}
       <div className={`flex-1 transition-all duration-500 ${selectedHighlight ? 'md:-translate-x-12' : ''}`}>
         <div className="bg-[#0D1117] rounded-xl shadow-2xl overflow-hidden border border-white/10 ring-1 ring-black/50 relative group">
@@ -47,7 +56,7 @@ export default function CodeHighlightInteractive({ config }: CodeHighlightIntera
           </div>
 
           {/* Code Content */}
-          <div className="px-6 py-4 font-mono text-sm overflow-x-auto relative z-10">
+          <div className="px-3 sm:px-6 py-3 sm:py-4 font-mono text-xs sm:text-sm overflow-x-auto relative z-10">
             {codeLines.map((line, index) => {
               const lineNumber = index + 1;
               const highlight = getHighlightForLine(lineNumber);
@@ -62,7 +71,7 @@ export default function CodeHighlightInteractive({ config }: CodeHighlightIntera
                   key={index}
                   onClick={() => isHighlighted && setSelectedLine(isSelected ? null : lineNumber)}
                   animate={{ opacity: isDimmed ? 0.3 : 1 }}
-                  className={`relative flex items-center gap-4 py-1 px-3 rounded-lg transition-all duration-300 ${isHighlighted ? 'cursor-pointer' : ''
+                  className={`relative flex items-center gap-2 sm:gap-4 py-1 px-2 sm:px-3 rounded-lg transition-all duration-300 ${isHighlighted ? 'cursor-pointer' : ''
                     } ${isSelected
                       ? 'bg-blue-500/10 shadow-[inset_2px_0_0_0_#3B82F6]'
                       : isHighlighted
@@ -71,7 +80,7 @@ export default function CodeHighlightInteractive({ config }: CodeHighlightIntera
                     }`}
                 >
                   {/* Line Number */}
-                  <span className={`select-none min-w-[1.5rem] text-right text-xs ${isSelected ? 'text-blue-400 font-bold' : 'text-zinc-700'
+                  <span className={`select-none min-w-[1.25rem] sm:min-w-[1.5rem] text-right text-[10px] sm:text-xs ${isSelected ? 'text-blue-400 font-bold' : 'text-zinc-700'
                     }`}>
                     {lineNumber}
                   </span>
@@ -110,14 +119,15 @@ export default function CodeHighlightInteractive({ config }: CodeHighlightIntera
         </div>
       </div>
 
-      {/* Contextual Explanation Card - inline on mobile, floating on md+ */}
+      {/* Contextual Explanation Card - inline on mobile (with accent border), floating on md+ */}
       <AnimatePresence>
         {selectedHighlight && (
           <motion.div
+            ref={insightRef}
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="relative w-full mt-4 md:mt-0 md:absolute md:right-0 md:top-1/4 md:translate-x-[110%] md:w-72 bg-[var(--surface-overlay)] backdrop-blur-xl rounded-2xl p-5 shadow-2xl border border-[var(--border-default)] z-50 ring-1 ring-black/5"
+            className="relative w-full mt-2 md:mt-0 md:absolute md:right-0 md:top-1/4 md:translate-x-[110%] md:w-72 bg-[var(--surface-overlay)] backdrop-blur-xl rounded-2xl p-4 sm:p-5 shadow-2xl border-2 md:border border-blue-500/40 md:border-[var(--border-default)] z-50 ring-1 ring-black/5"
             style={{ top: typeof window !== 'undefined' && window.innerWidth >= 768 ? Math.max(0, (selectedLine || 0) * 28 + 60) : undefined }} // Positioning only on md+
           >
             {/* Connector Dot */}
