@@ -474,7 +474,7 @@ export default function LessonsPage() {
       <div className="fixed inset-0 z-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat" />
 
       {/* Header Section */}
-      <header className="relative z-10 pt-20 sm:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
+      <header className="relative z-10 pt-8 sm:pt-32 pb-8 sm:pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <motion.h1
