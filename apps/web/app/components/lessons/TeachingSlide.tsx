@@ -8,7 +8,6 @@ import { TeachingSlide as TeachingSlideType } from '@/app/types/lesson';
 import DragDropInteractive from './interactive/DragDropInteractive';
 import ClickRevealInteractive from './interactive/ClickRevealInteractive';
 import CodeHighlightInteractive from './interactive/CodeHighlightInteractive';
-import SlideAIAssistant from './SlideAIAssistant';
 
 interface TeachingSlideProps {
   slides: TeachingSlideType[];
@@ -270,12 +269,6 @@ export default function TeachingSlide({ slides, onComplete, transitionMessage, l
         </div>
       </div>
 
-      <SlideAIAssistant
-        slide={currentSlide}
-        lessonTitle={lessonTitle}
-        slideIndex={currentSlideIndex}
-        totalSlides={slides.length}
-      />
     </div>
   );
 }
