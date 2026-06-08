@@ -43,7 +43,7 @@ export default function Navigation() {
   return (
     <>
       {/* Navigation Bar - Floating Pill Container */}
-      <div className="fixed top-0 w-full z-50 pt-4 px-4 md:px-6 lg:px-8">
+      <div className="fixed top-0 w-full z-50 pt-2 px-3 md:pt-4 md:px-6 lg:px-8">
         <motion.nav
           initial={{ y: -100 }}
           animate={{ y: 0 }}
@@ -70,8 +70,8 @@ export default function Navigation() {
           >
             <div className="w-3 h-3 bg-sui-ocean rounded-full shadow-lg shadow-sui-ocean/60" />
           </motion.div>
-          <div className="px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
+          <div className="px-4 md:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-12 md:h-16">
               {/* Logo */}
               <Link href="/" className="flex items-center gap-3 group relative">
                 <motion.div
@@ -81,13 +81,13 @@ export default function Navigation() {
                   className="relative"
                 >
                   {/* Logo container */}
-                  <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-sui-ocean to-sui-ocean-dark flex items-center justify-center shadow-md group-hover:shadow-lg transition-all">
+                  <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-br from-sui-ocean to-sui-ocean-dark flex items-center justify-center shadow-md group-hover:shadow-lg transition-all">
                     <Image
                       src="/sui-symbol.svg"
                       alt="Sui"
                       width={20}
                       height={20}
-                      className="brightness-0 invert"
+                      className="brightness-0 invert w-4 h-4 md:w-5 md:h-5"
                     />
                   </div>
                 </motion.div>
@@ -204,7 +204,7 @@ export default function Navigation() {
       </div>
 
       {/* Spacer to prevent content from going under navbar */}
-      <div className="h-24" />
+      <div className="h-16 md:h-24" />
 
       {/* Mobile Menu */}
       <AnimatePresence>
