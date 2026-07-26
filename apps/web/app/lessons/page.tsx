@@ -269,6 +269,40 @@ const predictLessons: Lesson[] = [
   },
 ];
 
+const hashiLessons: Lesson[] = [
+  {
+    id: 'hashi-1',
+    title: 'Introduction to Hashi',
+    description: 'Native Bitcoin on Sui — how hBTC differs from wrapped BTC, the committee and Guardian trust model, and the full round trip.',
+    duration: '30 min',
+    xp: 100,
+    difficulty: 'Beginner',
+    topics: ['Bitcoin', 'Bridges', 'Trust Model'],
+    isLocked: false,
+    colSpan: 2,
+  },
+  {
+    id: 'hashi-2',
+    title: 'Building on Hashi',
+    description: 'Build the deposit and withdrawal flow with the SDK — deposit addresses, watching the Bitcoin chain, status tracking, and redeeming native BTC.',
+    duration: '45 min',
+    xp: 200,
+    difficulty: 'Intermediate',
+    topics: ['SDK', 'Deposits', 'Withdrawals'],
+    isLocked: false,
+  },
+  {
+    id: 'hashi-3',
+    title: 'Advanced Hashi',
+    description: 'Compose hBTC in a PTB, sponsor the Sui side for gasless deposits, and ship it — production realities and what hBTC is actually for.',
+    duration: '45 min',
+    xp: 300,
+    difficulty: 'Advanced',
+    topics: ['PTBs', 'Sponsorship', 'Production'],
+    isLocked: false,
+  },
+];
+
 // --- Components ---
 
 function SpotlightCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -467,6 +501,10 @@ export default function LessonsPage() {
     (l) => filter === 'All' || l.difficulty === filter
   );
 
+  const filteredHashiLessons = hashiLessons.filter(
+    (l) => filter === 'All' || l.difficulty === filter
+  );
+
   return (
     <div className="min-h-screen bg-surface-secondary text-foreground pb-32">
 
@@ -508,7 +546,7 @@ export default function LessonsPage() {
             <div className="h-10 w-px bg-[var(--border-default)]" />
             <div className="flex flex-col items-start">
               <span className="text-xs uppercase tracking-wider font-bold text-foreground-tertiary">Completed</span>
-              <span className="text-2xl font-black text-foreground font-mono">{completedLessons.length}/{moveLessons.length + messagingLessons.length + predictLessons.length}</span>
+              <span className="text-2xl font-black text-foreground font-mono">{completedLessons.length}/{moveLessons.length + messagingLessons.length + predictLessons.length + hashiLessons.length}</span>
             </div>
           </motion.div>
         </div>
@@ -591,6 +629,28 @@ export default function LessonsPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 auto-rows-auto md:auto-rows-[minmax(300px,auto)]">
               {filteredPredictLessons.map((lesson, i) => {
+                const isCompleted = completedLessons.includes(lesson.id.toString());
+                const isLocked = lesson.isLocked;
+                return (
+                  <LessonCard key={lesson.id} lesson={lesson} i={i} isCompleted={isCompleted} isLocked={isLocked} />
+                );
+              })}
+            </div>
+          </>
+        )}
+
+        {/* Hashi Module */}
+        {filteredHashiLessons.length > 0 && (
+          <>
+            <div className="mt-24 mb-8">
+              <div className="flex items-center gap-3 mb-2">
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">Hashi: Bitcoin on Sui</h2>
+                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-100 text-orange-700">TypeScript</span>
+              </div>
+              <p className="text-foreground-secondary font-medium">Bring native Bitcoin onto Sui and build on it, in 3 lessons.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 auto-rows-auto md:auto-rows-[minmax(300px,auto)]">
+              {filteredHashiLessons.map((lesson, i) => {
                 const isCompleted = completedLessons.includes(lesson.id.toString());
                 const isLocked = lesson.isLocked;
                 return (

@@ -43,7 +43,8 @@ export interface TeachingSection {
 export type WeaknessTopic = 'abilities' | 'ownership' | 'entry-functions' | 'types' | 'structs' | 'modules'
   | 'messaging-concepts' | 'sdk-setup' | 'channels' | 'encryption' | 'walrus-storage' | 'react-patterns' | 'production-config'
   | 'move-basics' | 'move-types' | 'control-flow' | 'structs-objects' | 'collections' | 'ownership-transfer' | 'generics'
-  | 'deepbook-predict';
+  | 'deepbook-predict'
+  | 'hashi-basics' | 'hashi-deposit' | 'hashi-withdrawal' | 'hashi-integration';
 
 export interface QuizQuestion {
   question: string;

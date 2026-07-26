@@ -39,6 +39,16 @@ const MODULES = [
     ringColor: '#8B5CF6',
     tag: 'TypeScript',
   },
+  {
+    name: 'Hashi: Bitcoin on Sui',
+    prefix: 'hashi-',
+    total: 3,
+    color: '#F7931A',
+    bgColor: 'bg-orange-500/10',
+    textColor: 'text-orange-500',
+    ringColor: '#F7931A',
+    tag: 'TypeScript',
+  },
 ];
 
 const ALL_LESSONS = [
@@ -65,6 +75,9 @@ const ALL_LESSONS = [
   { id: 'predict-6', title: 'LP Vault Management', module: 'DeepBook Predict' },
   { id: 'predict-7', title: 'Portfolio & P&L', module: 'DeepBook Predict' },
   { id: 'predict-8', title: 'React Integration Patterns', module: 'DeepBook Predict' },
+  { id: 'hashi-1', title: 'Introduction to Hashi', module: 'Hashi: Bitcoin on Sui' },
+  { id: 'hashi-2', title: 'Building on Hashi', module: 'Hashi: Bitcoin on Sui' },
+  { id: 'hashi-3', title: 'Advanced Hashi', module: 'Hashi: Bitcoin on Sui' },
 ];
 
 const DEFAULT_ACHIEVEMENTS = [

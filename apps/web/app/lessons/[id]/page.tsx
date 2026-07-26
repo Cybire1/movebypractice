@@ -23,6 +23,9 @@ import { predictLesson5 } from '@/app/lib/lessons/predict-lesson5';
 import { predictLesson6 } from '@/app/lib/lessons/predict-lesson6';
 import { predictLesson7 } from '@/app/lib/lessons/predict-lesson7';
 import { predictLesson8 } from '@/app/lib/lessons/predict-lesson8';
+import { hashiLesson1 } from '@/app/lib/lessons/hashi-lesson1';
+import { hashiLesson2 } from '@/app/lib/lessons/hashi-lesson2';
+import { hashiLesson3 } from '@/app/lib/lessons/hashi-lesson3';
 
 export default async function LessonPage({
   params,
@@ -59,6 +62,10 @@ export default async function LessonPage({
     'predict-6': predictLesson6,
     'predict-7': predictLesson7,
     'predict-8': predictLesson8,
+    // Hashi (native Bitcoin on Sui) lessons
+    'hashi-1': hashiLesson1,
+    'hashi-2': hashiLesson2,
+    'hashi-3': hashiLesson3,
   };
 
   const lesson = lessonMap[id];
