@@ -43,7 +43,10 @@ export interface TeachingSection {
 export type WeaknessTopic = 'abilities' | 'ownership' | 'entry-functions' | 'types' | 'structs' | 'modules'
   | 'messaging-concepts' | 'sdk-setup' | 'channels' | 'encryption' | 'walrus-storage' | 'react-patterns' | 'production-config'
   | 'move-basics' | 'move-types' | 'control-flow' | 'structs-objects' | 'collections' | 'ownership-transfer' | 'generics'
-  | 'deepbook-predict';
+  | 'deepbook-predict'
+  // 0G track
+  | '0g-chain' | '0g-compute' | '0g-router' | '0g-storage' | '0g-da'
+  | '0g-identity' | '0g-verification' | '0g-economics';
 
 export interface QuizQuestion {
   question: string;
@@ -92,6 +95,16 @@ export interface LessonContent {
   solution: string;
   hints: string[];
   unitTests?: UnitTest[]; // Optional tests for "Run Tests" feature
+
+  // Proof artefact — the 0G track's defining rule. A lesson is complete when
+  // something verifiable exists (a tx hash, a storage root, a deployed address),
+  // not when the slides have been read.
+  proof?: {
+    label: string;        // e.g. 'Transaction hash'
+    hint: string;         // what to do to produce it
+    verifyUrl?: string;   // explorer or endpoint where a third party can check it
+    pattern?: string;     // optional regex the submitted artefact must match
+  };
 
   // Requirements
   prerequisiteLessons: string[];
