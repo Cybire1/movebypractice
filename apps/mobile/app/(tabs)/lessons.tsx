@@ -7,6 +7,7 @@ const MODULES = [
   { key: 'move', title: 'Move Fundamentals', emoji: '🔷' },
   { key: 'msg', title: 'Sui Messaging SDK', emoji: '💬' },
   { key: 'predict', title: 'DeepBook Predict', emoji: '📈' },
+  { key: '0g', title: '0G Stack', emoji: '⚡' },
 ] as const;
 
 export default function LessonsScreen() {
@@ -20,7 +21,7 @@ export default function LessonsScreen() {
           Curriculum
         </Text>
         <Text className="text-sui-accent mb-6">
-          {completedLessons.length}/23 lessons completed
+          {completedLessons.length}/{allLessons.length} lessons completed
         </Text>
 
         {MODULES.map((mod) => {
