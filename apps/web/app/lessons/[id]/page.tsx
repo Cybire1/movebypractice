@@ -26,6 +26,16 @@ import { predictLesson8 } from '@/app/lib/lessons/predict-lesson8';
 import { hashiLesson1 } from '@/app/lib/lessons/hashi-lesson1';
 import { hashiLesson2 } from '@/app/lib/lessons/hashi-lesson2';
 import { hashiLesson3 } from '@/app/lib/lessons/hashi-lesson3';
+import { ogLesson1 } from '@/app/lib/lessons/0g-lesson1';
+import { ogLesson2 } from '@/app/lib/lessons/0g-lesson2';
+import { ogLesson3 } from '@/app/lib/lessons/0g-lesson3';
+import { ogLesson4 } from '@/app/lib/lessons/0g-lesson4';
+import { ogLesson5 } from '@/app/lib/lessons/0g-lesson5';
+import { ogLesson6 } from '@/app/lib/lessons/0g-lesson6';
+import { ogLesson7 } from '@/app/lib/lessons/0g-lesson7';
+import { ogLesson8 } from '@/app/lib/lessons/0g-lesson8';
+import { ogLesson9 } from '@/app/lib/lessons/0g-lesson9';
+import { ogLesson10 } from '@/app/lib/lessons/0g-lesson10';
 
 export default async function LessonPage({
   params,
@@ -66,6 +76,17 @@ export default async function LessonPage({
     'hashi-1': hashiLesson1,
     'hashi-2': hashiLesson2,
     'hashi-3': hashiLesson3,
+    // 0G Stack lessons
+    '0g-1': ogLesson1,
+    '0g-2': ogLesson2,
+    '0g-3': ogLesson3,
+    '0g-4': ogLesson4,
+    '0g-5': ogLesson5,
+    '0g-6': ogLesson6,
+    '0g-7': ogLesson7,
+    '0g-8': ogLesson8,
+    '0g-9': ogLesson9,
+    '0g-10': ogLesson10,
   };
 
   const lesson = lessonMap[id];

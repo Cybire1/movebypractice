@@ -44,7 +44,10 @@ export type WeaknessTopic = 'abilities' | 'ownership' | 'entry-functions' | 'typ
   | 'messaging-concepts' | 'sdk-setup' | 'channels' | 'encryption' | 'walrus-storage' | 'react-patterns' | 'production-config'
   | 'move-basics' | 'move-types' | 'control-flow' | 'structs-objects' | 'collections' | 'ownership-transfer' | 'generics'
   | 'deepbook-predict'
-  | 'hashi-basics' | 'hashi-deposit' | 'hashi-withdrawal' | 'hashi-integration';
+  | 'hashi-basics' | 'hashi-deposit' | 'hashi-withdrawal' | 'hashi-integration'
+  // 0G track
+  | '0g-chain' | '0g-compute' | '0g-router' | '0g-storage' | '0g-da'
+  | '0g-identity' | '0g-verification' | '0g-economics';
 
 export interface QuizQuestion {
   question: string;
@@ -93,6 +96,15 @@ export interface LessonContent {
   solution: string;
   hints: string[];
   unitTests?: UnitTest[]; // Optional tests for "Run Tests" feature
+
+  // Proof artefact — a 0G lesson is complete when something verifiable exists
+  // (a tx hash, a storage root, a deployed address), not when the slides are read.
+  proof?: {
+    label: string;
+    hint: string;
+    verifyUrl?: string;
+    pattern?: string;
+  };
 
   // Requirements
   prerequisiteLessons: string[];
